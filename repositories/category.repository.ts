@@ -18,7 +18,7 @@ export class CategoryRepository {
             }
             return this.mapCategoriesFromDB(categoriesDBO);
         } catch  {
-            throw createHttpError(500, `Erreur lors de la récupération des catégories`);
+            throw new Error(500, `Erreur lors de la récupération des catégories`);
         }
     }
 
@@ -33,7 +33,7 @@ export class CategoryRepository {
 
             return CategoryDBO.toCategory(categoryDBO);
         } catch {
-            throw createHttpError(500, `Erreur lors de la recherche de la catégorie`);
+            throw new Error(500, `Erreur lors de la recherche de la catégorie`);
         }
     }
 
@@ -43,13 +43,13 @@ export class CategoryRepository {
             const insertResult = await db.getCategoryCollection().insertOne(categoryDBO);
 
             if (!insertResult) {
-                throw createHttpError(500, 'Échec de l\'insertion de la catégorie');
+                throw new Error(500, 'Échec de l\'insertion de la catégorie');
             }
 
             categoryDBO._id = insertResult;
             return CategoryDBO.toCategory(categoryDBO);
         } catch {
-            throw createHttpError(500, `Erreur lors de la création de la catégorie`);
+            throw new Error(500, `Erreur lors de la création de la catégorie`);
         }
     }
 
@@ -64,11 +64,11 @@ export class CategoryRepository {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
             if (!updateResult) {
-                throw createHttpError(500, 'Échec de la mise à jour de la catégorie');
+                throw new Error(500, 'Échec de la mise à jour de la catégorie');
             }
             return CategoryDBO.toCategory(categoryDBO);
         } catch{
-            throw createHttpError(500, `Erreur lors de la mise à jour de la catégorie`);
+            throw new Error(500, `Erreur lors de la mise à jour de la catégorie`);
         }
     }
 
@@ -82,10 +82,10 @@ export class CategoryRepository {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
             if (!deleteResult) {
-                throw createHttpError(500, 'Échec de la suppression de la catégorie');
+                throw new Error(500, 'Échec de la suppression de la catégorie');
             }
         } catch {
-            throw createHttpError(500, `Erreur lors de la suppression de la catégorie`);
+            throw new Error(500, `Erreur lors de la suppression de la catégorie`);
         }
     }
 
@@ -98,7 +98,7 @@ export class CategoryRepository {
             }
             return this.mapCategoriesFromDB(categoriesDBO);
         } catch {
-         throw createHttpError(500, `Erreur lors de la recherche de catégorie par nom`);
+         throw new Error(500, `Erreur lors de la recherche de catégorie par nom`);
         }
     }
 }
