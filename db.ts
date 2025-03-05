@@ -28,10 +28,8 @@ class Database {
 
   private async createCollections() {
     try {
-      // Liste des collections dans la base de données
       const collections = await this.db.listCollections().toArray();
 
-      // Typage explicite pour chaque collection
       type Collection = { name: string };
 
       if (!collections.some((col: Collection) => col.name === "Recipes")) {
