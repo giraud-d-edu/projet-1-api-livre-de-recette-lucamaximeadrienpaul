@@ -10,15 +10,31 @@ export class CategoryRepository {
         return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
     }
 
-    async getAllCategories(): Promise<Category[]> {
+    async getAllCategories(sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
         try {
-            const categoriesDBO = await db.getCategoryCollection().find().toArray();
+            const categoriesDBO = await db.getCategoryCollection().find().sort(sort).toArray();
             if (categoriesDBO.length === 0) {
                 throw createHttpError(404, `Aucune catégorie trouvée`);
             }
             return this.mapCategoriesFromDB(categoriesDBO);
-        } catch  {
+        } catch {
             throw new Error(500, `Erreur lors de la récupération des catégories`);
+        }
+    }
+
+    async getCategoryByName(name: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
+        try {
+            const categoriesDBO = await db.getCategoryCollection()
+                .find({ name: { $regex: name, $options: "i" } })
+                .sort(sort)
+                .toArray();
+
+            if (categoriesDBO.length === 0) {
+                throw createHttpError(404, `Aucune catégorie trouvée pour le nom '${name}'`);
+            }
+            return this.mapCategoriesFromDB(categoriesDBO);
+        } catch {
+            throw new Error(500, `Erreur lors de la recherche de catégorie par nom`);
         }
     }
 
@@ -86,19 +102,6 @@ export class CategoryRepository {
             }
         } catch {
             throw new Error(500, `Erreur lors de la suppression de la catégorie`);
-        }
-    }
-
-    async getCategoryByName(name: string): Promise<Category[]> {
-        try {
-            const categoriesDBO = await db.getCategoryCollection().find({ name: { $regex: name, $options: "i" } }).toArray();
-
-            if (categoriesDBO.length === 0) {
-                throw createHttpError(404, `Aucune catégorie trouvée pour le nom '${name}'`);
-            }
-            return this.mapCategoriesFromDB(categoriesDBO);
-        } catch {
-         throw new Error(500, `Erreur lors de la recherche de catégorie par nom`);
         }
     }
 }
