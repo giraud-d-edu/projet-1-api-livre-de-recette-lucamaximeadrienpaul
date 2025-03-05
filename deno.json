@@ -2,7 +2,9 @@
   "tasks": {
     "dev": "deno run --allow-net --allow-read --allow-env main.ts"
   },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@1"
-  }
+    "imports": {
+      "@std/assert": "jsr:@std/assert@1",
+      "http-errors": "jsr:http-errors@latest",
+      "mongodb": "jsr:mongodb@latest"
+    }
 }
