@@ -1,8 +1,14 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
+import { db} from "./db.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
+
+  const app = new Application();
+  const router = new Router();
+  await db.connect();
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+  
+  console.log("Serveur démarré sur http://localhost:8000");
+  await app.listen({ port: 8000 });
 }
