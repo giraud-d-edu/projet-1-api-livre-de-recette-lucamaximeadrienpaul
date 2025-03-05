@@ -74,7 +74,35 @@ async deleteRecipe(id: string): Promise<void> {
     } catch (error) {
         throw createHttpError(500, `Erreur lors de la suppression de la recette: ${error.message}`);
     }
-}
+
+    async updateRecipe(id: string, recipe: Recipe): Promise<Recipe> {
+        try {
+            const objectId = new ObjectId(id);
+            const recipeD = RecipeDBO.fromRecipe(recipe);
+
+            const updateResult = await db.getRecipesCollection().updateOne({ _id: objectId }, { $set: recipeD });
+            if (updateResult.matchedCount === 0) {
+                throw createHttpError(404, `Recette avec l'ID ${id} non trouvée`);
+            }
+            recipeD._id = objectId;
+            const newRecipe = RecipeDBO.toRecipe(recipeD);
+            return newRecipe;
+        } catch {
+            throw createHttpError(500, `Erreur lors de la mise à jour de la recette`);
+        }
+    }
+
+    async deleteRecipe(id: string): Promise<void> {
+        try {
+            const objectId = new ObjectId(id);
+            const deleteResult = await db.getRecipesCollection().deleteOne({ _id: objectId });
+            if (deleteResult.deletedCount === 0) {
+                throw createHttpError(404, `Recette avec l'ID ${id} non trouvée`);
+            }
+        } catch {
+            throw createHttpError(500, `Erreur lors de la suppression de la recette`);
+        }
+    }
 
     async searchRecipesByName(name: string): Promise<Recipe[]> {
         try {
