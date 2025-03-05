@@ -1,13 +1,13 @@
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Category } from "../models/category.ts";
+import { Category } from "../models/category.model.ts";
 
 export class CategoryDBO {
-    id: ObjectId;
+    _id: ObjectId | null;
     name: string;
     Type: string;
 
-    constructor(id : string, name: string, Type: string) {
-        this.id = new ObjectId(id);
+    constructor(id : string | null, name: string, Type: string) {
+        this._id = id ? new ObjectId(id) : null;
         this.name = name;
         this.Type = Type;
     }
@@ -16,7 +16,7 @@ export class CategoryDBO {
     }
     static toCategory(categoryDBO: CategoryDBO): Category {
         return {
-            id: categoryDBO.id.toString(),
+            id: categoryDBO._id!.toString(),
             name: categoryDBO.name,
             Type: categoryDBO.Type,
         };
