@@ -1,7 +1,7 @@
 import { MongoClient } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 
-const env = config(); // Charge les variables depuis .env
+const env = config();
 
 class Database {
   public readonly client: MongoClient;
