@@ -29,7 +29,7 @@ export function validateAddIngredientDTO(data: any): AddIngredientDTO {
     const { name, quantity, unit } = data;
 
     if (typeof name !== "string" || name.trim().length === 0 || name.length > 255) {
-        throw createHttpError(400, "Le nom doit être une chaîne de caractères entre 1 et 255 caractères.");
+        throw createHttpError(400, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères..");
     }
 
     if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity <= 0) {
@@ -51,7 +51,7 @@ export function validateUpdateIngredientDTO(data: any): UpdateIngredientDTO {
     const {name, quantity, unit} = data;
 
     if (name !== undefined && (typeof name !== "string" || name.trim().length === 0 || name.length > 255)) {
-        throw createHttpError(400, "Le nom doit être une chaîne de caractères entre 1 et 255 caractères.");
+        throw createHttpError(400, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
     }
 
     if (quantity !== undefined && (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity <= 0)) {
