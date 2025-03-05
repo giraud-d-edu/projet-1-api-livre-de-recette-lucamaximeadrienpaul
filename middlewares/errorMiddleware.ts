@@ -5,7 +5,7 @@ const baseLogFilePath = "./log";
 /**
  * Fonction pour enregistrer les erreurs dans un fichier de log
  */
-export async function logError(message: string, type: 'ERROR' | 'WARNING' | 'INFO') {
+export async function logError(message: string, type: 'CRITICAL' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG') {
 
     const logFilePath = `${baseLogFilePath}/error-${new Date().toISOString().split("T")[0]}.log`;
 
@@ -56,7 +56,7 @@ export async function errorMiddleware(
                 status,
             };
         } else {
-            logError(`URL: ${ctx.request.url} - Status: 500 - erreur: ${err}`, 'ERROR');
+            logError(`URL: ${ctx.request.url} - Status: 500 - ${err.stack}`, 'ERROR');
 
             ctx.response.status = 500;
             ctx.response.body = {
