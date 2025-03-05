@@ -10,18 +10,19 @@ export class IngredientRepository {
         return ingredientsDBO.map(ingredientDBO => IngredientDBO.toIngredient(ingredientDBO));
     }
 
-    async getAllIngredients(): Promise<Ingredient[]> {
+    async getAllIngredients(sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
         try {
-            const ingredientsDBO = await db.getIngredientsCollection().find().toArray();
+            const ingredientsDBO = await db.getIngredientsCollection().find().sort(sort).toArray();
             if (ingredientsDBO.length === 0) {
                 throw createHttpError(404, `Aucun ingrédient trouvé`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
-        } catch  {
+        } catch {
             throw createHttpError(500, `Erreur lors de la récupération des ingrédients`);
         }
     }
 
+    // Modification de getIngredientById pour n'avoir pas de tri (pas nécessaire ici)
     async getIngredientById(id: string): Promise<Ingredient> {
         try {
             const objectId = new ObjectId(id);
@@ -89,11 +90,15 @@ export class IngredientRepository {
         }
     }
 
-    async getIngredientsByCategories(categoryIds: string[]): Promise<Ingredient[]> {
+    async getIngredientsByCategories(categoryIds: string[], sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
         try {
             const categoryObjectIds = categoryIds.map(id => new ObjectId(id));
 
-            const ingredientsDBO = await db.getIngredientsCollection().find({ categoriesId: { $in: categoryObjectIds } }).toArray();
+            const ingredientsDBO = await db.getIngredientsCollection()
+                .find({ categoriesId: { $in: categoryObjectIds } })
+                .sort(sort) // Ajout du tri ici
+                .toArray();
+
             if (ingredientsDBO.length === 0) {
                 throw createHttpError(404, `Aucun ingrédient trouvé pour les catégories ID '${categoryIds.join(", ")}'`);
             }
@@ -103,9 +108,13 @@ export class IngredientRepository {
         }
     }
 
-    async getIngredientsByName(name: string): Promise<Ingredient[]> {
+    async getIngredientsByName(name: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
         try {
-            const ingredientsDBO = await db.getIngredientsCollection().find({ name: { $regex: name, $options: "i" } }).toArray();
+            const ingredientsDBO = await db.getIngredientsCollection()
+                .find({ name: { $regex: name, $options: "i" } })
+                .sort(sort)
+                .toArray();
+
             if (ingredientsDBO.length === 0) {
                 throw createHttpError(404, `Aucun ingrédient trouvé pour le nom '${name}'`);
             }
