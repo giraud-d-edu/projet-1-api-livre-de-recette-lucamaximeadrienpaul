@@ -1,20 +1,24 @@
 import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
-import { CategoryDBO } from "../dbos/categoryDBO.ts";
+import { CategoryDBO } from "../dbos/category.dbo.ts";
 import { db } from "../db.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Category } from "../models/category.ts";
+import { Category } from "../models/category.model.ts";
 
 export class CategoryRepository {
+
+    private mapCategoriesFromDB(categoriesDBO: CategoryDBO[]): Category[] {
+        return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
+    }
 
     async getAllCategories(): Promise<Category[]> {
         try {
             const categoriesDBO = await db.getCategoryCollection().find().toArray();
-            if (!categoriesDBO) {
+            if (categoriesDBO.length === 0) {
                 throw createHttpError(404, `Aucune catégorie trouvée`);
             }
-            return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la récupération des catégories : ${error.message}`);
+            return this.mapCategoriesFromDB(categoriesDBO);
+        } catch  {
+            throw createHttpError(500, `Erreur lors de la récupération des catégories`);
         }
     }
 
@@ -28,8 +32,8 @@ export class CategoryRepository {
             }
 
             return CategoryDBO.toCategory(categoryDBO);
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la recherche de la catégorie : ${error.message}`);
+        } catch {
+            throw createHttpError(500, `Erreur lors de la recherche de la catégorie`);
         }
     }
 
@@ -38,13 +42,14 @@ export class CategoryRepository {
             const categoryDBO = CategoryDBO.fromCategory(category);
             const insertResult = await db.getCategoryCollection().insertOne(categoryDBO);
 
-            if (!insertResult.acknowledged) {
+            if (!insertResult) {
                 throw createHttpError(500, 'Échec de l\'insertion de la catégorie');
             }
 
-            return category;
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la création de la catégorie : ${error.message}`);
+            categoryDBO._id = insertResult;
+            return CategoryDBO.toCategory(categoryDBO);
+        } catch {
+            throw createHttpError(500, `Erreur lors de la création de la catégorie`);
         }
     }
 
@@ -53,17 +58,17 @@ export class CategoryRepository {
             const objectId = new ObjectId(id);
             const categoryDBO = CategoryDBO.fromCategory(category);
 
-            const updateResult = await db.getCategoryCollection().updateOne( { _id: objectId },{ $set: categoryDBO });
+            const updateResult = await db.getCategoryCollection().updateOne({ _id: objectId }, { $set: categoryDBO });
 
             if (updateResult.matchedCount === 0) {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
-            if (!updateResult.acknowledged) {
+            if (!updateResult) {
                 throw createHttpError(500, 'Échec de la mise à jour de la catégorie');
             }
-            return category;
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la mise à jour de la catégorie : ${error.message}`);
+            return CategoryDBO.toCategory(categoryDBO);
+        } catch{
+            throw createHttpError(500, `Erreur lors de la mise à jour de la catégorie`);
         }
     }
 
@@ -76,11 +81,11 @@ export class CategoryRepository {
             if (deleteResult.deletedCount === 0) {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
-            if (!deleteResult.acknowledged) {
+            if (!deleteResult) {
                 throw createHttpError(500, 'Échec de la suppression de la catégorie');
             }
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la suppression de la catégorie : ${error.message}`);
+        } catch {
+            throw createHttpError(500, `Erreur lors de la suppression de la catégorie`);
         }
     }
 
@@ -91,9 +96,9 @@ export class CategoryRepository {
             if (categoriesDBO.length === 0) {
                 throw createHttpError(404, `Aucune catégorie trouvée pour le nom '${name}'`);
             }
-            return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
-        } catch (error) {
-            throw createHttpError(500, `Erreur lors de la recherche de catégorie par nom : ${error.message}`);
+            return this.mapCategoriesFromDB(categoriesDBO);
+        } catch {
+         throw createHttpError(500, `Erreur lors de la recherche de catégorie par nom`);
         }
     }
 }
