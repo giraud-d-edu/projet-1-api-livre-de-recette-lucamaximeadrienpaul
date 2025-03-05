@@ -2,7 +2,7 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 import { Category } from "../models/category.ts";
 
 export class CategoryDBO {
-    id: ObjectId;
+    _id: ObjectId;
     name: string;
     Type: string;
 
