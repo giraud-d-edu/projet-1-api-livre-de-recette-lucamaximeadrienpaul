@@ -4,8 +4,8 @@
 * [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
 * Cloner le repo
 ## Configuration
-Sur VSCode  
-    Ctrl + Maj + P : "Deno : initialze workspace configuration"
+**Sur VSCode**  
+```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"
 Creer le fichier .env  
     Renseigner le "MONGO_URI" et le "MONGO_DB_NAME"
 ## Demarage du serveur 
