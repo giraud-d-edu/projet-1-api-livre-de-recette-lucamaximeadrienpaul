@@ -1,17 +1,21 @@
+import { Category } from "../../models/category.model.ts";
+
 export class CategoryDTO {
     id: string;
     name: string;
-    description: string;
+    Type: string;
 
-    constructor(id: string, name: string, description: string) {
+    constructor(id: string, name: string, Type: string) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.Type = Type;
     }
 
-    validate(): void {
-        if (!this.name || this.name.length > 255) {
-            throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
-        }
+    static fromModel(model: Category): CategoryDTO {
+        return new CategoryDTO(
+            model.id,
+            model.name,
+            model.Type
+        );
     }
 }
