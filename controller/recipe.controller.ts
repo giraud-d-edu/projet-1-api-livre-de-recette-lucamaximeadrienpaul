@@ -5,7 +5,7 @@ import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
 
 export class RecipeController {
 
-    constructor(private readonly recipeService: RecipeService) { }
+    private readonly recipeService: RecipeService = new RecipeService();
 
     async getAllRecipes({ request, response }: { request: any, response: any }) {
         const body: FilterRecipeDTO = FilterRecipeDTO.fromRequest(request.body.json());

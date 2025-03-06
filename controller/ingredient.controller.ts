@@ -5,7 +5,7 @@ import { IngredientService } from '../services/ingredient.service.ts';
 
 export class IngredientController {
 
-    constructor(private readonly ingredientService: IngredientService) { }
+    private readonly ingredientService: IngredientService = new IngredientService();
 
     async getAllIngredients({ response }: { response: any }) {
         const ingredient: IngredientDTO[] = await this.ingredientService.getAllIngredients();

@@ -6,7 +6,7 @@ import { IngredientRepository } from "../repositories/ingredient.repository.ts";
 
 export class IngredientService {
 
-    constructor(private readonly ingredientRepository: IngredientRepository) {}
+    private readonly ingredientRepository: IngredientRepository = new IngredientRepository();
 
     async getAllIngredients(): Promise<IngredientDTO[]> {
         const ingredients = await this.ingredientRepository.getAllIngredients()

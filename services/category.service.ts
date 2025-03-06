@@ -6,7 +6,7 @@ import { CategoryRepository } from "../repositories/category.repository.ts";
 
 export class CategoryService {
 
-    constructor(private readonly categoryRepository: CategoryRepository) {}
+    private readonly categoryRepository: CategoryRepository = new CategoryRepository();
 
     async getAllCategories(): Promise<CategoryDTO[]> {
         const categories = await  this.categoryRepository.getAllCategories()

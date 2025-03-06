@@ -5,7 +5,7 @@ import {CategoryService} from '../services/category.service.ts';
 
 export class CategoryController {
 
-    constructor(private readonly categoryService: CategoryService) { }
+    private readonly categoryService: CategoryService = new CategoryService();
 
     async getAllCategory({ response }: { response: any }) {
         const category : CategoryDTO[] = await this.categoryService.getAllCategories();

@@ -7,7 +7,7 @@ import { RecipeRepository } from './../repositories/recipe.repository.ts';
 
 export class RecipeService {
 
-    constructor(private readonly recipeRepository: RecipeRepository) { }
+    private readonly recipeRepository: RecipeRepository = new RecipeRepository();
 
     async getRecipes(filtersDto: FilterRecipeDTO): Promise<RecipeDTO[]> {
         const filters: { name?: string, categoriesId?: string[], ingredientId?: string[], time?: number } = {}
