@@ -2,7 +2,7 @@
 
 ## Installation
  Pre-requis :  
-     - [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
+     [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
  Cloner le repo
 ## Configuration
 Sur VSCode  
