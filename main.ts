@@ -1,11 +1,10 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { errorMiddleware, logError } from "./middlewares/errorMiddleware.ts";
 import { db } from "./db.ts";
-import { recipeController } from "./controller/recipe.controller.ts";
-import { ingredientController } from "./controller/ingredient.controller.ts";
-import { Ingredientrouter } from "./routes/ingredient.route.ts";
-import {Reciperouter }from "./routes/recipe.route.ts";
-import {Categoryrouter } from "./routes/category.route.ts";
+import { recipeRouter } from "./routes/recipe.route.ts";
+import { categoryRouter } from "./routes/category.route.ts";
+import { ingredientRouter } from "./routes/ingredient.route.ts";
+
 
 try {
   if (import.meta.main) {
@@ -16,15 +15,9 @@ try {
     
     app.use(errorMiddleware);
 
-
-    app.use(Ingredientrouter.routes());
-    app.use(Ingredientrouter.allowedMethods());
-
-    app.use(Reciperouter.routes());
-    app.use(Reciperouter.allowedMethods());
-
-    app.use(Categoryrouter.routes());
-    app.use(Categoryrouter.allowedMethods());
+    router.use("/ingredient", ingredientRouter.routes());
+    router.use("/recipe", recipeRouter.routes());
+    router.use("/category", categoryRouter.routes());
 
 
     app.use(router.routes());

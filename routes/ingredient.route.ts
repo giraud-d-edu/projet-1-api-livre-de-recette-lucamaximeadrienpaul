@@ -1,11 +1,14 @@
-import {ingredientController} from '../controller/ingredient.controller.ts';
-import { Application, Router} from "https://deno.land/x/oak/mod.ts";
+import { IngredientController } from '../controller/ingredient.controller.ts';
+import { Router } from "https://deno.land/x/oak/mod.ts";
+import { IngredientService } from "../services/ingredient.service.ts";
+import { IngredientRepository } from "../repositories/ingredient.repository.ts";
 
 
-const Ingredientrouter = new Router();
+export const ingredientRouter = new Router();
+const ingredientController = new IngredientController(new IngredientService(new IngredientRepository()));
 
-Ingredientrouter.get('/ingredients', ingredientController.getAllIngredients);
-Ingredientrouter.get('/ingredients/:id', ingredientController.getIngredientById);
-Ingredientrouter.post('/ingredients', ingredientController.createIngredient);
-Ingredientrouter.put('/ingredients/:id', ingredientController.updateIngredient);
-Ingredientrouter.delete('/ingredients/:id', ingredientController.deleteIngredient);
+ingredientRouter.get('', ingredientController.getAllIngredients);
+ingredientRouter.get('/:id', ingredientController.getIngredientById);
+ingredientRouter.post('', ingredientController.createIngredient);
+ingredientRouter.put('/:id', ingredientController.updateIngredient);
+ingredientRouter.delete('/:id', ingredientController.deleteIngredient);

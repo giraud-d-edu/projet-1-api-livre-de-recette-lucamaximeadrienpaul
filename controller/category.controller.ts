@@ -3,44 +3,45 @@ import {AddCategoryDTO} from '../dtos/category/add-category.dto.ts';
 import {UpdateCategoryDTO} from '../dtos/category/update-category.dto.ts';
 import {CategoryService} from '../services/category.service.ts';
 
-const categoryService = new CategoryService();
+export class CategoryController {
 
-export class categoryController {
+    constructor(private readonly categoryService: CategoryService) { }
 
-    static getAllCategory(ctx: Context) {
-        const category : CategoryDTO = CategoryService.getAllCategory();
-        ctx.response.body = category;
-        ctx.response.status = 200;
+    async getAllCategory({ response }: { response: any }) {
+        const category : CategoryDTO[] = await this.categoryService.getAllCategories();
+        response.body = category;
+        response.status = 200;
     }
 
-    static getCategoryById(ctx: Context) {
-        const id = ctx.params.id;
-        const category : CategoryDTO = CategoryService.getCategoryById(id);
-        ctx.response.body = category;
-        ctx.response.status = 200;
+    async getCategoryById({ params, response }: { params: { id: string }, response: any }) {
+        const id = params.id;
+        const category : CategoryDTO = await this.categoryService.getCategoryById(id);
+        response.body = category;
+        response.status = 200;
     }
 
-    static async createCategory(ctx: Context) {
-        const body : AddCategoryDTO = await ctx.request.body.json();
+    async createCategory({ request, response }: { request: any, response: any }) {
+        const body : AddCategoryDTO = AddCategoryDTO.fromRequest(await request.body.json());
         body.validate();
-        const category : AddCategoryDTO = CategoryService.createCategory(body);
-        ctx.response.body = category;
-        ctx.response.status = 201;
+        const category = await this.categoryService.createCategory(body);
+        response.body = category;
+        response.status = 201;
 
     }
 
-    static async updateCategory(ctx: Context) {
-        const id = ctx.params.id;
-        const body : UpdateCategoryDTO = await ctx.request.body.json();
+    async updateCategory({ params, request, response }: { params: { id: string }, request: any, response: any }) {
+        const id = params.id;
+        const body : UpdateCategoryDTO = UpdateCategoryDTO.fromRequest(await request.body.json());
+        body.id = id;
         body.validate();
-        const category : UpdateCategoryDTO = CategoryService.updateCategory(id, body);
-        ctx.response.body = category;
-        ctx.response.status = 200;
+        const category = await this.categoryService.updateCategory(body);
+        response.body = category;
+        response.status = 200;
     }
 
-    static deleteCategory(ctx: Context) {
-        const id = ctx.params.id;
-        CategoryService.deleteCategory(id);
-        ctx.response.status = 204;
+    async deleteCategory({ params, response }: { params: { id: string }, response: any }) {
+        const id = params.id;
+        await this.categoryService.deleteCategory(id);
+        response.status = 204;
     }
 }

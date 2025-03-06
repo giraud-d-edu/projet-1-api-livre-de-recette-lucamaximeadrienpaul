@@ -1,11 +1,14 @@
-import {categoryController} from '../controller/category.controller.ts';
-import { Application, Router} from "https://deno.land/x/oak/mod.ts";
+import { CategoryController } from '../controller/category.controller.ts';
+import { Router } from "https://deno.land/x/oak/mod.ts";
+import { CategoryService } from "../services/category.service.ts";
+import { CategoryRepository } from "../repositories/category.repository.ts";
 
 
-const Categoryrouter = new Router();
+export const categoryRouter = new Router();
+const ingredientController = new CategoryController(new CategoryService(new CategoryRepository()));
 
-Categoryrouter.get('/category', ingredientController.getAllCategory);
-Categoryrouter.get('/category/:id', ingredientController.getCategoryById);
-Categoryrouter.post('/category', ingredientController.createCategory);
-Categoryrouter.put('/category/:id', ingredientController.updateCategory);
-Categoryrouter.delete('/category/:id', ingredientController.deleteCategory);
+categoryRouter.get('', ingredientController.getAllCategory);
+categoryRouter.get('/:id', ingredientController.getCategoryById);
+categoryRouter.post('', ingredientController.createCategory);
+categoryRouter.put('/:id', ingredientController.updateCategory);
+categoryRouter.delete('/:id', ingredientController.deleteCategory);

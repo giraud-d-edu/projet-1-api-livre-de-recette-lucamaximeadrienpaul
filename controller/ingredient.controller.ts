@@ -1,47 +1,47 @@
-import {AddIngredientDTO} from '../dtos/ingredient/add-ingredient.dto.ts';
-import {IngredientDTO} from '../dtos/ingredient/ingredient.dto.ts';
-import {updateIngredientDTO} from '../dtos/ingredient/update-ingredient.dto.ts';
-import {IngredientService} from '../servicesTEMP/ingredient.service.ts';
+import { AddIngredientDTO } from '../dtos/ingredient/add-ingredient.dto.ts';
+import { IngredientDTO } from '../dtos/ingredient/ingredient.dto.ts';
+import { UpdateIngredientDTO } from '../dtos/ingredient/update-ingredient.dto.ts';
+import { IngredientService } from '../services/ingredient.service.ts';
 
-const ingredientService = new IngredientService();
+export class IngredientController {
 
-export class ingredientController {
+    constructor(private readonly ingredientService: IngredientService) { }
 
-    static getAllIngredients(ctx: Context) {
-        const ingredient : IngredientDTO = IngredientService.getAllIngredients();
-        ctx.response.body = ingredient;
-        ctx.response.status = 200;
+    async getAllIngredients({ response }: { response: any }) {
+        const ingredient: IngredientDTO[] = await this.ingredientService.getAllIngredients();
+        response.body = ingredient;
+        response.status = 200;
     }
 
-    static getIngredientById(ctx: Context) {
-        const id = ctx.params.id;
-        const ingredient : IngredientDTO = IngredientService.getIngredientById(id);
-        ctx.response.body = ingredient;
-        ctx.response.status = 200;
+    async getIngredientById({ params, response }: { params: { id: string }, response: any }) {
+        const id = params.id;
+        const ingredient: IngredientDTO = await this.ingredientService.getIngredientById(id);
+        response.body = ingredient;
+        response.status = 200;
     }
 
-    static async createIngredient(ctx: Context) {
-        const body : AddIngredientDTO = await ctx.request.body.json();
+    async createIngredient({ request, response }: { request: any, response: any }) {
+        const body: AddIngredientDTO = AddIngredientDTO.fromRequest(await request.body.json());
         body.validate();
-
-        const ingredient : AddIngredientDTO = IngredientService.createIngredient(body);
-        ctx.response.body = ingredient;
-        ctx.response.status = 201;
+        const ingredient = await this.ingredientService.createIngredient(body);
+        response.body = ingredient;
+        response.status = 201;
     }
 
-    static async updateIngredient(ctx: Context) {
-        const id = ctx.params.id;
-        const body : updateIngredientDTO = await ctx.request.body.json();
+    async updateIngredient({ params, request, response }: { params: { id: string }, request: any, response: any }) {
+        const id = params.id;
+        const body: UpdateIngredientDTO = UpdateIngredientDTO.fromRequest(await request.body.json());
+        body.id = id;
         body.validate();
-        const ingredient : updateIngredientDTO = IngredientService.updateIngredient(id, body);
-        ctx.response.body = ingredient;
-        ctx.response.status = 200;
+        const ingredient = await this.ingredientService.updateIngredient(body);
+        response.body = ingredient;
+        response.status = 200;
     }
 
-    static deleteIngredient(ctx: Context) {
-        const id = ctx.params.id;
-        IngredientService.deleteIngredient(id);
-        ctx.response.status = 204;
+    async deleteIngredient({ params, response }: { params: { id: string }, response: any }) {
+        const id = params.id;
+        await this.ingredientService.deleteIngredient(id);
+        response.status = 204;
     }
 
 }

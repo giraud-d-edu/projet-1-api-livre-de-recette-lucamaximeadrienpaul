@@ -14,18 +14,4 @@ export class IngredientDTO {
     static fromModel(model: Ingredient): IngredientDTO {
         return new IngredientDTO(model.id, model.name, model.categoriesId);
     }
-
-    toModel(): Ingredient {
-        return {
-            id: this.id,
-            name: this.name,
-            categoriesId: this.categoriesId
-        };
-    }
-
-    validate(): void {
-        if (!this.name || this.name.length > 255) {
-            throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
-        }
-    }
 }
