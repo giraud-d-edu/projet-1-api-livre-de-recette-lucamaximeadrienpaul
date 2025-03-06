@@ -1,4 +1,4 @@
-import { Recipe } from "../../models/recipe.model";
+import { Recipe } from "../../models/recipe.model.ts";
 
 export class UpdateRecipeDTO {
     id: string;
