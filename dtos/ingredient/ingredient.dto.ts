@@ -1,19 +1,32 @@
+import { Ingredient } from "../../models/ingredient.model";
+
 export class IngredientDTO {
+    id: string;
     name: string;
-    quantity: number;
+    categoriesId: string[];
 
-    constructor(name: string, quantity: number) {
+    constructor(id: string, name: string, categoriesId: string[]) {
+        this.id = id;
         this.name = name;
-        this.quantity = quantity;
+        this.categoriesId = categoriesId;
     }
-}
 
-export function validateIngredientDTO(data: IngredientDTO): IngredientDTO {
-    if (!data.name || data.name.length > 255) {
-        throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+    static fromModel(model: Ingredient): IngredientDTO {
+        return new IngredientDTO(model.id, model.name, model.categoriesId);
     }
-    if (data.quantity <= 0) {
-        throw new Error("La quantité doit être supérieure à zéro.");
+
+    toModel(): Ingredient {
+        return {
+            id: this.id,
+            name: this.name,
+            categoriesId: this.categoriesId
+        };
     }
-    return data;
+
+    static validateIngredientDTO(data: IngredientDTO): IngredientDTO {
+        if (!data.name || data.name.length > 255) {
+            throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+        }
+        return data;
+    }
 }

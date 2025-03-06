@@ -1,8 +1,10 @@
-import {IngredientDTO} from "../ingredient/ingredient.dto";
-
 export interface UpdateRecipeDTO {
-    id?: string;
+    id: string;
     name?: string;
+    ingredientsId?: string[];
     description?: string;
-    ingredients?: IngredientDTO[];
+    step?: string;
+    categoriesId?: string[];
+    time?: number;
+    origin?: string;
 }

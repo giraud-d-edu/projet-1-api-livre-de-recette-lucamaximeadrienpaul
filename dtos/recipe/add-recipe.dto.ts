@@ -1,6 +1,10 @@
 export interface AddRecipeDTO {
     id?: string;
     name: string;
-    quantity: number;
-    unit: string;
+    ingredientsId: string[];
+    description: string;
+    step: string;
+    categoriesId: string[];
+    time: number;
+    origin: string;
 }
