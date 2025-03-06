@@ -1,10 +1,8 @@
 export class AddIngredientDTO {
-    id?: string;
     name: string;
     categoriesId: string[];
 
-    constructor(name: string, categoriesId: string[], id?: string) {
-        this.id = id;
+    constructor(name: string, categoriesId: string[]) {
         this.name = name;
         this.categoriesId = categoriesId;
     }
