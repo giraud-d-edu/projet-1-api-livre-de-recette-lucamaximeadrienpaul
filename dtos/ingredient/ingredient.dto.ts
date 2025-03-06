@@ -23,10 +23,9 @@ export class IngredientDTO {
         };
     }
 
-    static validate(data: IngredientDTO): IngredientDTO {
-        if (!data.name || data.name.length > 255) {
+    validate(): void {
+        if (!this.name || this.name.length > 255) {
             throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
-        return data;
     }
 }
