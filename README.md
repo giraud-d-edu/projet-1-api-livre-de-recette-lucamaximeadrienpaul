@@ -14,16 +14,17 @@
         ```deno task dev```
 ## Requettes 
 
-    Recipe :
-        |Action|Methode|URL|
+    **Recipe :**
+        | Action |Methode | URL |
         | ------------- | ------------- | ------------- |
         | GetAllRecipe | GET | http://localhost:8000/recipe/ |
         | GetRecipeById | GET | http://localhost:8000/recipe/:id |
         | CreateRecipe | POST | http://localhost:8000/recipe/ |
         | UpdateRecipe | PUT | http://localhost:8000/recipe/:id |
         | DeleteRecipe | DELETE | http://localhost:8000/recipe/:id |
-    Ingredient : 
-        |Action|Methode|URL|
+        
+    **Ingredient :**
+        | Action | Methode | URL |
         | ------------- | ------------- | ------------- |
         | GetAllIngredient | GET | http://localhost:8000/ingredient/ |
         | GetIngredientById | GET | http://localhost:8000/ingredient/:id |
@@ -31,8 +32,8 @@
         | UpdateIngredient | PUT | http://localhost:8000/ingredient/:id |
         | DeleteIngredient | DELETE | http://localhost:8000/ingredient/:id |
   
-    Category :
-        |Action|Methode|URL|
+    **Category :**
+        | Action | Methode | URL |
         | ------------- | ------------- | ------------- |
         | GetAllCategory | GET | http://localhost:8000/category/ |
         | GetCategoryById | GET | http://localhost:8000/category/:id |
