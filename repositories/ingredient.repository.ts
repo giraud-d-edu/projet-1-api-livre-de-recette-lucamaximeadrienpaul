@@ -34,10 +34,6 @@ export class IngredientRepository {
             const ingredientDBO = IngredientDBO.fromIngredient(ingredient);
             const insertResult = await db.getIngredientsCollection().insertOne(ingredientDBO);
 
-            if (!insertResult) {
-                throw createHttpError(500, 'Échec de l\'insertion de l\'ingrédient');
-            }
-
             ingredientDBO._id = insertResult;
             return IngredientDBO.toIngredient(ingredientDBO);
     }
@@ -51,9 +47,6 @@ export class IngredientRepository {
             if (updateResult.matchedCount === 0) {
                 throw createHttpError(404, `Ingrédient avec l'ID ${id} non trouvé`);
             }
-            if (!updateResult) {
-                throw createHttpError(500, 'Échec de la mise à jour de l\'ingrédient');
-            }
             return ingredient;
     }
 
@@ -64,9 +57,6 @@ export class IngredientRepository {
 
             if (deleteResult.deletedCount === 0) {
                 throw createHttpError(404, `Ingrédient avec l'ID ${id} non trouvé`);
-            }
-            if (!deleteResult) {
-                throw createHttpError(500, 'Échec de la suppression de l\'ingrédient');
             }
     }
 
