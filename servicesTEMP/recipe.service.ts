@@ -1,17 +1,26 @@
 export class RecipeService {
-    getAllRecipes() {
+    static getAllRecipes() {
         return {
-                id: 1,
+                id: "lhuigare234",
                 name: 'Pizza',
-                ingredients: ['Pate', 'sauce tomate', 'fromage', 'jambon']
+                ingredientsId: ['A1', 'B2', 'C3', 'D4'],
+                description: 'Pizza au jambon',
+                step: 'faire la pizza',
+                categoriesId: ['cat1', 'cat2'],
+                time: 30,
+                origin: 'Italie'
         }
     }
-
-    getRecipeById(id: number) {
+    static getRecipeById(id: number) {
         return {
-            id: 1,
+            id: "lhuigare234",
             name: 'Pizza',
-            ingredients: ['Pate', 'sauce tomate', 'fromage', 'jambon']
+            ingredientsId: ['A1', 'B2', 'C3', 'D4'],
+            description: 'Pizza au jambon',
+            step: 'faire la pizza',
+            categoriesId: ['cat1', 'cat2'],
+            time: 30,
+            origin: 'Italie'
         }
     }
 
