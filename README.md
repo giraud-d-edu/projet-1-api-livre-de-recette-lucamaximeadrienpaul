@@ -1,17 +1,19 @@
 # Mamithon
 
 ## Installation
- Pre-requis : 
+ Pre-requis :  
      - [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
  Cloner le repo
 ## Configuration
-Sur VSCode 
+Sur VSCode  
     Ctrl + Maj + P : "Deno : initialze workspace configuration"
-Creer le fichier .env
+Creer le fichier .env  
     Renseigner le "MONGO_URI" et le "MONGO_DB_NAME"
 ## Demarage du serveur 
 Dans le terminal : 
-    ```deno task dev```
+ ```bash
+ deno task dev
+ ```
 ## Requettes 
 **Recipe :**  
 
