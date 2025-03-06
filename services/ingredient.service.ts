@@ -6,6 +6,7 @@ export class IngredientService {
     constructor(private readonly ingredientRepository: IngredientRepository) {}
 
     async getAllIngredients(): Promise<Ingredient[]> {
+
         return await this.ingredientRepository.getAllIngredients()
     }
 
