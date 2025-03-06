@@ -1,4 +1,4 @@
-import { Ingredient } from "../../models/ingredient.model";
+import { Ingredient } from "../../models/ingredient.model.ts";
 
 export class IngredientDTO {
     id: string;
@@ -23,7 +23,7 @@ export class IngredientDTO {
         };
     }
 
-    static validateIngredientDTO(data: IngredientDTO): IngredientDTO {
+    static validate(data: IngredientDTO): IngredientDTO {
         if (!data.name || data.name.length > 255) {
             throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }

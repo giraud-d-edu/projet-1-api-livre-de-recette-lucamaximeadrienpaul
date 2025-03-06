@@ -1,4 +1,4 @@
-export class CategoryDTO {
+export class AddCategoryDTO {
     name: string;
     description: string;
 
@@ -7,7 +7,7 @@ export class CategoryDTO {
         this.description = description;
     }
 
-    static validate(data: CategoryDTO): CategoryDTO {
+    static validate(data: AddCategoryDTO): AddCategoryDTO {
         if (!data.name || data.name.length > 255) {
             throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }

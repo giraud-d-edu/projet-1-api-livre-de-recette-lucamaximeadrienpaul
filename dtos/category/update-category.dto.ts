@@ -1,15 +1,15 @@
-export class UpdateIngredientDTO {
+export class UpdateCategoryDTO {
     id: string;
     name?: string;
-    categoriesId?: string[];
+    description?: string;
 
-    constructor(id: string, name?: string, categoriesId?: string[]) {
+    constructor(id: string, name?: string, description?: string) {
         this.id = id;
         this.name = name;
-        this.categoriesId = categoriesId;
+        this.description = description;
     }
 
-    static validate(data: UpdateIngredientDTO): UpdateIngredientDTO {
+    static validate(data: UpdateCategoryDTO): UpdateCategoryDTO {
         if (data.name && data.name.length > 255) {
             throw new Error("Le nom ne doit pas excéder 255 caractères.");
         }

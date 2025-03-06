@@ -1,4 +1,4 @@
-import { Recipe } from "../../models/recipe.model";
+import { Recipe } from "../../models/recipe.model.ts";
 
 export class RecipeDTO {
     id: string;
@@ -54,7 +54,7 @@ export class RecipeDTO {
         };
     }
 
-    static validateRecipeDTO(data: RecipeDTO): RecipeDTO {
+    static validate(data: RecipeDTO): RecipeDTO {
         if (!data.name || data.name.length > 255) {
             throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
