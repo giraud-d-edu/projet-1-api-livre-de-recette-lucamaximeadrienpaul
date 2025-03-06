@@ -18,7 +18,7 @@ export async function logError(message: string, type: 'CRITICAL' | 'ERROR' | 'WA
     }
     // create file if it doesn't exist
     try {
-        await Deno.writeTextFile(logFilePath, "", { create: true });
+        if (!await Deno.stat(logFilePath)) await Deno.writeTextFile(logFilePath, "", { create: true });
     } catch (createError) {
         throw new Error(`Impossible de créer le fichier de log: ${createError}`);
     }

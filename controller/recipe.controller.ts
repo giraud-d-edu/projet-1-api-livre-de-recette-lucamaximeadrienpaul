@@ -7,7 +7,7 @@ export class RecipeController {
 
     private readonly recipeService: RecipeService = new RecipeService();
 
-    async getAllRecipes({ request, response }: { request: any, response: any }) {
+    getAllRecipes = async ({ request, response }: { request: any, response: any }) => {
         const body: FilterRecipeDTO = FilterRecipeDTO.fromRequest(request.body.json());
         body.validate();
         const recipe = await this.recipeService.getRecipes(body);
@@ -16,14 +16,14 @@ export class RecipeController {
 
     }
 
-    async getRecipeById({ params, response }: { params: { id: string }, response: any }) {
+    getRecipeById = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
         const recipe = await this.recipeService.getRecipeById(id);
         response.body = recipe;
         response.status = 200;
     }
 
-    async createRecipe({ request, response }: { request: any, response: any }) {
+    createRecipe = async ({ request, response }: { request: any, response: any }) => {
         const body = AddRecipeDTO.fromRequest(await request.body.json());
         body.validate();
         const recipe = await this.recipeService.createRecipe(body);
@@ -31,7 +31,7 @@ export class RecipeController {
         response.status = 201;
     }
 
-    async updateRecipe({ params, request, response }: { params: { id: string }, request: any, response: any }) {
+    updateRecipe = async ({ params, request, response }: { params: { id: string }, request: any, response: any }) => {
         const id = params.id;
         const body = UpdateRecipeDTO.fromRequest(await request.body.json());
         body.id = id;
@@ -41,7 +41,7 @@ export class RecipeController {
         response.status = 200;
     }
 
-    async deleteRecipe({ params, response }: { params: { id: string }, response: any }) {
+    deleteRecipe = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
         await this.recipeService.deleteRecipe(id);
         response.status = 204;
