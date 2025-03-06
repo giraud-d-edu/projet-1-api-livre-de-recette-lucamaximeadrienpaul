@@ -1,7 +1,7 @@
 import { assertEquals, assertRejects } from "@std/assert";
-import { CategoryRepository } from "./repositories/category.repository.ts";
-import { db } from "./db.ts";
-import { Category } from "./models/category.model.ts";
+import { CategoryRepository } from "../repositories/category.repository.ts";
+import { db } from "../db.ts";
+import { Category } from "../models/category.model.ts";
 
 Deno.test("CategoryRepository - createCategory() should insert a category", async () => {
   await db.connect();

@@ -1,7 +1,7 @@
 import { assertEquals, assertRejects } from "@std/assert";
-import { db } from "./db.ts";
-import { IngredientRepository } from "./repositories/ingredient.repository.ts";
-import { Ingredient } from "./models/ingredient.model.ts";
+import { db } from "../db.ts";
+import { IngredientRepository } from "../repositories/ingredient.repository.ts";
+import { Ingredient } from "../models/ingredient.model.ts";
 
 Deno.test("IngredientRepository - getAllIngredients() should return ingredients", async () => {
     await db.connect();
