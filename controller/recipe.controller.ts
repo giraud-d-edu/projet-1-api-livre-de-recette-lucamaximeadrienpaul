@@ -22,6 +22,10 @@ export class recipeController {
 
     static async createRecipe(ctx: Context) {
         const body : AddRecipeDTO = await ctx.request.body.json();
+        const dataValidate = AddRecipeDTO.validate(body);
+        if(!dataValidate) {
+            return
+        }
         const recipe : AddRecipeDTO = recipeService.createRecipe(body);
         ctx.response.body = recipe;
     }
@@ -29,6 +33,10 @@ export class recipeController {
     static async updateRecipe(ctx: Context) {
         const id = ctx.params.id;
         const body : UpdateRecipeDTO = await ctx.request.body.json();
+        const dataValidate = UpdateRecipeDTO.validate(body);
+        if(!dataValidate) {
+            return
+        }
         const recipe : UpdateRecipeDTO = recipeService.updateRecipe(id, body);
         ctx.response.body = recipe;
     }
