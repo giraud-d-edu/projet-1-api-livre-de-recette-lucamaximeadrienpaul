@@ -8,13 +8,16 @@ export class RecipeController {
     private readonly recipeService: RecipeService = new RecipeService();
 
     getAllRecipes = async ({ request, response }: { request: any, response: any }) => {
-        const body: FilterRecipeDTO = FilterRecipeDTO.fromRequest(request.body.json());
-        body.validate();
-        const recipe = await this.recipeService.getRecipes(body);
+        const queryParams = new URL(request.url).searchParams;
+        
+        const filter: FilterRecipeDTO = FilterRecipeDTO.fromRequest(Object.fromEntries(queryParams));
+        filter.validate();
+        const recipe = await this.recipeService.getRecipes(filter);
+        
         response.body = recipe;
         response.status = 200;
-
-    }
+    };
+    
 
     getRecipeById = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
