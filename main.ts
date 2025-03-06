@@ -1,7 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { errorMiddleware, logError } from "./middlewares/errorMiddleware.ts";
 import { db } from "./db.ts";
-import { recipeController } from "./controller/recipe.controller.ts";
+import { Ingredientrouter } from "./routes/ingredient.route.ts";
 
 try {
   if (import.meta.main) {
@@ -9,16 +9,10 @@ try {
     const app = new Application();
     const router = new Router();
     await db.connect();
-
-    // const Reciperouter = new Router();
-    
-    router.get('/recipes', recipeController.getAllRecipes);
-    router.get('/recipes/:id', recipeController.getRecipeById);
-    router.post('/recipes', recipeController.createRecipe);
-    router.put('/recipes/:id', recipeController.updateRecipe);
-    router.delete('/recipes/:id', recipeController.deleteRecipe);
     
     app.use(errorMiddleware);
+    app.use(Ingredientrouter.routes());
+    app.use(Ingredientrouter.allowedMethods());
     app.use(router.routes());
     app.use(router.allowedMethods());
 
