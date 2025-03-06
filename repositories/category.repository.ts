@@ -11,19 +11,14 @@ export class CategoryRepository {
     }
 
     async getAllCategories(sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-        try {
             const categoriesDBO = await db.getCategoryCollection().find().sort(sort).toArray();
             if (categoriesDBO.length === 0) {
                 throw createHttpError(404, `Aucune catégorie trouvée`);
             }
             return this.mapCategoriesFromDB(categoriesDBO);
-        } catch {
-            throw new Error(500, `Erreur lors de la récupération des catégories`);
-        }
     }
 
     async getCategoryByName(name: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-        try {
             const categoriesDBO = await db.getCategoryCollection()
                 .find({ name: { $regex: name, $options: "i" } })
                 .sort(sort)
@@ -33,13 +28,9 @@ export class CategoryRepository {
                 throw createHttpError(404, `Aucune catégorie trouvée pour le nom '${name}'`);
             }
             return this.mapCategoriesFromDB(categoriesDBO);
-        } catch {
-            throw new Error(500, `Erreur lors de la recherche de catégorie par nom`);
-        }
     }
 
     async getCategoryById(id: string): Promise<Category> {
-        try {
             const objectId = new ObjectId(id);
             const categoryDBO = await db.getCategoryCollection().findOne({ _id: objectId });
 
@@ -48,29 +39,17 @@ export class CategoryRepository {
             }
 
             return CategoryDBO.toCategory(categoryDBO);
-        } catch {
-            throw new Error(500, `Erreur lors de la recherche de la catégorie`);
-        }
     }
 
     async createCategory(category: Category): Promise<Category> {
-        try {
             const categoryDBO = CategoryDBO.fromCategory(category);
             const insertResult = await db.getCategoryCollection().insertOne(categoryDBO);
 
-            if (!insertResult) {
-                throw new Error(500, 'Échec de l\'insertion de la catégorie');
-            }
-
             categoryDBO._id = insertResult;
             return CategoryDBO.toCategory(categoryDBO);
-        } catch {
-            throw new Error(500, `Erreur lors de la création de la catégorie`);
-        }
     }
 
     async updateCategory(id: string, category: Category): Promise<Category> {
-        try {
             const objectId = new ObjectId(id);
             const categoryDBO = CategoryDBO.fromCategory(category);
 
@@ -79,17 +58,10 @@ export class CategoryRepository {
             if (updateResult.matchedCount === 0) {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
-            if (!updateResult) {
-                throw new Error(500, 'Échec de la mise à jour de la catégorie');
-            }
             return CategoryDBO.toCategory(categoryDBO);
-        } catch{
-            throw new Error(500, `Erreur lors de la mise à jour de la catégorie`);
-        }
     }
 
     async deleteCategory(id: string): Promise<void> {
-        try {
             const objectId = new ObjectId(id);
 
             const deleteResult = await db.getCategoryCollection().deleteOne({ _id: objectId });
@@ -97,11 +69,5 @@ export class CategoryRepository {
             if (deleteResult.deletedCount === 0) {
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
-            if (!deleteResult) {
-                throw new Error(500, 'Échec de la suppression de la catégorie');
-            }
-        } catch {
-            throw new Error(500, `Erreur lors de la suppression de la catégorie`);
-        }
     }
 }

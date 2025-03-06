@@ -11,20 +11,15 @@ export class IngredientRepository {
     }
 
     async getAllIngredients(sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
-        try {
             const ingredientsDBO = await db.getIngredientsCollection().find().sort(sort).toArray();
             if (ingredientsDBO.length === 0) {
                 throw createHttpError(404, `Aucun ingrédient trouvé`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
-        } catch {
-            throw createHttpError(500, `Erreur lors de la récupération des ingrédients`);
-        }
     }
 
     // Modification de getIngredientById pour n'avoir pas de tri (pas nécessaire ici)
     async getIngredientById(id: string): Promise<Ingredient> {
-        try {
             const objectId = new ObjectId(id);
             const ingredientDBO = await db.getIngredientsCollection().findOne({ _id: objectId });
 
@@ -33,13 +28,9 @@ export class IngredientRepository {
             }
 
             return IngredientDBO.toIngredient(ingredientDBO);
-        } catch {
-            throw createHttpError(500, `Erreur lors de la recherche de l'ingrédient`);
-        }
     }
 
     async createIngredient(ingredient: Ingredient): Promise<Ingredient> {
-        try {
             const ingredientDBO = IngredientDBO.fromIngredient(ingredient);
             const insertResult = await db.getIngredientsCollection().insertOne(ingredientDBO);
 
@@ -49,13 +40,9 @@ export class IngredientRepository {
 
             ingredientDBO._id = insertResult;
             return IngredientDBO.toIngredient(ingredientDBO);
-        } catch {
-            throw createHttpError(500, `Erreur lors de la création de l'ingrédient`);
-        }
     }
 
     async updateIngredient(id: string, ingredient: Ingredient): Promise<Ingredient> {
-        try {
             const objectId = new ObjectId(id);
             const ingredientDBO = IngredientDBO.fromIngredient(ingredient);
 
@@ -68,13 +55,9 @@ export class IngredientRepository {
                 throw createHttpError(500, 'Échec de la mise à jour de l\'ingrédient');
             }
             return ingredient;
-        } catch {
-            throw createHttpError(500, `Erreur lors de la mise à jour de l'ingrédient`);
-        }
     }
 
     async deleteIngredient(id: string): Promise<void> {
-        try {
             const objectId = new ObjectId(id);
 
             const deleteResult = await db.getIngredientsCollection().deleteOne({ _id: objectId });
@@ -85,13 +68,9 @@ export class IngredientRepository {
             if (!deleteResult) {
                 throw createHttpError(500, 'Échec de la suppression de l\'ingrédient');
             }
-        } catch {
-            throw createHttpError(500, `Erreur lors de la suppression de l'ingrédient`);
-        }
     }
 
     async getIngredientsByCategories(categoryIds: string[], sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
-        try {
             const categoryObjectIds = categoryIds.map(id => new ObjectId(id));
 
             const ingredientsDBO = await db.getIngredientsCollection()
@@ -103,13 +82,9 @@ export class IngredientRepository {
                 throw createHttpError(404, `Aucun ingrédient trouvé pour les catégories ID '${categoryIds.join(", ")}'`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
-        } catch {
-            throw createHttpError(500, `Erreur lors de la recherche des ingrédients par catégories`);
-        }
     }
 
     async getIngredientsByName(name: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
-        try {
             const ingredientsDBO = await db.getIngredientsCollection()
                 .find({ name: { $regex: name, $options: "i" } })
                 .sort(sort)
@@ -119,8 +94,5 @@ export class IngredientRepository {
                 throw createHttpError(404, `Aucun ingrédient trouvé pour le nom '${name}'`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
-        } catch {
-            throw createHttpError(500, `Erreur lors de la recherche des ingrédients par nom`);
-        }
     }
 }
