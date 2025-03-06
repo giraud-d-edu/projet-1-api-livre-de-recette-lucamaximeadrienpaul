@@ -10,40 +10,38 @@ export class ingredientController {
     static getAllIngredients(ctx: Context) {
         const ingredient : IngredientDTO = IngredientService.getAllIngredients();
         ctx.response.body = ingredient;
+        ctx.response.status = 200;
     }
 
     static getIngredientById(ctx: Context) {
         const id = ctx.params.id;
         const ingredient : IngredientDTO = IngredientService.getIngredientById(id);
         ctx.response.body = ingredient;
+        ctx.response.status = 200;
     }
 
     static async createIngredient(ctx: Context) {
         const body : AddIngredientDTO = await ctx.request.body.json();
-        const dataValidate = body.validate();
-        if(!dataValidate) {
-            return
-        }
+        body.validate();
+
         const ingredient : AddIngredientDTO = IngredientService.createIngredient(body);
         ctx.response.body = ingredient;
-
+        ctx.response.status = 201;
     }
 
     static async updateIngredient(ctx: Context) {
         const id = ctx.params.id;
         const body : updateIngredientDTO = await ctx.request.body.json();
-        const dataValidate = updateIngredientDTO.validate(body);
-        if(!dataValidate) {
-            return
-        }
+        body.validate();
         const ingredient : updateIngredientDTO = IngredientService.updateIngredient(id, body);
         ctx.response.body = ingredient;
+        ctx.response.status = 200;
     }
 
     static deleteIngredient(ctx: Context) {
         const id = ctx.params.id;
         IngredientService.deleteIngredient(id);
-        ctx.response.body = 'Ingredient deleted successfully';
+        ctx.response.status = 204;
     }
 
 }
