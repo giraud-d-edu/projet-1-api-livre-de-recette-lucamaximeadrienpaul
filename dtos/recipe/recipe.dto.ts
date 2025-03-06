@@ -1,20 +1,5 @@
 // dtos/recipe.dto.ts
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
 import { IngredientDTO, validateIngredientDTO } from "../ingredient/ingredient.dto.ts";
-
-export interface AddRecipeDTO {
-    id?: string;
-    name: string;
-    quantity: number;
-    unit: string;
-}
-
-export interface UpdateRecipeDTO {
-    id?: string;
-    name?: string;
-    description?: string;
-    ingredients?: IngredientDTO[];
-}
 
 export class RecipeDTO {
     title: string;
