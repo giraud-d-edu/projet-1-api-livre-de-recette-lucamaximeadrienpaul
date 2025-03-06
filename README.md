@@ -40,4 +40,3 @@
         | CreateCategory | POST | http://localhost:8000/category/ |
         | UpdateCategory | PUT | http://localhost:8000/category/:id |
         | DeleteCategory | DELETE | http://localhost:8000/category/:id |
-        ```
