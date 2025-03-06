@@ -1,9 +1,8 @@
 # Mamithon
 
 ## Installation
- Pre-requis :  
-     [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
- Cloner le repo
+*[Deno](https://docs.deno.com/runtime/getting_started/installation/) installé  
+*Cloner le repo
 ## Configuration
 Sur VSCode  
     Ctrl + Maj + P : "Deno : initialze workspace configuration"
