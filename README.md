@@ -61,12 +61,12 @@ filtre pour recipe :
 * ingredientId : string[], (liste d'id d'ingredients)
 * time : number, (la recherche se fait sur les temps inférieurs ou égaux à celui renseigné) 
 
-**Ingredient :** 
-POST/PUT: 
+**Ingredient :**   
+POST/PUT:  
 * name: string,
 * categoriesId: string[],  (liste d'id de categories) 
   
-**Category :**  
-POST/PUT: 
+**Category :**   
+POST/PUT:   
 * name: string,
 * Type: string,
