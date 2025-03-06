@@ -1,7 +1,6 @@
 import { Recipe } from "../../models/recipe.model";
 
 export class AddRecipeDTO {
-    id?: string;
     name: string;
     ingredientsId: string[];
     description: string;
@@ -20,7 +19,6 @@ export class AddRecipeDTO {
         origin: string,
         id?: string
     ) {
-        this.id = id;
         this.name = name;
         this.ingredientsId = ingredientsId;
         this.description = description;
