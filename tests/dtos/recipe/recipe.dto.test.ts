@@ -12,7 +12,16 @@ Deno.test("validateRecipeDTO - valid data", () => {
         60,
         "France"
     );
-    const result = RecipeDTO.validate(data);
+    const result = new RecipeDTO(
+        data.id,
+        data.name,
+        data.ingredientsId,
+        data.description,
+        data.step,
+        data.categoriesId,
+        data.time,
+        data.origin
+    );
     assertEquals(result, data);
 });
 
@@ -27,5 +36,17 @@ Deno.test("validateRecipeDTO - invalid data", () => {
         30,
         "Origin"
     );
-    assertThrows(() => RecipeDTO.validate(data), Error, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+    assertThrows(() => {
+        const recipeDTO = new RecipeDTO(
+            data.id,
+            data.name,
+            data.ingredientsId,
+            data.description,
+            data.step,
+            data.categoriesId,
+            data.time,
+            data.origin
+        );
+        recipeDTO.validate();
+    }, Error, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
 });

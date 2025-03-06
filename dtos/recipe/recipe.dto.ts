@@ -58,7 +58,7 @@ export class RecipeDTO {
         if (!this.name || this.name.length > 255) {
             throw new Error("Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
-        if (!data.ingredientsId || data.ingredientsId.length === 0) {
+        if (!this.ingredientsId || this.ingredientsId.length === 0) {
             throw new Error("La recette doit contenir au moins un ingrédient.");
         }
     }
