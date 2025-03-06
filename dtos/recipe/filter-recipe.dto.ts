@@ -13,7 +13,7 @@ export class FilterRecipeDTO {
             data.name || null,
             data.categoriesId || null,
             data.ingredientId || null,
-            data.time || null
+            +data.time || null
         )
     }
 
