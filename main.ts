@@ -1,11 +1,13 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { errorMiddleware, logError } from "./middlewares/errorMiddleware.ts";
+import { db } from "./db.ts";
 
 try {
   if (import.meta.main) {
 
     const app = new Application();
     const router = new Router();
+    await db.connect();
 
     app.use(errorMiddleware);
     app.use(router.routes());

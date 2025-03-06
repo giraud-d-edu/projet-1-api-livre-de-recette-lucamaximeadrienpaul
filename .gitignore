@@ -5,6 +5,7 @@
 /node_modules
 
 .env
+deno.lock
 *.orig
 *.pyc
 *.swp
