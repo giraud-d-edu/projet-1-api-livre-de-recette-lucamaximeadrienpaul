@@ -5,9 +5,9 @@
 * Cloner le repo
 ## Configuration
 **Sur VSCode**  
-```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"
-Creer le fichier .env  
-    Renseigner le "MONGO_URI" et le "MONGO_DB_NAME"
+```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"  
+Creer le fichier ```.env```
+Renseigner le ```MONGO_URI``` et le ```MONGO_DB_NAME```
 ## Demarage du serveur 
 Dans le terminal : 
  ```bash
