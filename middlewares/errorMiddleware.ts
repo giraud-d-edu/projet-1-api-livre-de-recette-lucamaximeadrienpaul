@@ -9,27 +9,23 @@ export async function logError(message: string, type: 'CRITICAL' | 'ERROR' | 'WA
 
     const logFilePath = `${baseLogFilePath}/error-${new Date().toISOString().split("T")[0]}.log`;
 
+    const logMessage = `[${new Date().toISOString()}] ${type}: ${message}\n`;
+    console.error(logMessage);
+
     //create directory if it doesn't exist
     try {
         await Deno.mkdir(baseLogFilePath, { recursive: true });
     }
     catch (createDirError) {
-        throw new Error(`Impossible de créer le répertoire de log: ${createDirError}`);
-    }
-    // create file if it doesn't exist
-    try {
-        if (!await Deno.stat(logFilePath)) await Deno.writeTextFile(logFilePath, "", { create: true });
-    } catch (createError) {
-        throw new Error(`Impossible de créer le fichier de log: ${createError}`);
+        console.log(`Impossible de créer le répertoire de log: ${createDirError}`);
+        return;
     }
 
-    const logMessage = `[${new Date().toISOString()}] ${type}: ${message}\n`;
-    console.error(logMessage);
-
     try {
-        await Deno.writeTextFile(logFilePath, logMessage, { append: true });
+        await Deno.writeTextFile(logFilePath, logMessage, { append: true, create: true });
     } catch (writeError) {
-        throw new Error(`Impossible d'écrire dans le fichier de log: ${writeError}`);
+        console.log(`Impossible d'écrire dans le fichier de log: ${writeError}`);
+        return;
     }
 }
 
