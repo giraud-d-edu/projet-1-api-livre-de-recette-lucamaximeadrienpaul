@@ -1,4 +1,6 @@
 import { createHttpError } from 'https://deno.land/x/oak@v17.1.4/deps.ts';
+
+// TODO : préférer le terme candidate
 export class AddCategoryDTO {
     name: string;
     Type: string;

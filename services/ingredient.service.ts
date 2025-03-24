@@ -24,6 +24,7 @@ export class IngredientService {
             name: ingredientTdo.name,
             categoriesId: ingredientTdo.categoriesId
         }
+        // TODO comme dis dans le README faire des controller sur les entités catégories, ingrédients, etc
         ingredient = await this.ingredientRepository.createIngredient(ingredient)
         return IngredientDTO.fromModel(ingredient)
     }

@@ -35,6 +35,7 @@ export class CategoryRepository {
             const categoryDBO = await db.getCategoryCollection().findOne({ _id: objectId });
 
             if (!categoryDBO) {
+                // TODO pas de ref à de l'HTTP dans le repository
                 throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
             }
 

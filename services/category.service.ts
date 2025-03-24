@@ -1,6 +1,6 @@
-import { AddCategoryDTO } from "../dtos/category/add-category.dto.ts";
-import { CategoryDTO } from "../dtos/category/category.dto.ts";
-import { UpdateCategoryDTO } from "../dtos/category/update-category.dto.ts";
+import { categoryCandidateDTO } from "../dtos/category/add-category.dto.ts"; // Non
+import { CategoryDTO } from "../dtos/category/category.dto.ts"; // Non
+import { UpdateCategoryDTO } from "../dtos/category/update-category.dto.ts"; // Non
 import { Category } from "../models/category.model.ts";
 import { CategoryRepository } from "../repositories/category.repository.ts";
 
@@ -15,10 +15,11 @@ export class CategoryService {
 
     async getCategoryById(id: string): Promise<CategoryDTO> {
         const category = await this.categoryRepository.getCategoryById(id)
+        // TODO le mapping est à faire coté controller
         return CategoryDTO.fromModel(category)
     }
 
-    async createCategory(categoryTdo: AddCategoryDTO): Promise<CategoryDTO> {
+    async createCategory(categoryTdo: categoryCandidateDTO): Promise<CategoryDTO> {
         let category: Category = {
             id: '',
             name: categoryTdo.name,
