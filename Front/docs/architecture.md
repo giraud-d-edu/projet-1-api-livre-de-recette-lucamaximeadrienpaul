@@ -85,19 +85,16 @@ src/
 │   │   ├── Component/
 │   │   ├── stores/
 │   │   ├── services/
-│   │   ├── utils/
 │   │   ├── types/
 │   ├── categories/
 │   │   ├── Component/
 │   │   ├── stores/
 │   │   ├── services/
-│   │   ├── utils/
 │   │   ├── types/
 │   ├── ingredients/
 │   |   ├── Component/
 │   |   ├── stores/
 │   |   ├── services/
-│   |   ├── utils/
 │   |   └── types/
 |   └── Shared/
 │       ├── Component/
