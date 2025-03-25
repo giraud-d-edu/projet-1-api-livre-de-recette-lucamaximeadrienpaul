@@ -32,10 +32,10 @@ export class RecipeService {
         let recipeModel: Recipe = {
             id: '',
             name: recipe.name,
-            ingredientsId: recipe.ingredientsId,
+            ingredients: recipe.ingredientsId,
             description: recipe.description,
             step: recipe.step,
-            categoriesId: recipe.categoriesId,
+            categories: recipe.categoriesId,
             time: recipe.time,
             origin: recipe.origin || '',
             image: '',
@@ -65,10 +65,10 @@ export class RecipeService {
         recipeModel = {
             id: recipe.id,
             name: recipe.name || recipeModel.name,
-            ingredientsId: recipe.ingredientsId || recipeModel.ingredientsId,
+            ingredients: recipe.ingredientsId || recipeModel.ingredients,
             description: recipe.description || recipeModel.description,
             step: recipe.step || recipeModel.step,
-            categoriesId: recipe.categoriesId || recipeModel.categoriesId,
+            categories: recipe.categoriesId || recipeModel.categories,
             time: recipe.time || recipeModel.time,
             origin: recipe.origin || recipeModel.origin,
             image: recipeModel.image

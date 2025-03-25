@@ -1,13 +1,26 @@
 import { Recipe } from "../models/recipe.model.ts";
 import { RecipeDBO } from "../dbos/recipe.dbo.ts";
+import { IngredientRepository } from "./ingredient.repository.ts";
+import { CategoryRepository } from "./category.repository.ts";
 import { db } from "../db.ts";
 import { ErrorObject } from "../models/error.model.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 
 export class RecipeRepository {
 
-    private mapRecipesFromDB(recipesDBO: RecipeDBO[]): Recipe[] {
-        return recipesDBO.map((recipeD: RecipeDBO) => RecipeDBO.toRecipe(recipeD));
+    private async mapRecipesFromDB(recipesDBO: RecipeDBO[]): Promise<Recipe[]> {
+        const recipes: Recipe[] = recipesDBO.map((recipeD: RecipeDBO) => RecipeDBO.toRecipe(recipeD));
+        const ingredientRepository = new IngredientRepository();
+        const categoryRepository = new CategoryRepository();
+        for (const recipe of recipes) {
+            if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+                recipe.ingredients = await ingredientRepository.getIngredientsByIdArray(recipe.ingredients as string[]);
+            }
+            if (recipe.categories && Array.isArray(recipe.categories)) {
+                recipe.categories = await categoryRepository.getCategoriesByIdArray(recipe.categories as string[]);
+            }
+        }
+        return recipes;
     }
 
     private buildQuery(filters: { [key: string]: any }): { [key: string]: any } {
@@ -35,67 +48,77 @@ export class RecipeRepository {
         return query;
     }
 
+    private async checkCategories(recipe: Recipe): Promise<void> {
+        if (recipe.categories && Array.isArray(recipe.categories)) {
+            for (const categorie of recipe.categories) {
+                const categorieId = typeof categorie === 'string' ? categorie : categorie.id;
+                const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(categorieId) });
+                if (!category) {
+                    throw new ErrorObject('Bad Request', `La catégorie avec l'ID ${categorieId} n'existe pas.`);
+                }
+            }
+        }
+    }
+
+    private async checkIngredient(recipe: Recipe): Promise<void> {
+        if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+            for (const ingredient of recipe.ingredients) {
+                const ingredientId = typeof ingredient === 'string' ? ingredient : ingredient.id;
+                const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(ingredientId) });
+                if (!category) {
+                    throw new ErrorObject('Bad Request', `La catégorie avec l'ID ${ingredientId} n'existe pas.`);
+                }
+            }
+        }
+    }
+
     async getRecipes(filters: { [key: string]: any } = {}, sortOption: { [key: string]: 1 | -1 } = { name: 1 }): Promise<Recipe[]> {
         const query = this.buildQuery(filters);
         const recipesDBO = await db.getRecipesCollection().find(query).sort(sortOption).toArray();
         if (recipesDBO.length === 0) {
-            throw new ErrorObject('Bad Request',  'Aucune recette trouvée');
+            throw new ErrorObject('Bad Request', 'Aucune recette trouvée');
         }
-        return this.mapRecipesFromDB(recipesDBO);
+        return await this.mapRecipesFromDB(recipesDBO);
     }
 
     async getRecipeById(id: string): Promise<Recipe> {
         const objectId = new ObjectId(id);
         const recipeD = await db.getRecipesCollection().findOne({ _id: objectId });
         if (!recipeD) {
-            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
         }
-        return RecipeDBO.toRecipe(recipeD);
+        return (await this.mapRecipesFromDB([recipeD]))[0];
     }
 
     async createRecipe(recipe: Recipe): Promise<Recipe> {
-        if (recipe.categoriesId && Array.isArray(recipe.categoriesId)) {
-          for (const catId of recipe.categoriesId) {
-            const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(catId) });
-            if (!category) {
-              throw new ErrorObject('Internal Server Error', `La catégorie avec l'ID ${catId} n'existe pas.`);
-            }
-          }
-        }
-        if (recipe.ingredientsId && Array.isArray(recipe.ingredientsId)) {
-          for (const ingId of recipe.ingredientsId) {
-            const ingredient = await db.getIngredientsCollection().findOne({ _id: new ObjectId(ingId) });
-            if (!ingredient) {
-              throw new ErrorObject(`Bad Request`, `L'ingrédient avec l'ID ${ingId} n'existe pas.`);
-            }
-          }
-        }
+        await this.checkCategories(recipe);
+        await this.checkIngredient(recipe);
         const recipeD = RecipeDBO.fromRecipe(recipe);
         const insertResult = await db.getRecipesCollection().insertOne(recipeD);
         if (!insertResult) {
-            throw new ErrorObject('Internal Server Error',  'Échec de l\'insertion de la recette dans la base de données.');
+            throw new ErrorObject('Internal Server Error', 'Échec de l\'insertion de la recette dans la base de données.');
         }
-        recipeD._id = insertResult;
-        return RecipeDBO.toRecipe(recipeD);
-      }
+        return await this.getRecipeById(insertResult.toString());
+    }
 
     async updateRecipe(id: string, recipe: Recipe): Promise<Recipe> {
         const objectId = new ObjectId(id);
+        await this.checkCategories(recipe);
+        await this.checkIngredient(recipe);
         const recipeD = RecipeDBO.fromRecipe(recipe);
 
         const updateResult = await db.getRecipesCollection().updateOne({ _id: objectId }, { $set: recipeD });
         if (updateResult.matchedCount === 0) {
-            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
         }
-        recipeD._id = objectId;
-        return RecipeDBO.toRecipe(recipeD);
+        return await this.getRecipeById(objectId.toString());
     }
 
     async deleteRecipe(id: string): Promise<void> {
         const objectId = new ObjectId(id);
         const deleteResult = await db.getRecipesCollection().deleteOne({ _id: objectId });
         if (deleteResult.deletedCount === 0) {
-            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
         }
     }
 }

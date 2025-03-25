@@ -12,13 +12,13 @@ export class IngredientDBO {
         this.categoriesId = categoriesId.map(id => new ObjectId(id));
     }
     static fromIngredient(ingredient: Ingredient): IngredientDBO {
-        return new IngredientDBO(ingredient.id, ingredient.name, ingredient.categoriesId);
+        return new IngredientDBO(ingredient.id, ingredient.name, ingredient.categories.map(categorie => typeof categorie === 'string' ? categorie : categorie.id));
     }
     static toIngredient(ingredientDBO: IngredientDBO): Ingredient {
         return {
             id: ingredientDBO._id!.toString(),
             name: ingredientDBO.name,
-            categoriesId: ingredientDBO.categoriesId.map(id => id.toString()),
+            categories: ingredientDBO.categoriesId.map(id => id.toString()),
         };
     }
 }

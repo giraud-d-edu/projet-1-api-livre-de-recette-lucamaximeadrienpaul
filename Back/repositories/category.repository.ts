@@ -70,4 +70,14 @@ export class CategoryRepository {
                 throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
             }
     }
+
+    async getCategoriesByIdArray(ids: string[], sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
+            const objectIds = ids.map(id => new ObjectId(id));
+
+            const categoriesDBO = await db.getCategoryCollection()
+                .find({ _id: { $in: objectIds } })
+                .sort(sort)
+                .toArray();
+            return this.mapCategoriesFromDB(categoriesDBO);
+    }
 }
