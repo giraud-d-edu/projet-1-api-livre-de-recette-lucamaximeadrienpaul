@@ -2,6 +2,7 @@ import { CategoryDTO } from '../dtos/category/category.dto.ts';
 import { AddCategoryDTO } from '../dtos/category/add-category.dto.ts';
 import { UpdateCategoryDTO } from '../dtos/category/update-category.dto.ts';
 import { CategoryService } from '../services/category.service.ts';
+import { checkId } from "./shared.controller.ts";
 
 export class CategoryController {
 
@@ -13,8 +14,9 @@ export class CategoryController {
         response.status = 200;
     }
 
-    getCategoryById= async ({ params, response }: { params: { id: string }, response: any }) => {
+    getCategoryById = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
+        checkId(id);
         const category: CategoryDTO = await this.categoryService.getCategoryById(id);
         response.body = category;
         response.status = 200;
@@ -31,6 +33,7 @@ export class CategoryController {
 
     updateCategory = async ({ params, request, response }: { params: { id: string }, request: any, response: any }) => {
         const id = params.id;
+        checkId(id);
         const body: UpdateCategoryDTO = UpdateCategoryDTO.fromRequest(await request.body.json());
         body.id = id;
         body.validate();
@@ -41,6 +44,7 @@ export class CategoryController {
 
     deleteCategory = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
+        checkId(id);
         await this.categoryService.deleteCategory(id);
         response.status = 204;
     }
