@@ -8,11 +8,7 @@
 ```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"  
 Creer le fichier ```.env```
 Renseigner le ```MONGO_URI``` et le ```MONGO_DB_NAME```  
-### Exemple
-```
-MONGO_URI=mongodb://127.0.0.1:27017
-MONGO_DB_NAME=Mamithon
-```
+Exemple dans le ```fichier exemple.env```
 ## Demarage du serveur 
 Dans le terminal : 
  ```bash
