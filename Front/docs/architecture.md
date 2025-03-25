@@ -63,17 +63,14 @@ Afin de garantir la cohérence et la réutilisabilité de l'interface utilisateu
 
 | Composant              | Domaine         | Description                                                         |
 |------------------------|-----------------|---------------------------------------------------------------------|
-| `Button.svelte`        | Global          | Bouton générique pour actions primaires ou secondaires.             |
-| `Modal.svelte`         | Global          | Fenêtre modale réutilisable pour les dialogues ou formulaires.        |
-| `Input.svelte`         | Global          | Champ de saisie avec gestion de la validation et des erreurs.         |
-| `FilterPanel.svelte`   | Global/Recette  | Panneau de filtres pour les listes (ex. recettes, catégories).         |
-| `RecipeCard.svelte`    | Recette         | Affichage condensé d'une recette avec image, titre et actions.         |
-| `RecipeForm.svelte`    | Recette         | Formulaire de création et de modification d'une recette.              |
-| `CategoryFilter.svelte`| Catégories      | Composant de filtrage pour afficher les recettes par catégorie.        |
-| `CategoryForm.svelte`  | Catégories      | Formulaire de création/modification d'une catégorie.                  |
-| `IngredientForm.svelte`| Ingrédients     | Formulaire pour ajouter ou modifier un ingrédient.                    |
-
-Ces composants, qu'ils soient globaux ou spécifiques à une entité, favorisent la cohérence de l'interface et permettent une maintenance facilitée.
+| `Modal.svelte`         | Shared          | Fenêtre modale réutilisable pour les dialogues ou formulaires.      |
+| `Input.svelte`         | Shared          | Champ de saisie avec gestion de la validation et des erreurs.       |
+| `FilterPanel.svelte`   | Shared/recipe   | Panneau de filtres pour les listes (ex. recettes, catégories).      |
+| `RecipeCard.svelte`    | Recette         | Affichage condensé d'une recette avec image, titre et actions.      |
+| `RecipeForm.svelte`    | Recette         | Formulaire de création et de modification d'une recette.            |
+| `CategoryFilter.svelte`| categories      | Composant de filtrage pour afficher les recettes par catégorie.     |
+| `CategoryForm.svelte`  | categories      | Formulaire de création/modification d'une catégorie.                |
+| `IngredientForm.svelte`| Ingredients     | Formulaire pour ajouter ou modifier un ingrédient.                  |
 
 ---
 
@@ -106,8 +103,12 @@ src/
     ├── +layout.svelte
     ├── +page.svelte
     ├── recipes/
+    |   ├── add
+    |   ├── └── +page.svelte
     │   ├── +page.svelte
-    │   └── [id]/
+    │   ├── [id]/
+        └── ├── update
+            ├── └── +page.svelte
     │       └── +page.svelte
     ├── categories/
     |   └── +page.svelte
