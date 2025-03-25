@@ -14,8 +14,6 @@ export class IngredientRepository {
             const ingredientsDBO = await db.getIngredientsCollection().find().sort(sort).toArray();
             return this.mapIngredientsFromDB(ingredientsDBO);
     }
-
-    // Modification de getIngredientById pour n'avoir pas de tri (pas nécessaire ici)
     async getIngredientById(id: string): Promise<Ingredient> {
             const objectId = new ObjectId(id);
             const ingredientDBO = await db.getIngredientsCollection().findOne({ _id: objectId });
@@ -26,13 +24,22 @@ export class IngredientRepository {
 
             return IngredientDBO.toIngredient(ingredientDBO);
     }
-
     async createIngredient(ingredient: Ingredient): Promise<Ingredient> {
-            const ingredientDBO = IngredientDBO.fromIngredient(ingredient);
-            const insertResult = await db.getIngredientsCollection().insertOne(ingredientDBO);
-
-            ingredientDBO._id = insertResult;
-            return IngredientDBO.toIngredient(ingredientDBO);
+        if (ingredient.categoriesId && Array.isArray(ingredient.categoriesId)) {
+            for(const catId of ingredient.categoriesId) {
+                const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(catId) });
+                if (!category) {
+                    throw new ErrorObject('Bad Request', `La catégorie avec l'ID ${catId} n'existe pas.`);
+                }
+            }
+        }
+        const ingredientDBO = IngredientDBO.fromIngredient(ingredient);
+        const insertResult = await db.getIngredientsCollection().insertOne(ingredientDBO);
+        if (!insertResult) {
+            throw new ErrorObject('Internal Server Error', "Échec de l'insertion de l'ingrédient dans la base de données.");
+        }
+        ingredientDBO._id = insertResult;
+        return IngredientDBO.toIngredient(ingredientDBO);
     }
 
     async updateIngredient(id: string, ingredient: Ingredient): Promise<Ingredient> {
@@ -62,7 +69,7 @@ export class IngredientRepository {
 
             const ingredientsDBO = await db.getIngredientsCollection()
                 .find({ categoriesId: { $in: categoryObjectIds } })
-                .sort(sort) // Ajout du tri ici
+                .sort(sort)
                 .toArray();
 
             if (ingredientsDBO.length === 0) {
