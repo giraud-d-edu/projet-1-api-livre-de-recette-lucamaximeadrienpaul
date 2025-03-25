@@ -1,4 +1,4 @@
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
+import { ErrorObject } from "../../models/error.model.ts";
 
 export class AddRecipeDTO {
 
@@ -14,28 +14,28 @@ export class AddRecipeDTO {
 
     validate(): void {
         if (!this.name || this.name.length > 255) {
-            throw createHttpError(400, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+            throw new ErrorObject('Not Found', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
         if (!this.ingredientsId || this.ingredientsId.length === 0) {
-            throw createHttpError(400, "La recette doit contenir au moins un ingrédient.");
+            throw new ErrorObject('Not Found', "La recette doit contenir au moins un ingrédient.");
         }
         if (!this.description || this.description.length === 0) {
-            throw createHttpError(400, "La recette doit contenir une description.");
+            throw new ErrorObject('Not Found', "La recette doit contenir une description.");
         }
         if (!this.step || this.step.length === 0) {
-            throw createHttpError(400, "La recette doit contenir une étape.");
+            throw new ErrorObject('Not Found', "La recette doit contenir une étape.");
         }
         if (!this.categoriesId || this.categoriesId.length === 0) {
-            throw createHttpError(400, "La recette doit contenir au moins une catégorie.");
+            throw new ErrorObject('Not Found', "La recette doit contenir au moins une catégorie.");
         }
         if (!this.time || this.time < 0) {
-            throw createHttpError(400, "Le temps de préparation doit être positif.");
+            throw new ErrorObject('Not Found', "Le temps de préparation doit être positif.");
         }
         if (this.categoriesId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw createHttpError(400, `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
         }
         if (this.ingredientsId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw createHttpError(400, `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
         }
     }
 

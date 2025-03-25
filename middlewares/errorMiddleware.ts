@@ -1,6 +1,13 @@
-import { Context, isHttpError } from "https://deno.land/x/oak/mod.ts";
+import { ErrorObject } from './../models/error.model.ts';
+import { Context } from "https://deno.land/x/oak/mod.ts";
 
 const baseLogFilePath = "./log";
+
+const errorMappingTable = {
+    'Not Found': 404,
+    'Bad Request': 400,
+    'Internal Server Error': 500
+};
 
 /**
  * Fonction pour enregistrer les erreurs dans un fichier de log
@@ -39,9 +46,9 @@ export async function errorMiddleware(
     try {
         await next();
     } catch (err: any) {
-        if (isHttpError(err)) {
-            const status = err.status;
+        if (err instanceof ErrorObject) {
             const errorMessage = err.message;
+            const status = errorMappingTable[err.status];
 
             logError(`URL: ${ctx.request.url} - Status: ${status} - Message: ${errorMessage}`, 'WARNING');
 
