@@ -107,8 +107,8 @@ src/
     |   ├── └── +page.svelte
     │   ├── +page.svelte
     │   ├── [id]/
-        └── ├── update
-            ├── └── +page.svelte
+    │   └── ├── update
+    │       ├── └── +page.svelte
     │       └── +page.svelte
     ├── categories/
     |   └── +page.svelte
