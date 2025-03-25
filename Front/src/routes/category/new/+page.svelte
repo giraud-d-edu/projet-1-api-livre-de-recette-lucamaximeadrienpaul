@@ -10,6 +10,10 @@
 	let messageErreur = '';
 	
 
+	let showModal = false;
+	let messageErreur = '';
+	
+
     async function submit(category: Category) {
         try {
             await categoryStore.create(category);
