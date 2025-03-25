@@ -24,6 +24,7 @@ export class IngredientService {
             name: ingredientTdo.name,
             categoriesId: ingredientTdo.categoriesId
         }
+        
         ingredient = await this.ingredientRepository.createIngredient(ingredient)
         return IngredientDTO.fromModel(ingredient)
     }

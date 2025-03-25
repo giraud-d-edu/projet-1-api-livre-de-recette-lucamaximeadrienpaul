@@ -1,4 +1,4 @@
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
+import { ErrorObject } from "../models/error.model.ts";
 import { IngredientDBO } from "../dbos/ingredient.dbo.ts";
 import { db } from "../db.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
@@ -12,9 +12,6 @@ export class IngredientRepository {
 
     async getAllIngredients(sort: { [key: string]: 1 | -1 } = {}): Promise<Ingredient[]> {
             const ingredientsDBO = await db.getIngredientsCollection().find().sort(sort).toArray();
-            if (ingredientsDBO.length === 0) {
-                throw createHttpError(404, `Aucun ingrédient trouvé`);
-            }
             return this.mapIngredientsFromDB(ingredientsDBO);
     }
 
@@ -24,7 +21,7 @@ export class IngredientRepository {
             const ingredientDBO = await db.getIngredientsCollection().findOne({ _id: objectId });
 
             if (!ingredientDBO) {
-                throw createHttpError(404, `Ingrédient avec l'ID ${id} non trouvé`);
+                throw new ErrorObject('Bad Request',  `Ingrédient avec l'ID ${id} non trouvé`);
             }
 
             return IngredientDBO.toIngredient(ingredientDBO);
@@ -45,7 +42,7 @@ export class IngredientRepository {
             const updateResult = await db.getIngredientsCollection().updateOne({ _id: objectId }, { $set: ingredientDBO });
 
             if (updateResult.matchedCount === 0) {
-                throw createHttpError(404, `Ingrédient avec l'ID ${id} non trouvé`);
+                throw new ErrorObject('Bad Request',  `Ingrédient avec l'ID ${id} non trouvé`);
             }
             return ingredient;
     }
@@ -56,7 +53,7 @@ export class IngredientRepository {
             const deleteResult = await db.getIngredientsCollection().deleteOne({ _id: objectId });
 
             if (deleteResult.deletedCount === 0) {
-                throw createHttpError(404, `Ingrédient avec l'ID ${id} non trouvé`);
+                throw new ErrorObject('Bad Request',  `Ingrédient avec l'ID ${id} non trouvé`);
             }
     }
 
@@ -69,7 +66,7 @@ export class IngredientRepository {
                 .toArray();
 
             if (ingredientsDBO.length === 0) {
-                throw createHttpError(404, `Aucun ingrédient trouvé pour les catégories ID '${categoryIds.join(", ")}'`);
+                throw new ErrorObject('Bad Request',  `Aucun ingrédient trouvé pour les catégories ID '${categoryIds.join(", ")}'`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
     }
@@ -81,7 +78,7 @@ export class IngredientRepository {
                 .toArray();
 
             if (ingredientsDBO.length === 0) {
-                throw createHttpError(404, `Aucun ingrédient trouvé pour le nom '${name}'`);
+                throw new ErrorObject('Bad Request',  `Aucun ingrédient trouvé pour le nom '${name}'`);
             }
             return this.mapIngredientsFromDB(ingredientsDBO);
     }
