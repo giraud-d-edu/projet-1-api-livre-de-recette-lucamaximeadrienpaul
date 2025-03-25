@@ -1,13 +1,18 @@
 # Mamithon
 
 ## Installation
-* [Deno](https://docs.deno.com/runtime/getting_started/installation/) installé
-* Cloner le repo
+* Installer [Deno](https://docs.deno.com/runtime/getting_started/installation/) 
+* Cloner le repo 
 ## Configuration
 **Sur VSCode**  
 ```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"  
 Creer le fichier ```.env```
-Renseigner le ```MONGO_URI``` et le ```MONGO_DB_NAME```
+Renseigner le ```MONGO_URI``` et le ```MONGO_DB_NAME```  
+### Exemple
+```
+MONGO_URI=mongodb://127.0.0.1:27017
+MONGO_DB_NAME=Mamithon
+```
 ## Demarage du serveur 
 Dans le terminal : 
  ```bash
@@ -70,3 +75,9 @@ POST/PUT:
 POST/PUT:   
 * name: string,
 * Type: string,
+
+## Tests
+ Pour executer les tests il faut faire cette commande dans le terminal : 
+ ```
+ deno test
+ ```
