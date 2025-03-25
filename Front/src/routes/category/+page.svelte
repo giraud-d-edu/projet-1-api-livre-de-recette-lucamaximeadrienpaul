@@ -3,31 +3,32 @@
 	import Card from '$lib/category/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	import { categoryStore, separatedCategories, loading } from '$lib/category/stores/category';
+	import { btnStyle } from '$lib/Shared/variable';
 
 	onMount(() => {
 		categoryStore.load();
 	});
 </script>
 
-<h1>Nos catégories</h1>
-<button on:click={() => window.location.href = '/category/new'}>Ajouter une catégorie</button>
-{#if $loading || !($separatedCategories)}
-	<LoadingCircle />
-{:else}
-	{#each Object.keys($separatedCategories) as key}
-		<h2>{key}</h2>
-		<div class="grid">
-			{#each $separatedCategories[key] as category}
-				<Card {category} />
-			{/each}
-		</div>
-	{/each}
+<span class="flex justify-between items-center">
+	<h1>Nos catégories</h1>
+	<button class={btnStyle} on:click={() => window.location.href = '/category/new'}>Ajouter une catégorie</button>
+	</span>
+	{#if $loading || !($separatedCategories)}
+		<LoadingCircle />
+	{:else}
+		{#each Object.keys($separatedCategories) as key}
+			<span class="flex items-center">
+				<span class="h-px flex-1 bg-gray-300"></span>
+	
+				<h2 class="shrink-0 px-4 text-2xl font-bold text-gray-900">{key}</h2>
+	
+				<span class="h-px flex-1 bg-gray-300"></span>
+			</span>
+			<div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+				{#each $separatedCategories[key] as category}
+					<Card {category} />
+				{/each}
+			</div>
+		{/each}
 {/if}
-
-<style>
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1em;
-	}
-</style>
