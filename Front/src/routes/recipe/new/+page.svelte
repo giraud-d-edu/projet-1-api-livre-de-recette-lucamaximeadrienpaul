@@ -19,5 +19,5 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <RecipeForm submit={submit}/>
+    <RecipeForm on:submit={submit}/>
 {/if}
