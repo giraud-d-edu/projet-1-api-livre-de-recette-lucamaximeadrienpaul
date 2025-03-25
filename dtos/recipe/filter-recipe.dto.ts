@@ -1,4 +1,4 @@
-import { createHttpError } from "jsr:@oak/commons@1/http_errors";
+import { ErrorObject } from "../../models/error.model.ts";
 
 export class FilterRecipeDTO {
     constructor(
@@ -19,13 +19,13 @@ export class FilterRecipeDTO {
 
     public validate(): void {
         if (this.name !== null && this.name.length > 250) {
-            throw createHttpError(400, `Le nom de la recette ne doit pas dépasser 250 caractères`);
+            throw new ErrorObject('Not Found', `Le nom de la recette ne doit pas dépasser 250 caractères`);
         }
         if (this.categoriesId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw createHttpError(400, `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
         }
         if (this.ingredientId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw createHttpError(400, `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
         }
     }
 }

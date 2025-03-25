@@ -1,7 +1,7 @@
 import { Recipe } from "../models/recipe.model.ts";
 import { RecipeDBO } from "../dbos/recipe.dbo.ts";
 import { db } from "../db.ts";
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
+import { ErrorObject } from "../models/error.model.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 
 export class RecipeRepository {
@@ -39,7 +39,7 @@ export class RecipeRepository {
         const query = this.buildQuery(filters);
         const recipesDBO = await db.getRecipesCollection().find(query).sort(sortOption).toArray();
         if (recipesDBO.length === 0) {
-            throw createHttpError(404, 'Aucune recette trouvée');
+            throw new ErrorObject('Bad Request',  'Aucune recette trouvée');
         }
         return this.mapRecipesFromDB(recipesDBO);
     }
@@ -48,7 +48,7 @@ export class RecipeRepository {
         const objectId = new ObjectId(id);
         const recipeD = await db.getRecipesCollection().findOne({ _id: objectId });
         if (!recipeD) {
-            throw createHttpError(404, `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
         }
         return RecipeDBO.toRecipe(recipeD);
     }
@@ -58,7 +58,7 @@ export class RecipeRepository {
         const insertResult = await db.getRecipesCollection().insertOne(recipeD);
 
         if (!insertResult) {
-            throw createHttpError(500, 'Échec de l\'insertion de la recette dans la base de données.');
+            throw new ErrorObject('Internal Server Error',  'Échec de l\'insertion de la recette dans la base de données.');
         }
         recipeD._id = insertResult;
         return RecipeDBO.toRecipe(recipeD);
@@ -70,7 +70,7 @@ export class RecipeRepository {
 
         const updateResult = await db.getRecipesCollection().updateOne({ _id: objectId }, { $set: recipeD });
         if (updateResult.matchedCount === 0) {
-            throw createHttpError(404, `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
         }
         recipeD._id = objectId;
         return RecipeDBO.toRecipe(recipeD);
@@ -80,7 +80,7 @@ export class RecipeRepository {
         const objectId = new ObjectId(id);
         const deleteResult = await db.getRecipesCollection().deleteOne({ _id: objectId });
         if (deleteResult.deletedCount === 0) {
-            throw createHttpError(404, `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Bad Request',  `Recette avec l'ID ${id} non trouvée`);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
+import { ErrorObject } from "../../models/error.model.ts";
 
 export class AddIngredientDTO {
     name: string;
@@ -11,10 +11,10 @@ export class AddIngredientDTO {
 
     validate(): void {
         if (!this.name || this.name.length > 255) {
-            throw createHttpError(400, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+            throw new ErrorObject('Not Found', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
         if (this.categoriesId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw createHttpError(400, `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
         }
     }
 

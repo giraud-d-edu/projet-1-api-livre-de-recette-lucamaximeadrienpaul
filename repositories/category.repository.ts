@@ -1,4 +1,4 @@
-import { createHttpError } from "https://deno.land/x/oak@v17.1.4/deps.ts";
+import { ErrorObject } from "../models/error.model.ts";
 import { CategoryDBO } from "../dbos/category.dbo.ts";
 import { db } from "../db.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
@@ -12,9 +12,6 @@ export class CategoryRepository {
 
     async getAllCategories(sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
             const categoriesDBO = await db.getCategoryCollection().find().sort(sort).toArray();
-            if (categoriesDBO.length === 0) {
-                throw createHttpError(404, `Aucune catégorie trouvée`);
-            }
             return this.mapCategoriesFromDB(categoriesDBO);
     }
 
@@ -25,7 +22,7 @@ export class CategoryRepository {
                 .toArray();
 
             if (categoriesDBO.length === 0) {
-                throw createHttpError(404, `Aucune catégorie trouvée pour le nom '${name}'`);
+                throw new ErrorObject('Bad Request',  `Aucune catégorie trouvée pour le nom '${name}'`);
             }
             return this.mapCategoriesFromDB(categoriesDBO);
     }
@@ -35,7 +32,7 @@ export class CategoryRepository {
             const categoryDBO = await db.getCategoryCollection().findOne({ _id: objectId });
 
             if (!categoryDBO) {
-                throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
             }
 
             return CategoryDBO.toCategory(categoryDBO);
@@ -56,7 +53,7 @@ export class CategoryRepository {
             const updateResult = await db.getCategoryCollection().updateOne({ _id: objectId }, { $set: categoryDBO });
 
             if (updateResult.matchedCount === 0) {
-                throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
             }
             return CategoryDBO.toCategory(categoryDBO);
     }
@@ -67,7 +64,7 @@ export class CategoryRepository {
             const deleteResult = await db.getCategoryCollection().deleteOne({ _id: objectId });
 
             if (deleteResult.deletedCount === 0) {
-                throw createHttpError(404, `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
             }
     }
 }
