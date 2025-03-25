@@ -54,15 +54,30 @@ export class RecipeRepository {
     }
 
     async createRecipe(recipe: Recipe): Promise<Recipe> {
+        if (recipe.categoriesId && Array.isArray(recipe.categoriesId)) {
+          for (const catId of recipe.categoriesId) {
+            const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(catId) });
+            if (!category) {
+              throw createHttpError(400, `La catégorie avec l'ID ${catId} n'existe pas.`);
+            }
+          }
+        }
+        if (recipe.ingredientsId && Array.isArray(recipe.ingredientsId)) {
+          for (const ingId of recipe.ingredientsId) {
+            const ingredient = await db.getIngredientsCollection().findOne({ _id: new ObjectId(ingId) });
+            if (!ingredient) {
+              throw createHttpError(400, `L'ingrédient avec l'ID ${ingId} n'existe pas.`);
+            }
+          }
+        }
         const recipeD = RecipeDBO.fromRecipe(recipe);
         const insertResult = await db.getRecipesCollection().insertOne(recipeD);
-
         if (!insertResult) {
-            throw createHttpError(500, 'Échec de l\'insertion de la recette dans la base de données.');
+          throw createHttpError(500, "Échec de l'insertion de la recette dans la base de données.");
         }
         recipeD._id = insertResult;
         return RecipeDBO.toRecipe(recipeD);
-    }
+      }
 
     async updateRecipe(id: string, recipe: Recipe): Promise<Recipe> {
         const objectId = new ObjectId(id);
