@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { recipeStore, loading, error } from '$lib/recipe/stores/recipe';
-    import type { Recipe } from '$lib/recipe/models/recipe';
+    import type { Recipe } from '$lib/recipe/types/recipe';
 
     import RecipeForm from "$lib/recipe/components/RecipeForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
