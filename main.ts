@@ -4,6 +4,7 @@ import { db } from "./db.ts";
 import { recipeRouter } from "./routes/recipe.route.ts";
 import { categoryRouter } from "./routes/category.route.ts";
 import { ingredientRouter } from "./routes/ingredient.route.ts";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 
 try {
@@ -12,6 +13,8 @@ try {
     const app = new Application();
     const router = new Router();
     await db.connect();
+
+    app.use(oakCors());
     
     app.use(errorMiddleware);
 
