@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Ingredient } from '$lib/ingredient/types/ingredient.ts';
-	import { ingredientService } from "$lib/ingredient/services/ingredient";
 	import { categories, categoryStore } from '$lib/category/stores/category';
 
 	export let ingredient: Ingredient = {

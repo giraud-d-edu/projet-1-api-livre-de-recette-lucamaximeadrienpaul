@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ingredients, ingredientStore } from '$lib/ingredient/stores/ingredient';
-	import { categories, categoryStore } from '$lib/category/stores/category';
+		import { categories, categoryStore } from '$lib/category/stores/category';
 	import type { Recipe } from '$lib/recipe/types/recipe.ts';
-	import { recipeService } from "$lib/recipe/services/recipe";
 
 	export let recipe: Recipe = {
 		id: '',
@@ -17,26 +16,15 @@
 		image: null,
 	};
 
-	async function submit(recipe: Recipe) {
-		try {
-			const newRecipe = await recipeService.createRecipe(recipe);
-			console.log('Recette créée avec succès !', newRecipe);
-		} catch (error) {
-			console.error('Erreur survenue lors de la création de la recette :', error);
-		}
-	}
+	export let submit: (recipe: Recipe) => void;
 
 	onMount(() => {
 		ingredientStore.load();
 		categoryStore.load();
 	});
-
-	function handleSubmit() {
-		submit(recipe);
-	}
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={() => submit(recipe)}>
 	<label for="name">Name:</label>
 	<input id="name" bind:value={recipe.name} />
 

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import Card from '$lib/recipe/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
-
 	import { recipeStore, recipes, loading } from '$lib/recipe/stores/recipe';
 
 	onMount(() => {
