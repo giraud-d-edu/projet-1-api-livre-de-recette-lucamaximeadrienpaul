@@ -6,13 +6,16 @@
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 
     async function submit(ingredient: Ingredient) {
+        try {
             await ingredientStore.create(ingredient);
             if (!$error) {
-                // window.history.back();
-            }
-            else {
+                window.history.back();
+            } else {
                 alert($error);
             }
+        } catch (err) {
+            console.error('Erreur survenue lors de la création de l\'ingrédient :', err);
+        }
 	}
 </script>
 

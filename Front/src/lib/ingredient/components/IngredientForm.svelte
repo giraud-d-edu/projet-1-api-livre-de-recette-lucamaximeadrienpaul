@@ -10,25 +10,14 @@
 		categoriesId: [],
 	};
 
-	async function submit(ingredient: Ingredient) {
-		try {
-			const newIngredient = await ingredientService.createIngredient(ingredient);
-			console.log('Ingrédient créé avec succès !', newIngredient);
-		} catch (error) {
-			console.error('Erreur survenue lors de la création de la recette :', error);
-		}
-	}
+	export let submit: (ingredient: Ingredient) => void;
 
 	onMount(() => {
 		categoryStore.load();
 	});
-
-	function handleSubmit() {
-		submit(ingredient);
-	}
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={() => submit(ingredient)}>
 	<label for="name">Name:</label>
 	<input id="name" bind:value={ingredient.name} />
 
