@@ -10,6 +10,7 @@ export class UpdateRecipeDTO {
     categoriesId?: string[];
     time?: number;
     origin?: string;
+    image?: File | null;
 
     constructor(
         id: string,
@@ -19,7 +20,8 @@ export class UpdateRecipeDTO {
         step?: string,
         categoriesId?: string[],
         time?: number,
-        origin?: string
+        origin?: string,
+        image : File | null = null
     ) {
         this.id = id;
         this.name = name;
@@ -29,6 +31,7 @@ export class UpdateRecipeDTO {
         this.categoriesId = categoriesId;
         this.time = time;
         this.origin = origin;
+        this.image = image;
     }
 
     validate(): void {
@@ -67,7 +70,8 @@ export class UpdateRecipeDTO {
             request.step,
             request.categoriesId,
             request.time,
-            request.origin
+            request.origin,
+            request.image
         );
     }
 }

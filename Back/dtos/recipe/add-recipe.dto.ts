@@ -1,7 +1,6 @@
 import { ErrorObject } from "../../models/error.model.ts";
 
 export class AddRecipeDTO {
-
     constructor(
         public name: string,
         public ingredientsId: string[],
@@ -9,7 +8,8 @@ export class AddRecipeDTO {
         public step: string,
         public categoriesId: string[],
         public time: number,
-        public origin?: string
+        public origin?: string,
+        public image?: File | null
     ) { }
 
     validate(): void {
@@ -32,10 +32,10 @@ export class AddRecipeDTO {
             throw new ErrorObject('Not Found', "Le temps de préparation doit être positif.");
         }
         if (this.categoriesId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw new ErrorObject('Not Found', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `Les id des catégories doivent être une chaîne de 24 caractères hexadécimaux`);
         }
         if (this.ingredientsId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw new ErrorObject('Not Found', `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Not Found', `Les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
         }
     }
 
@@ -47,7 +47,8 @@ export class AddRecipeDTO {
             request.step,
             request.categoriesId,
             request.time,
-            request.origin
+            request.origin,
+            request.image
         );
     }
 }
