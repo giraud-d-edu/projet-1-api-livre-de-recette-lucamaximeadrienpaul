@@ -6,13 +6,16 @@
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 
     async function submit(category: Category) {
+        try {
             await categoryStore.create(category);
             if (!$error) {
-                // window.history.back();
-            }
-            else {
+                window.history.back();
+            } else {
                 alert($error);
             }
+        } catch (err) {
+            console.error('Erreur survenue lors de la création de la catégorie :', err);
+        }
 	}
 </script>
 
