@@ -22,5 +22,5 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <IngredientForm on:submit={submit}/>
+    <IngredientForm {submit}/>
 {/if}

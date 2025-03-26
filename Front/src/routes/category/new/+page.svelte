@@ -22,5 +22,5 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <CategoryForm on:submit={submit}/>
+    <CategoryForm {submit}/>
 {/if}
