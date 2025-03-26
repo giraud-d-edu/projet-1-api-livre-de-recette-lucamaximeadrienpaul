@@ -10,8 +10,9 @@ export class RecipeDBO {
     categoriesId: ObjectId[];
     time: number;
     origin: string;
+    image: string | null = null;
 
-    constructor(id : string| null, name: string, ingredientsId: string[], description: string,step: string, categoriesId: string[], time: number, origin: string) {
+    constructor(id : string| null, name: string, ingredientsId: string[], description: string,step: string, categoriesId: string[], time: number, origin: string, image : string | null = null) {
         this._id = id ? new ObjectId(id) : null;
         this.name = name;
         this.ingredientsId = ingredientsId.map(id => new ObjectId(id));
@@ -20,9 +21,10 @@ export class RecipeDBO {
         this.time = time;
         this.step = step;
         this.origin = origin;
+        this.image = image;
     }
     static fromRecipe(recipe: Recipe): RecipeDBO {
-        return new RecipeDBO(recipe.id, recipe.name, recipe.ingredientsId, recipe.description,recipe.step, recipe.categoriesId, recipe.time, recipe.origin);
+        return new RecipeDBO(recipe.id, recipe.name, recipe.ingredientsId, recipe.description,recipe.step, recipe.categoriesId, recipe.time, recipe.origin, recipe.image);
     }
     static toRecipe(recipeDBO: RecipeDBO): Recipe {
         return {
@@ -34,6 +36,7 @@ export class RecipeDBO {
             categoriesId: recipeDBO.categoriesId.map(id => id.toString()),
             time: recipeDBO.time,
             origin: recipeDBO.origin,
+            image: recipeDBO.image
         };
     }
 }
