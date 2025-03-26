@@ -53,7 +53,6 @@ updateRecipe = async ({ params, request, response }: { params: { id: string }, r
     try {
         const id = params.id;
         checkId(id);
-
         if (request.body.type() !== "form-data") {
             response.status = 400;
             response.body = { error: "Invalid content type. Expected form-data." };
