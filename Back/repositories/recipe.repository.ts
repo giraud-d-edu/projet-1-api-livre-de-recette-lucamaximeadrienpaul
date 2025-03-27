@@ -64,9 +64,11 @@ export class RecipeRepository {
         if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
             for (const ingredient of recipe.ingredients) {
                 const ingredientId = typeof ingredient === 'string' ? ingredient : ingredient.id;
-                const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(ingredientId) });
-                if (!category) {
-                    throw new ErrorObject('Bad Request', `La catégorie avec l'ID ${ingredientId} n'existe pas.`);
+                const _id = new ObjectId(ingredientId);
+                console.log(_id);
+                const _ingredient = await db.getIngredientsCollection().findOne({ _id: _id });
+                if (!_ingredient) {
+                    throw new ErrorObject('Bad Request', `L'ingredient avec l'ID ${ingredientId} n'existe pas.`);
                 }
             }
         }

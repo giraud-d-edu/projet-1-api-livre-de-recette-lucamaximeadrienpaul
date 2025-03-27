@@ -8,27 +8,27 @@ import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 
 try {
-  if (import.meta.main) {
+    if (import.meta.main) {
 
-    const app = new Application();
-    const router = new Router();
-    await db.connect();
+        const app = new Application();
+        const router = new Router();
+        await db.connect();
 
-    app.use(oakCors());
-    
-    app.use(errorMiddleware);
+        app.use(oakCors());
 
-    router.use("/ingredient", ingredientRouter.routes());
-    router.use("/recipe", recipeRouter.routes());
-    router.use("/category", categoryRouter.routes());
+        app.use(errorMiddleware);
 
-    app.use(router.routes());
-    app.use(router.allowedMethods());
+        router.use("/ingredient", ingredientRouter.routes());
+        router.use("/recipe", recipeRouter.routes());
+        router.use("/category", categoryRouter.routes());
 
-    console.log("Serveur démarré sur http://localhost:8000");
-    await app.listen({ port: 8000 });
-  }
+        app.use(router.routes());
+        app.use(router.allowedMethods());
+
+        console.log("Serveur démarré sur http://localhost:8000");
+        await app.listen({ port: 8000 });
+    }
 
 } catch (error: any) {
-  logError(`${error.stack}`, 'CRITICAL');
+    logError(`${error.stack}`, 'CRITICAL');
 }
