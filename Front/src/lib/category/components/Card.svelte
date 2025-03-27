@@ -1,7 +1,13 @@
 <script lang="ts">
 	import type { Category } from '$lib/category/types/category';
+	import { categoryStore } from '$lib/category/stores/category';
 
 	export let category: Category;
+
+	function deleteCategory() {
+		categoryStore.delete(category.id);
+		window.location.href = '/category';
+	}
 </script>
 
 <div class="card">
@@ -9,8 +15,10 @@
 		<h2>{category.name}</h2>
 		<span>Catégorie : {category.Type}</span>
 		<div class="actions">
-			<button on:click={() => window.location.href = `/category/update/${category.id}`}>Modifier</button>
-			<button on:click={() => window.location.href = `/category/delete/${category.id}`}>Supprimer</button>
+			<button on:click={() => (window.location.href = `/category/update/${category.id}`)}
+				>Modifier</button
+			>
+			<button on:click={() => deleteCategory()}>Supprimer</button>
 		</div>
 	</div>
 </div>
