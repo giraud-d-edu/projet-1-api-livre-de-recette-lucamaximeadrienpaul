@@ -22,7 +22,6 @@ try {
     router.use("/recipe", recipeRouter.routes());
     router.use("/category", categoryRouter.routes());
 
-
     app.use(router.routes());
     app.use(router.allowedMethods());
 

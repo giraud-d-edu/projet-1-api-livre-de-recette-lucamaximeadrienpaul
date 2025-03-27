@@ -1,12 +1,12 @@
 import { writable } from "svelte/store";
-import type { Recipe } from "../types/recipe.ts";
-import { recipeService } from "../services/recipe.ts";
+import type { Category } from "../types/category.ts";
+import { categoryService } from "../services/category.ts";
 
-export const recipes = writable<Recipe[]>([]);
+export const categories = writable<Category[]>([]);
 export const error = writable<string| null>(null);
 export const loading = writable<boolean>(false);
 
-function createRecipeStore() {
+function createCategoryStore() {
     function resetData() {
         loading.set(false);
         error.set(null);
@@ -16,7 +16,7 @@ function createRecipeStore() {
         load: async () => {
             resetData();
             try {
-                recipes.set(await recipeService.getAllRecipes());
+                categories.set(await categoryService.getAllCategorys());
             } catch (err) {
                 error.set("Erreur lors du chargement des recettes: " + err);
             }
@@ -26,31 +26,31 @@ function createRecipeStore() {
         loadOne: async (id: string) => {
             resetData();
             try {
-                recipes.set([await recipeService.getRecipe(id)]);
+                categories.set([await categoryService.getCategory(id)]);
             } catch (err) {
                 error.set(`Erreur lors du chargement de la recette ${id} : ${err}`);
             }
             loading.set(false);
         },
 
-        create: async (_recipe: Omit<Recipe, "id">) => {
+        create: async (_category: Omit<Category, "id">) => {
             resetData();
             try {
-                const newRecipe = await recipeService.createRecipe(_recipe);
-                recipes.update(recipes => [...recipes, newRecipe]);
+                const newCategory = await categoryService.createCategory(_category);
+                categories.update(categories => [...categories, newCategory]);
             } catch (err) {
                 error.set(`Erreur lors de la création de la recette : ${err}`);
             }
             loading.set(false);
         },
 
-        update: async (_recipe: Recipe) => {
+        update: async (_category: Category) => {
             resetData();
             try {
-                const updatedRecipe = await recipeService.updateRecipe(_recipe);
-                recipes.update(recipes => recipes.map(r => r.id === updatedRecipe.id ? updatedRecipe : r));
+                const updatedCategory = await categoryService.updateCategory(_category);
+                categories.update(categories => categories.map(r => r.id === updatedCategory.id ? updatedCategory : r));
             } catch (err) {
-                error.set(`Erreur lors de la mise à jour de la recette ${_recipe.id} : ${err}`);
+                error.set(`Erreur lors de la mise à jour de la recette ${_category.id} : ${err}`);
             }
             loading.set(false);
         },
@@ -58,8 +58,8 @@ function createRecipeStore() {
         delete: async (id: string) => {
             resetData();
             try {
-                await recipeService.deleteRecipe(id);
-                recipes.update(recipes => recipes.filter(r => r.id !== id));
+                await categoryService.deleteCategory(id);
+                categories.update(categories => categories.filter(r => r.id !== id));
             } catch (err) {
                 error.set(`Erreur lors de la suppression de la recette ${id} : ${err}`);
             }
@@ -68,4 +68,4 @@ function createRecipeStore() {
     };
 };
 
-export const recipeStore = createRecipeStore();
+export const categoryStore = createCategoryStore();
