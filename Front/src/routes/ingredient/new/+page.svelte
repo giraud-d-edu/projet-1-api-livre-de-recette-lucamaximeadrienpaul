@@ -19,7 +19,6 @@
 </script>
 
 {#if $loading}
-    <button on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
 	<LoadingCircle />
 {:else}
     <button on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
