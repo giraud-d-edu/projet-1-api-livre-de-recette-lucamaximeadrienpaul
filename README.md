@@ -7,6 +7,10 @@
 2. Cloner le dépôt.
 
 ### ▶️ Exécution
+Depuis la racine du projet, ce placer dans le dossier Front
+```sh
+cd .\Front\
+```
 Assurez-vous d'avoir installé toutes les dépendances avec :
 ```sh
 npm install
@@ -36,6 +40,10 @@ Ouvrez votre navigateur et accédez à l'URL affichée dans la console après l'
 2. Sélectionnez **"Deno : Initialize workspace configuration"**.
 
 #### 📄 Fichier `.env`
+Depuis la racine du projet, ce placer dans le dossier Front
+```sh
+cd .\Back\
+```
 Créez un fichier `.env` et renseignez les informations suivantes :
 ```env
 MONGO_URI=your_mongo_connection_string
