@@ -17,7 +17,7 @@ Deno.test("AddRecipeDTO: validate should throw error if name is empty", () => {
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         } else {
             throw error;
@@ -32,7 +32,7 @@ Deno.test("AddRecipeDTO: validate should throw error if ingredientsId is empty",
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "La recette doit contenir au moins un ingrédient.");
         } else {
             throw error;
@@ -47,7 +47,7 @@ Deno.test("AddRecipeDTO: validate should throw error if description is empty", (
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "La recette doit contenir une description.");
         } else {
             throw error;
@@ -62,7 +62,7 @@ Deno.test("AddRecipeDTO: validate should throw error if step is empty", () => {
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "La recette doit contenir une étape.");
         } else {
             throw error;
@@ -77,7 +77,7 @@ Deno.test("AddRecipeDTO: validate should throw error if categoriesId is empty", 
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "La recette doit contenir au moins une catégorie.");
         } else {
             throw error;
@@ -92,7 +92,7 @@ Deno.test("AddRecipeDTO: validate should throw error if time is negative", () =>
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Not Found");
+            assertEquals(error.status, "Bad Request");
             assertEquals(error.message, "Le temps de préparation doit être positif.");
         } else {
             throw error;

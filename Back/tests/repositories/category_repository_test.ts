@@ -43,7 +43,7 @@ Deno.test("CategoryRepository: getCategoryById should throw error if category no
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Bad Request");
+            assertEquals(error.status, "Not Found");
             assertEquals(error.message, `Catégorie avec l'ID ${id} non trouvée`);
         } else {
             throw error;
@@ -76,7 +76,7 @@ Deno.test("CategoryRepository: updateCategory should throw error if category not
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Bad Request");
+            assertEquals(error.status, "Not Found");
             assertEquals(error.message, `Catégorie avec l'ID ${id} non trouvée`);
         } else {
             throw error;
@@ -96,7 +96,7 @@ Deno.test("CategoryRepository: deleteCategory should throw error if category not
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Bad Request");
+            assertEquals(error.status, "Not Found");
             assertEquals(error.message, `Catégorie avec l'ID ${id} non trouvée`);
         } else {
             throw error;
