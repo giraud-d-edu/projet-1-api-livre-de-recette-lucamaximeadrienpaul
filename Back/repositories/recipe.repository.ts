@@ -86,7 +86,7 @@ export class RecipeRepository {
         const objectId = new ObjectId(id);
         const recipeD = await db.getRecipesCollection().findOne({ _id: objectId });
         if (!recipeD) {
-            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Not Found', `Recette avec l'ID ${id} non trouvée`);
         }
         return (await this.mapRecipesFromDB([recipeD]))[0];
     }
@@ -110,7 +110,7 @@ export class RecipeRepository {
 
         const updateResult = await db.getRecipesCollection().updateOne({ _id: objectId }, { $set: recipeD });
         if (updateResult.matchedCount === 0) {
-            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Not Found', `Recette avec l'ID ${id} non trouvée`);
         }
         return await this.getRecipeById(objectId.toString());
     }
@@ -119,7 +119,7 @@ export class RecipeRepository {
         const objectId = new ObjectId(id);
         const deleteResult = await db.getRecipesCollection().deleteOne({ _id: objectId });
         if (deleteResult.deletedCount === 0) {
-            throw new ErrorObject('Bad Request', `Recette avec l'ID ${id} non trouvée`);
+            throw new ErrorObject('Not Found', `Recette avec l'ID ${id} non trouvée`);
         }
     }
 }
