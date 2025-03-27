@@ -16,8 +16,7 @@
 		<span>Catégorie : {category.Type}</span>
 		<div class="actions">
 			<button on:click={() => (window.location.href = `/category/update/${category.id}`)}
-				>Modifier</button
-			>
+				>Modifier</button>
 			<button on:click={() => deleteCategory()}>Supprimer</button>
 		</div>
 	</div>

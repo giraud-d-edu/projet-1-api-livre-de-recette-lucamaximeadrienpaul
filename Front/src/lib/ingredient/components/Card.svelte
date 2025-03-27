@@ -1,13 +1,27 @@
 <script lang="ts">
 	import type { Ingredient } from '$lib/ingredient/types/ingredient';
+	import { ingredientStore } from '../stores/ingredient';
 
 	export let ingredient: Ingredient;
+
+	function deleteIngredient() {
+		ingredientStore.delete(ingredient.id);
+		window.location.href = '/ingredient';
+	}
 </script>
 
 <div class="card">
 	<div class="content">
 		<h2>{ingredient.name}</h2>
-		<p>Categories: {#each ingredient.categories as categorie}{categorie.name}{/each}</p>
+		<p>
+			Categories: {#each ingredient.categories as categorie}{categorie.name}{/each}
+		</p>
+		<div class="actions">
+			<button on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}
+				>Modifier</button
+			>
+			<button on:click={() => deleteIngredient()}>Supprimer</button>
+		</div>
 	</div>
 </div>
 
