@@ -4,9 +4,9 @@
 	import Modal from '$lib/Shared/components/UserModal.svelte';
 	import RecipeForm from '$lib/recipe/components/RecipeForm.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
+	import {btnStyle} from '$lib/Shared/variable';
 	
-	
-	let showModal = import {btnStyle} from '$lib/Shared/variable';false;
+	let showModal = false;
 	let messageErreur = '';
 	
 	async function submit(recipe: AddRecipe) {
