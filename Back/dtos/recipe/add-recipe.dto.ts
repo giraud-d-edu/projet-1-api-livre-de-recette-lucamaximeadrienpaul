@@ -39,16 +39,16 @@ export class AddRecipeDTO {
         }
     }
 
-    static fromRequest(request: any): AddRecipeDTO {
+    static async fromFormData(formData: FormData): Promise<AddRecipeDTO> {
         return new AddRecipeDTO(
-            request.name,
-            request.ingredientsId,
-            request.description,
-            request.step,
-            request.categoriesId,
-            request.time,
-            request.origin,
-            request.image
+            formData.get("name") as string,
+            formData.getAll("ingredientsId") as string[],
+            formData.get("description") as string,
+            formData.get("step") as string,
+            formData.getAll("categoriesId") as string[],
+            Number(formData.get("time")),
+            formData.get("origin") as string | undefined,
+            formData.get("image") instanceof File ? (formData.get("image") as File) : null
         );
     }
 }
