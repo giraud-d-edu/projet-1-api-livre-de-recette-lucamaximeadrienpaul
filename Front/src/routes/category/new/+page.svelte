@@ -5,9 +5,6 @@
     import CategoryForm from "$lib/category/components/CategoryForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	import {btnStyle} from '$lib/Shared/variable';
-
-	let showModal = false;
-	let messageErreur = '';
 	
 
 	let showModal = false;
