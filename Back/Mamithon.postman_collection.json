@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2aa9150e-da4f-4d00-a5a9-8f8914a17fc8",
+		"_postman_id": "a8488aa6-3480-474a-9278-8691e9ee3e49",
 		"name": "Mamithon",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25695760"
+		"_exporter_id": "34393378"
 	},
 	"item": [
 		{
@@ -34,7 +34,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/category/67c98b308ef7ffa0a9f80332",
+							"raw": "http://localhost:8000/category/67e5589bdfd08dbdf1e2feb9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -42,7 +42,7 @@
 							"port": "8000",
 							"path": [
 								"category",
-								"67c98b308ef7ffa0a9f80332"
+								"67e5589bdfd08dbdf1e2feb9"
 							]
 						}
 					},
@@ -54,13 +54,19 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"carnivore\",\r\n    \"Type\": \"recipe\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Carnivore",
+									"type": "text"
+								},
+								{
+									"key": "Type",
+									"value": "Recette",
+									"type": "text"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:8000/category",
@@ -155,7 +161,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/ingredient/67c98cb1397f4b1cc53f89cc",
+							"raw": "http://localhost:8000/ingredient/67e5521bd8e9870afb2a0ca9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -163,7 +169,7 @@
 							"port": "8000",
 							"path": [
 								"ingredient",
-								"67c98cb1397f4b1cc53f89cc"
+								"67e5521bd8e9870afb2a0ca9"
 							]
 						}
 					},
@@ -176,7 +182,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"steak\",\r\n    \"categoriesId\": [\"67c98b8aa5d139622fb4bb1f\"]\r\n}",
+							"raw": "{\r\n    \"name\": \"Steak\",\r\n    \"categoriesId\": [\"67e5589bdfd08dbdf1e2feb9\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +210,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"cote de porc\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Ananas\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -212,7 +218,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/ingredient/67c98cb1397f4b1cc53f89cc",
+							"raw": "http://localhost:8000/ingredient/67e55220d8e9870afb2a0caa",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -220,7 +226,7 @@
 							"port": "8000",
 							"path": [
 								"ingredient",
-								"67c98cb1397f4b1cc53f89cc"
+								"67e55220d8e9870afb2a0caa"
 							]
 						}
 					},
@@ -269,7 +275,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/recipe?time=test",
+							"raw": "http://localhost:8000/recipe",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -277,12 +283,6 @@
 							"port": "8000",
 							"path": [
 								"recipe"
-							],
-							"query": [
-								{
-									"key": "time",
-									"value": "test"
-								}
 							]
 						}
 					},
@@ -314,13 +314,44 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"steak cuit\",\r\n    \"ingredientsId\": [\"67c98cee397f4b1cc53f89cd\"],\r\n    \"description\": \"steak doré\",\r\n    \"step\": \"place votre steak dans une poel pendant 5min de chaque fasse a feux moyen\",\r\n    \"categoriesId\": [\"67c98d71397f4b1cc53f89ce\"],\r\n    \"time\": 10,\r\n    \"origin\": \"test\"\r\n  }",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "steak cuit",
+									"type": "text"
+								},
+								{
+									"key": "ingredientsId",
+									"value": "67e558abdfd08dbdf1e2feba",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "steak doré",
+									"type": "text"
+								},
+								{
+									"key": "step",
+									"value": "Placez votre steak dans une poêle pendant 5min de chaque face à feu moyen.",
+									"type": "text"
+								},
+								{
+									"key": "categoriesId",
+									"value": "67e5589bdfd08dbdf1e2feb9",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "origin",
+									"value": "Nourriture",
+									"type": "text"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:8000/recipe",
@@ -342,16 +373,47 @@
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"step\": \"place votre steak dans une poel pendant 2min de chaque fasse a feux moyen\",\r\n    \"time\": 4\r\n  }",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Steak cuit modifié",
+									"type": "text"
+								},
+								{
+									"key": "ingredientsId",
+									"value": "67e558abdfd08dbdf1e2feba",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Steak suprême",
+									"type": "text"
+								},
+								{
+									"key": "step",
+									"value": "Placez votre steak dans une poêle pendant 15min de chaque face à feu vif.",
+									"type": "text"
+								},
+								{
+									"key": "categoriesId",
+									"value": "67e5589bdfd08dbdf1e2feb9",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "origin",
+									"value": "Nourriture",
+									"type": "text"
 								}
-							}
+							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/recipe/67c98dc8397f4b1cc53f89cf",
+							"raw": "http://localhost:8000/recipe/67e558b8dfd08dbdf1e2febb",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -359,7 +421,7 @@
 							"port": "8000",
 							"path": [
 								"recipe",
-								"67c98dc8397f4b1cc53f89cf"
+								"67e558b8dfd08dbdf1e2febb"
 							]
 						}
 					},
@@ -371,7 +433,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/recipe/67c98b308ef7ffa0a9f80332",
+							"raw": "http://localhost:8000/recipe/67e55252d8e9870afb2a0cac",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -379,7 +441,7 @@
 							"port": "8000",
 							"path": [
 								"recipe",
-								"67c98b308ef7ffa0a9f80332"
+								"67e55252d8e9870afb2a0cac"
 							]
 						}
 					},
