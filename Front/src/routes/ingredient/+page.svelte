@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Card from '$lib/recipe/components/Card.svelte';
+	import Card from '$lib/ingredient/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
-	import { recipeStore, recipes, loading } from '$lib/recipe/stores/recipe';
+	import { ingredientStore, ingredients, loading } from '$lib/ingredient/stores/ingredient';
 
 	onMount(() => {
-		recipeStore.load();
+		ingredientStore.load();
 	});
 </script>
 
-<h1>Nos recettes</h1>
-<button on:click={() => window.location.href = '/recipe/new'}>Ajouter une recette</button>
+<h1>Nos ingrédients</h1>
+<button on:click={() => window.location.href = '/ingredient/new'}>Ajouter un ingrédient</button>
 {#if $loading}
 	<LoadingCircle />
 {:else}
 	<div class="grid">
-		{#each $recipes as recipe}
-			<Card {recipe}>
+		{#each $ingredients as ingredient}
+			<Card {ingredient}>
 				<svelte:fragment slot="actions">
-					<a href={`/recipe/${recipe.id}`}>
+					<a href={`/ingredient/${ingredient.id}`}>
 						<button>Voir détails</button>
 					</a>
 				</svelte:fragment>

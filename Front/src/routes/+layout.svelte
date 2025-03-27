@@ -8,7 +8,13 @@
       <a href="/">Accueil</a>
     </li>
     <li class:active={page.url.pathname === '/recipe'}>
-      <a href="/recipe">Recette</a>
+      <a href="/recipe">Recettes</a>
+    </li>
+    <li class:active={page.url.pathname === '/ingredient'}>
+      <a href="/ingredient">Ingrédients</a>
+    </li>
+    <li class:active={page.url.pathname === '/category'}>
+      <a href="/category">Catégories</a>
     </li>
     <li class:active={page.url.pathname === '/about'}>
       <a href="/about">À propos</a>

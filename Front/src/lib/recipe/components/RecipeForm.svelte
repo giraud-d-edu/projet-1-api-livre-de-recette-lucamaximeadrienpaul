@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type { Recipe } from '$lib/recipe/types/recipe';
+	import { onMount } from 'svelte';
+	import { ingredients, ingredientStore } from '$lib/ingredient/stores/ingredient';
+		import { categories, categoryStore } from '$lib/category/stores/category';
+	import type { Recipe } from '$lib/recipe/types/recipe.ts';
 
 	export let recipe: Recipe = {
 		id: '',
@@ -12,29 +15,44 @@
 		origin: '',
 		image: null,
 	};
-    export let submit = (recipe: Recipe) => {};
+
+	export let submit: (recipe: Recipe) => void;
+
+	onMount(() => {
+		ingredientStore.load();
+		categoryStore.load();
+	});
 </script>
 
-<form>
-	<label>
-		Nom de la recette
-		<input type="text" bind:value={recipe.name} />
-	</label>
-	<label>
-		Temps de préparation
-		<input type="number" bind:value={recipe.time} />
-	</label>
-	<label>
-		Description
-		<textarea bind:value={recipe.description}></textarea>
-	</label>
-	<label>
-		Origine
-		<input type="text" bind:value={recipe.origin} />
-	</label>
-	<label>
-		Etapes
-		<textarea bind:value={recipe.step}></textarea>
-	</label>
-	<button on:click={() => submit(recipe)}>Enregistrer</button>
+<form on:submit|preventDefault={() => submit(recipe)}>
+	<label for="name">Name:</label>
+	<input id="name" bind:value={recipe.name} />
+
+	<label for="ingredients">Ingredients:</label>
+	<select id="ingredients" bind:value={recipe.ingredientsId} multiple>
+		{#each $ingredients as ingredient}
+			<option value={ingredient.id}>{ingredient.name}</option>
+		{/each}
+	</select>
+
+	<label for="categories">Categories:</label>
+	<select id="categories" bind:value={recipe.categoriesId} multiple>
+		{#each $categories as category}
+			<option value={category.id}>{category.name}</option>
+		{/each}
+	</select>
+
+	<label for="description">Description:</label>
+	<textarea id="description" bind:value={recipe.description}></textarea>
+
+	<label for="step">Step:</label>
+	<textarea id="step" bind:value={recipe.step}></textarea>
+
+	<label for="time">Time:</label>
+	<input id="time" type="number" bind:value={recipe.time} />
+
+	<label for="origin">Origin:</label>
+	<input id="origin" bind:value={recipe.origin} />
+
+	<button type="submit">Submit</button>
 </form>
