@@ -7,4 +7,5 @@ export type UpdateRecipe = {
     categoriesId:string[],
     time:number,
     origin:string,
+    image:File|null
 }
