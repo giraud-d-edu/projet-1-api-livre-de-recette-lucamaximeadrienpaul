@@ -20,7 +20,6 @@ async function request<T>(endpoint: string, options: RequestInit): Promise<T> {
         headers,
     });
 
-    console.log(response);
     if (!response.ok) {
         throw new Error((await response.json()).message);
     }
