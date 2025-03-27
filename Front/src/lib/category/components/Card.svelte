@@ -8,6 +8,10 @@
 	<div class="content">
 		<h2>{category.name}</h2>
 		<span>Catégorie : {category.Type}</span>
+		<div class="actions">
+			<button on:click={() => window.location.href = `/category/update/${category.id}`}>Modifier</button>
+			<button on:click={() => window.location.href = `/category/delete/${category.id}`}>Supprimer</button>
+		</div>
 	</div>
 </div>
 
