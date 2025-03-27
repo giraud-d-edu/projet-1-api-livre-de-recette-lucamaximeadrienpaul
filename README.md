@@ -1,5 +1,23 @@
 # Mamithon
 
+## - Lancement du front -
+## Installation
+* Installer [Node.js](https://nodejs.org/fr/download/)
+* Cloner le repo
+
+Pour lancer le front, suivez les étapes suivantes :
+Assurez-vous d'avoir installé toutes les dépendances avec ```npm install```.
+
+Démarrez le serveur de développement avec la commande suivante :
+```npm run dev```
+
+## Exécution de l'application
+Ouvrez votre navigateur et accédez à l'URL affiché sur votre console auquel vous avez exécuté la commande précédente.
+
+Pour arrêter le serveur de développement, utilisez Ctrl+C dans le terminal où le serveur est en cours d'exécution.
+
+## - Lancement du back -
+
 ## Installation
 * Installer [Deno](https://docs.deno.com/runtime/getting_started/installation/) 
 * Cloner le repo 
