@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Ingredient } from '$lib/ingredient/types/ingredient.ts';
 	import { categories, categoryStore } from '$lib/category/stores/category';
+	import type { UpdateIngredient } from '../types/update-ingredient';
+	import type { AddIngredient } from '../types/add-ingredient';
 
-	export let ingredient: Ingredient = {
+	export let ingredient: AddIngredient | UpdateIngredient = {
 		id: '',
 		name: '',
 		categoriesId: [],
 	};
 
-	export let submit: (ingredient: Ingredient) => void;
+	export let submit: (ingredient: AddIngredient | UpdateIngredient) => void;
 
 	onMount(() => {
 		categoryStore.load();

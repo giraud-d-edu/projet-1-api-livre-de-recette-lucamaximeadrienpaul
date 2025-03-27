@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
-import type { Ingredient } from '$lib/ingredient/types/ingredient.ts';
-import { ingredientService } from "$lib/ingredient/services/ingredient.ts";
+import type { Ingredient } from '$lib/ingredient/types/ingredient';
+import { ingredientService } from "$lib/ingredient/services/ingredient";
+import type { AddIngredient } from '../types/add-ingredient';
+import type { UpdateIngredient } from '../types/update-ingredient';
 
 export const ingredients = writable<Ingredient[]>([]);
 export const error = writable<string| null>(null);
@@ -33,7 +35,7 @@ function createIngredientStore() {
             loading.set(false);
         },
 
-        create: async (_ingredient: Omit<Ingredient, "id">) => {
+        create: async (_ingredient: AddIngredient) => {
             resetData();
             try {
                 const newIngredient = await ingredientService.createIngredient(_ingredient);
@@ -44,7 +46,7 @@ function createIngredientStore() {
             loading.set(false);
         },
 
-        update: async (_ingredient: Ingredient) => {
+        update: async (_ingredient: UpdateIngredient) => {
             resetData();
             try {
                 const updatedIngredient = await ingredientService.updateIngredient(_ingredient);

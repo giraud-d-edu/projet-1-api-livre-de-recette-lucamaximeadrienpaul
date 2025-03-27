@@ -1,5 +1,7 @@
-export interface Ingredient {
+import { Category } from "./category.model.ts";
+
+export type Ingredient = {
     id: string,
     name: string,
-    categoriesId: string[],
+    categories: string[] | Category[],
   }
