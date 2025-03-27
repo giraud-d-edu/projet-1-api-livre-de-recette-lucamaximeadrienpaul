@@ -6,6 +6,7 @@
     import { onMount } from "svelte";
     import { page } from "$app/state";
 	import type { UpdateRecipe } from '$lib/recipe/types/update-recipe';
+    import {btnStyle} from '$lib/Shared/variable';
 
     async function submit(recipe: UpdateRecipe) {
         try {
@@ -42,6 +43,6 @@
 {#if $loading || $recipes.length === 0}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/recipe`)}>Revenir à la liste des recettes</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/recipe`)}>Revenir à la liste des recettes</button>
     <RecipeForm {submit} recipe={recipeToUpdateRecipe($recipes[0])}/>
 {/if}

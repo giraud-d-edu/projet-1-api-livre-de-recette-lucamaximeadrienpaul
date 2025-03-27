@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Category } from '$lib/category/types/category.ts';
+	import {inputStyle, btnStyle} from '$lib/Shared/variable';
 
 	export let category: Category = {
 		id: '',
@@ -12,10 +13,15 @@
 
 <form on:submit|preventDefault={() => submit(category)}>
 	<label for="name">Name:</label>
-	<input id="name" bind:value={category.name} />
+	<input class={inputStyle} id="name" bind:value={category.name} />
 
-	<label for="type">Type:</label>
-	<input id="type" bind:value={category.Type} />
+	<span>
+		<label for="type">Type:</label>
+		<input type="radio"  id="type" value="Ingredient" bind:group={category.Type}/>
+		<label for="Ingredient">Ingredient</label>
+		<input type="radio"  id="type" value="Recette" bind:group={category.Type}/>
+		<label for="Recette">Recette</label>
+	</span>
 
-	<button type="submit">Submit</button>
+	<button class="{btnStyle} mt-3" type="submit">Enregistrer</button>
 </form>

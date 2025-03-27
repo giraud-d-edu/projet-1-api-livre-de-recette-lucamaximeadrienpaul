@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Ingredient } from '$lib/ingredient/types/ingredient';
 	import { ingredientStore } from '../stores/ingredient';
+	import { cardStyle } from '$lib/Shared/variable';
+	import {btnStyle} from '$lib/Shared/variable';
 
 	export let ingredient: Ingredient;
 
@@ -10,38 +12,40 @@
 	}
 </script>
 
-<div class="card">
+<div class={cardStyle}>
 	<div class="content">
 		<h2>{ingredient.name}</h2>
 		<p>
 			Categories: {ingredient.categories.map(categorie => categorie.name).join(', ')}
 		</p>
-		<div class="actions">
-			<button on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}
-				>Modifier</button
-			>
-			<button on:click={() => deleteIngredient()}>Supprimer</button>
-		</div>
+		<div class="flex justify-between mt-4">
+            <button class={btnStyle} on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}>
+                Modifier
+            </button>
+            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium" on:click={() => deleteIngredient()}>
+                Supprimer
+            </button>
+        </div>
 	</div>
 </div>
 
-<style>
-	.card {
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		overflow: hidden;
-		margin-bottom: 1em;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	}
 
-	.content {
+<style>
+
+.content {
 		padding: 1em;
 	}
 
 	h2 {
-		margin-top: 0;
+		font-weight: bold;
+		text-align: center;
+		font-size: large;
 	}
 
+	p {
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 	.actions {
 		margin-top: 1em;
 	}
