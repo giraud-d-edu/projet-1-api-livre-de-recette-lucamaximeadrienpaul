@@ -6,4 +6,5 @@ export type AddRecipe = {
     categoriesId:string[],
     time:number,
     origin:string,
+    image:File|null
 }

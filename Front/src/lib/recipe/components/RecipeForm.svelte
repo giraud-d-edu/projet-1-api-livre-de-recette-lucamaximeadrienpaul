@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ingredients, ingredientStore } from '$lib/ingredient/stores/ingredient';
-		import { categories, categoryStore } from '$lib/category/stores/category';
+	import { categories, categoryStore } from '$lib/category/stores/category';
 	import type { UpdateRecipe } from '$lib/recipe/types/update-recipe';
 	import type { AddRecipe } from '../types/add-recipe';
+	import type { Recipe } from '$lib/recipe/types/recipe';
 
 	export let recipe: UpdateRecipe | AddRecipe = {
 		name: '',
@@ -22,6 +23,13 @@
 		ingredientStore.load();
 		categoryStore.load();
 	});
+
+	function handleFile(event: Event) {
+		const target = event.target as HTMLInputElement;
+		if (target.files && target.files.length > 0) {
+			recipe.image = target.files[0];
+		}
+	}
 </script>
 
 <form on:submit|preventDefault={() => submit(recipe)}>
@@ -54,5 +62,12 @@
 	<label for="origin">Origin:</label>
 	<input id="origin" bind:value={recipe.origin} />
 
-	<button type="submit">Submit</button>
+	<label for="image">Image:</label>
+	<input type="file" accept="image/*" on:change={handleFile} />
+
+	{#if recipe.image}
+		<img src={URL.createObjectURL(recipe.image)} alt="" width="200" />
+	{/if}
+
+	<button type="submit">Enregistrer</button>
 </form>
