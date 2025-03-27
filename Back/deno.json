@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --allow-read --allow-env --watch --allow-write main.ts"
+    "dev": "deno run --allow-net --allow-read --allow-env --watch --allow-write main.ts",
+    "test": "deno test --allow-net --allow-read --allow-env --allow-write --allow-import"
   },
     "imports": {
       "@std/assert": "jsr:@std/assert@1",
@@ -8,3 +9,4 @@
       "mongodb": "jsr:mongodb@latest"
     }
 }
+
