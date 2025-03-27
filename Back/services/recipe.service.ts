@@ -45,9 +45,8 @@ export class RecipeService {
             try {
                 const imagePath = await this.ImageRepository.uploadImage(recipe.image);
                 recipeModel.image = imagePath;
-            // deno-lint-ignore no-unused-vars
             } catch (err) {
-                throw new ErrorObject('Internal Server Error', 'Erreur lors de l\'upload de l\'image');
+                throw new ErrorObject("Internal Server Error", "Erreur lors de l\'upload de l\'image : " + err);
             }
         }
         recipeModel = await this.recipeRepository.createRecipe(recipeModel);
