@@ -129,7 +129,11 @@ deno task dev
 ---
 
 ## 🧪 Tests
-Pour exécuter les tests, lancez la commande suivante :
+Depuis la racine du projet, ce placer dans le dossier Back
+```sh
+cd .\Back\
+```
+Puis pour exécuter les tests, lancez la commande suivante :
 ```sh
 deno test
 ```
