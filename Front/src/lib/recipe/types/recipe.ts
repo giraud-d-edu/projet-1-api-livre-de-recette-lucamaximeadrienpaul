@@ -10,5 +10,5 @@ export type Recipe = {
     categories:Category[],
     time:number,
     origin:string,
-    image :File | null;
+    image :File | null,
 }

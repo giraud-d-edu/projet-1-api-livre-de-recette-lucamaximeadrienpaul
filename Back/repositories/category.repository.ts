@@ -35,7 +35,7 @@ export class CategoryRepository {
             const categoryDBO = await db.getCategoryCollection().findOne({ _id: objectId });
 
             if (!categoryDBO) {
-                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Not Found',  `Catégorie avec l'ID ${id} non trouvée`);
             }
 
             return CategoryDBO.toCategory(categoryDBO);
@@ -56,7 +56,7 @@ export class CategoryRepository {
             const updateResult = await db.getCategoryCollection().updateOne({ _id: objectId }, { $set: categoryDBO });
 
             if (updateResult.matchedCount === 0) {
-                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Not Found',  `Catégorie avec l'ID ${id} non trouvée`);
             }
             return CategoryDBO.toCategory(categoryDBO);
     }
@@ -67,7 +67,7 @@ export class CategoryRepository {
             const deleteResult = await db.getCategoryCollection().deleteOne({ _id: objectId });
 
             if (deleteResult.deletedCount === 0) {
-                throw new ErrorObject('Bad Request',  `Catégorie avec l'ID ${id} non trouvée`);
+                throw new ErrorObject('Not Found',  `Catégorie avec l'ID ${id} non trouvée`);
             }
     }
 
