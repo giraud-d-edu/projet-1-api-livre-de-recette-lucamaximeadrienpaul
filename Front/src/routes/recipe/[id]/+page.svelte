@@ -12,33 +12,6 @@
 	let showModal = false;
 	let messageErreur = '';
 
-
-
-	const categoryNames = derived(
-        [categories, recipes],
-        ([$categories, $recipes]) => {
-            if ($recipes.length > 0) {
-                return $recipes[0].categoriesId.map(
-                    (categoryId) =>
-                        $categories.find((category) => category.id === categoryId)?.name || 'Unknown'
-                );
-            }
-            return [];
-        }
-    );
-
-	const ingredientName = derived(
-		[ingredients, recipes],
-		([$ingredients, $recipes]) => {
-			if ($recipes.length > 0) {
-				return $recipes[0].ingredientsId.map(
-					(ingredientId) =>
-						$ingredients.find((ingredient) => ingredient.id === ingredientId)?.name || 'Unknown'
-				);
-			}
-			return [];
-		}
-	);
 	onMount(() => {
 		recipeStore.loadOne(id);
 	});
@@ -65,14 +38,17 @@
 
 			<span class="h-px flex-1 bg-gray-300"></span>
 		</span>
-		{#if $recipes[0].image}
-			<img src={ API_URL + "/" + $recipes[0].image} alt="" />
-		{/if}
+
 		<h2
 			class=" w-40 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm"
 		>
 			Temps de préparation : {$recipes[0].time} min
 		</h2>
+		{#if $recipes[0].image}
+		<span class="flex justify-center">
+			<img class="w-200" src={API_URL + "/" + $recipes[0].image} alt="" />
+		</span>
+		{/if}
 		<div class="description">
 			<span class="mt-0.5 w-1/2 w-full rounded border border-indigo-600 p-5 shadow-md sm:text-sm">
 				<h2 class="border-b-2 border-gray-300 text-lg font-bold text-gray-900">Description</h2>
@@ -84,13 +60,15 @@
 			</span>
 		</div>
 		<ul>
+			Ingrédients :
 			{#each $recipes[0].ingredients as ingredient}
-				<li>{ingredient.name}</li>
+				<li class="list-disc ml-4">{ingredient.name}</li>
 			{/each}
 		</ul>
 		<ul>
+			Catégories :
 			{#each $recipes[0].categories as category}
-				<li>{category.name}</li>
+				<li class="list-disc ml-4">{category.name}</li>
 			{/each}
 		</ul>
 		<button

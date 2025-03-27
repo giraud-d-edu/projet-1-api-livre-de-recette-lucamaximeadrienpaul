@@ -5,7 +5,8 @@
 	import RecipeForm from '$lib/recipe/components/RecipeForm.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	
-	let showModal = false;
+	
+	let showModal = import {btnStyle} from '$lib/Shared/variable';false;
 	let messageErreur = '';
 	
 	async function submit(recipe: AddRecipe) {
@@ -27,7 +28,7 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/recipe`)}>Revenir à la liste des recettes</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/recipe`)}>Revenir à la liste des recettes</button>
     <RecipeForm {submit}/>
 {/if}
 

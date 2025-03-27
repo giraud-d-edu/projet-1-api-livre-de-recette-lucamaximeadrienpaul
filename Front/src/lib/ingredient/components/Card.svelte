@@ -2,6 +2,7 @@
 	import type { Ingredient } from '$lib/ingredient/types/ingredient';
 	import { ingredientStore } from '../stores/ingredient';
 	import { cardStyle } from '$lib/Shared/variable';
+	import {btnStyle} from '$lib/Shared/variable';
 
 	export let ingredient: Ingredient;
 
@@ -17,15 +18,16 @@
 		<p>
 			Categories: {ingredient.categories.map(categorie => categorie.name).join(', ')}
 		</p>
-		<div class="actions">
-			<button on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}
-				>Modifier</button
-			>
-			<button on:click={() => deleteIngredient()}>Supprimer</button>
-		</div>
+		<div class="flex justify-between mt-4">
+            <button class={btnStyle} on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}>
+                Modifier
+            </button>
+            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium" on:click={() => deleteIngredient()}>
+                Supprimer
+            </button>
+        </div>
 	</div>
 </div>
-
 
 
 <style>

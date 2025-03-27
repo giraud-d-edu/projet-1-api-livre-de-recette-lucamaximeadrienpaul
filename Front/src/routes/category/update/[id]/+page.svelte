@@ -2,7 +2,7 @@
 	import { categoryStore, loading, categories, error} from '$lib/category/stores/category';
     import type { Category } from '$lib/category/models/category';
     import { page } from '$app/state';
-
+    import {btnStyle} from '$lib/Shared/variable';
     import CategoryForm from "$lib/category/components/CategoryForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	import { onMount } from 'svelte';
@@ -28,6 +28,6 @@
 {#if $loading || $categories.length === 0}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
     <CategoryForm {submit} category={$categories[0]}/>
 {/if}

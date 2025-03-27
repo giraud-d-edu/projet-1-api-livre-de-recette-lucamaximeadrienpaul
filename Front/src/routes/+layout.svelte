@@ -20,12 +20,6 @@
     <li class:active={page.url.pathname === '/category'}>
       <a class={page.url.pathname === '/category' ? btnActive : btnStyle} href="/category">Catégories</a>
     </li>
-    <li class:active={page.url.pathname === '/about'}>
-      <a class={page.url.pathname === '/about' ? btnActive : btnStyle} href="/about">À propos</a>
-    </li>
-    <li class:active={page.url.pathname === '/contact'}>
-      <a class={page.url.pathname === '/contact' ? btnActive : btnStyle} href="/contact">Contact</a>
-    </li>
   </ul>
 </nav>
 

@@ -3,7 +3,7 @@
 	import Card from '$lib/category/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	import { categoryStore, separatedCategories, loading } from '$lib/category/stores/category';
-	import { btnStyle } from '$lib/Shared/variable';
+	import {btnStyle} from '$lib/Shared/variable';
 
 	onMount(() => {
 		categoryStore.load();

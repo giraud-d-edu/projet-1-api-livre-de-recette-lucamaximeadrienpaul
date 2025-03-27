@@ -4,6 +4,7 @@
 	import Modal from '$lib/Shared/components/UserModal.svelte';
     import CategoryForm from "$lib/category/components/CategoryForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
+	import {btnStyle} from '$lib/Shared/variable';
 
 	let showModal = false;
 	let messageErreur = '';
@@ -28,7 +29,7 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
     <CategoryForm {submit}/>
 {/if}
 

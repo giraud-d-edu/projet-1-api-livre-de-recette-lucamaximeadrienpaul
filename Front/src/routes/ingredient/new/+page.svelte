@@ -4,6 +4,7 @@
 
     import IngredientForm from "$lib/ingredient/components/IngredientForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
+	import {btnStyle} from '$lib/Shared/variable';
 	import type { AddIngredient } from '$lib/ingredient/types/add-ingredient';
 
     let showModal = false;
@@ -27,7 +28,7 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
     <IngredientForm {submit}/>
 {/if}
 
