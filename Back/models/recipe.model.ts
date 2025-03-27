@@ -7,5 +7,5 @@ export interface Recipe {
     categoriesId: string[],
     time: number,
     origin: string
-    image: string | null
+    image?: string | null
   }

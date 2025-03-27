@@ -3,6 +3,7 @@ import { FilterRecipeDTO } from '../dtos/recipe/filter-recipe.dto.ts';
 import { AddRecipeDTO } from "../dtos/recipe/add-recipe.dto.ts";
 import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
 import { checkId } from "./shared.controller.ts";
+import { ErrorObject } from "../models/error.model.ts";
 
 export class RecipeController {
 
@@ -43,10 +44,8 @@ export class RecipeController {
 
             response.body = recipe;
             response.status = 201;
-        } catch (error) {
-            console.error("Error processing form data:", error);
-            response.status = 500;
-            response.body = { error: "An error occurred while processing the form data." };
+        } catch {
+            throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.");
         }
     };
 
@@ -69,10 +68,8 @@ updateRecipe = async ({ params, request, response }: { params: { id: string }, r
 
         response.body = updatedRecipe;
         response.status = 200;
-    } catch (error) {
-        console.error("Error processing form data:", error);
-        response.status = 500;
-        response.body = { error: "An error occurred while processing the form data." };
+    } catch {
+        throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.")
     }
 };
 
