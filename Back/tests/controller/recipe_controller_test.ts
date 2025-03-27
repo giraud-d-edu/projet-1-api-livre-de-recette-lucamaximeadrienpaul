@@ -25,7 +25,8 @@ class MockRecipeService extends RecipeService {
           new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
         ],
         30,
-        "Origin 1"
+        "Origin 1",
+        ""
       ),
       new RecipeDTO(
         "000000000000000000000202",
@@ -41,7 +42,8 @@ class MockRecipeService extends RecipeService {
           new CategoryDTO("000000000000000000000002", "Category 2", "Type 2")
         ],
         45,
-        "Origin 2"
+        "Origin 2",
+        ""
       )
     ]);
   }
@@ -62,7 +64,8 @@ class MockRecipeService extends RecipeService {
           new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
         ],
         30,
-        "Origin"
+        "Origin",
+        ""
       )
     );
   }
@@ -83,7 +86,8 @@ class MockRecipeService extends RecipeService {
           new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
         ],
         dto.time,
-        dto.origin || ""
+        dto.origin || "",
+        ""
       )
     );
   }
@@ -104,7 +108,8 @@ class MockRecipeService extends RecipeService {
           new CategoryDTO("000000000000000000000002", "Category 2", "Type 2")
         ],
         dto.time || 60,
-        dto.origin || "Updated Origin"
+        dto.origin || "Updated Origin",
+        ""
       )
     );
   }
@@ -169,7 +174,8 @@ Deno.test("RecipeController: getAllRecipes should return recipes", async () => {
         new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
       ],
       30,
-      "Origin 1"
+      "Origin 1",
+      ""
     ),
     new RecipeDTO(
       "000000000000000000000202",
@@ -185,7 +191,8 @@ Deno.test("RecipeController: getAllRecipes should return recipes", async () => {
         new CategoryDTO("000000000000000000000002", "Category 2", "Type 2")
       ],
       45,
-      "Origin 2"
+      "Origin 2",
+      ""
     )
   ]);
   assertEquals(mockResponse.status, 200);
@@ -218,7 +225,8 @@ Deno.test("RecipeController: getRecipeById should return a recipe by id", async 
         new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
       ],
       30,
-      "Origin"
+      "Origin",
+      ""
     )
   );
   assertEquals(mockResponse.status, 200);
@@ -265,7 +273,8 @@ Deno.test("RecipeController: createRecipe should create a new recipe", async () 
         new CategoryDTO("000000000000000000000001", "Category 1", "Type 1")
       ],
       50,
-      "New Origin"
+      "New Origin",
+      ""
     )
   );
   assertEquals(mockResponse.status, 201);
@@ -313,7 +322,8 @@ Deno.test("RecipeController: updateRecipe should update a recipe", async () => {
         new CategoryDTO("000000000000000000000002", "Category 2", "Type 2")
       ],
       60,
-      "Updated Origin"
+      "Updated Origin",
+      ""
     )
   );
   assertEquals(mockResponse.status, 200);
