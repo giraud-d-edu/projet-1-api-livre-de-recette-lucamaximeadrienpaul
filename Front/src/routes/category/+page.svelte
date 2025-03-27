@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import Card from '$lib/category/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
-	import { categoryStore, categories, loading } from '$lib/category/stores/category';
+	import { categoryStore, separatedCategories, loading } from '$lib/category/stores/category';
 
 	onMount(() => {
 		categoryStore.load();
@@ -11,15 +11,17 @@
 
 <h1>Nos catégories</h1>
 <button on:click={() => window.location.href = '/category/new'}>Ajouter une catégorie</button>
-{#if $loading}
+{#if $loading || !($separatedCategories)}
 	<LoadingCircle />
 {:else}
-	<div class="grid">
-		{#each $categories as category}
-			<Card {category}>
-			</Card>
-		{/each}
-	</div>
+	{#each Object.keys($separatedCategories) as key}
+		<h2>{key}</h2>
+		<div class="grid">
+			{#each $separatedCategories[key] as category}
+				<Card {category} />
+			{/each}
+		</div>
+	{/each}
 {/if}
 
 <style>

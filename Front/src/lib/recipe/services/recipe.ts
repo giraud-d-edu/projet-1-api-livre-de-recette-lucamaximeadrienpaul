@@ -1,5 +1,7 @@
-import type { Recipe } from '../types/recipe.ts';
-import { API_URL } from '../../Shared/services/const.ts';
+import type { Recipe } from '../types/recipe';
+import { API_URL } from '../../Shared/services/const';
+import type { AddRecipe } from '../types/add-recipe';
+import type { UpdateRecipe } from '../types/update-recipe';
 
 const URL = `${API_URL}/recipe/`;
 

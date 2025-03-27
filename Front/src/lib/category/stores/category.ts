@@ -1,8 +1,9 @@
 import { writable } from "svelte/store";
-import type { Category } from "../types/category.ts";
-import { categoryService } from "../services/category.ts";
+import type { Category } from "../types/category";
+import { categoryService } from "../services/category";
 
 export const categories = writable<Category[]>([]);
+export const separatedCategories = writable<{[key: string]: Category[]} | null>(null);
 export const error = writable<string| null>(null);
 export const loading = writable<boolean>(false);
 
@@ -16,7 +17,16 @@ function createCategoryStore() {
         load: async () => {
             resetData();
             try {
-                categories.set(await categoryService.getAllCategorys());
+                const data = await categoryService.getAllCategorys();
+                categories.set(data);
+                const _separatedCategories: {[key: string]: Category[]} = {};
+                data.forEach(category => {
+                    if (!_separatedCategories[category.Type]) {
+                        _separatedCategories[category.Type] = [];
+                    }
+                    _separatedCategories[category.Type].push(category);
+                });
+                separatedCategories.set(_separatedCategories);
             } catch (err) {
                 error.set("Erreur lors du chargement des recettes: " + err);
             }

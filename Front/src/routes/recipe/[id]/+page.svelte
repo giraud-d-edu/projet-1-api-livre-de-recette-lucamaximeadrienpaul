@@ -19,12 +19,19 @@
     }
 </script>
 
-{#if $loading}
+{#if $loading || !($recipes[0])}
 	<LoadingCircle />
 {:else}
 	<h1>{$recipes[0].name}</h1>
 	<p>{$recipes[0].description}</p>
 	<h2>{$recipes[0].time} min</h2>
+	<hr />
+	<h3>Ingredients</h3>
+	<ul>
+		{#each $recipes[0].ingredients as ingredient}
+			<li>{ingredient.name}</li>
+		{/each}
+	</ul>
 	<hr />
 	<p>{$recipes[0].step}</p>
 	<hr />

@@ -16,13 +16,7 @@
 {:else}
 	<div class="grid">
 		{#each $ingredients as ingredient}
-			<Card {ingredient}>
-				<svelte:fragment slot="actions">
-					<a href={`/ingredient/${ingredient.id}`}>
-						<button>Voir détails</button>
-					</a>
-				</svelte:fragment>
-			</Card>
+			<Card {ingredient} />
 		{/each}
 	</div>
 {/if}

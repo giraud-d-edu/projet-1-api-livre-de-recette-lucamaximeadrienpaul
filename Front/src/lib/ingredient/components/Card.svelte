@@ -1,19 +1,13 @@
 <script lang="ts">
 	import type { Ingredient } from '$lib/ingredient/types/ingredient';
-	import { categories } from '$lib/category/stores/category';
-	import { derived } from 'svelte/store';
 
 	export let ingredient: Ingredient;
-
-	const categoryNames = derived(categories, $categories =>
-			ingredient.categoriesId.map(id => $categories.find(category => category.id === id)?.name || 'Unknown')
-	);
 </script>
 
 <div class="card">
 	<div class="content">
 		<h2>{ingredient.name}</h2>
-		<p>Categories: {#each $categoryNames as name}{name}{/each}</p>
+		<p>Categories: {#each ingredient.categories as categorie}{categorie.name}{/each}</p>
 	</div>
 </div>
 
