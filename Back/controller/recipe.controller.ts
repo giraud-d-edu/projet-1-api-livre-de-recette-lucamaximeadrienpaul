@@ -44,8 +44,11 @@ export class RecipeController {
 
             response.body = recipe;
             response.status = 201;
-        } catch {
-            throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.");
+        } catch (error) {
+            if (error instanceof ErrorObject) {
+                throw error;
+            }
+            throw new ErrorObject("Internal Server Error", "An error occurred while processing the form data.");
         }
     };
 
@@ -67,8 +70,11 @@ updateRecipe = async ({ params, request, response }: { params: { id: string }, r
 
         response.body = updatedRecipe;
         response.status = 200;
-    } catch {
-        throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.")
+    } catch (error) {
+        if (error instanceof ErrorObject) {
+            throw error;
+        }
+        throw new ErrorObject("Internal Server Error", "An error occurred while processing the form data.")
     }
 };
 

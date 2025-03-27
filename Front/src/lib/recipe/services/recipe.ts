@@ -33,7 +33,7 @@ async function request<T>(endpoint: string, options: RequestInit): Promise<T> {
 export const recipeService = {
     getAllRecipes: (): Promise<Recipe[]> => request(URL, { method: 'GET' }),
     getRecipe: (id: string): Promise<Recipe> => request(`${URL}${id}`, { method: 'GET' }),
-    createRecipe: (recipe: Omit<Recipe, 'id'>): Promise<Recipe> => {
+    createRecipe: (recipe: AddRecipe): Promise<Recipe> => {
         const formData = new FormData();
     
         formData.append("name", recipe.name);
@@ -55,7 +55,7 @@ export const recipeService = {
         });
     },
     
-    updateRecipe: (recipe: Recipe): Promise<Recipe> => {
+    updateRecipe: (recipe: UpdateRecipe): Promise<Recipe> => {
         const formData = new FormData();
 
         formData.append("name", recipe.name);
