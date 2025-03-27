@@ -20,7 +20,9 @@
 </script>
 
 {#if $loading}
+    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
 	<LoadingCircle />
 {:else}
+    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
     <CategoryForm {submit}/>
 {/if}

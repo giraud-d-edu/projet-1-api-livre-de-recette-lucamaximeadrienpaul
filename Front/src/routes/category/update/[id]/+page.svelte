@@ -26,7 +26,9 @@
 </script>
 
 {#if $loading || $categories.length === 0}
+    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
 	<LoadingCircle />
 {:else}
+    <button on:click={() => (window.location.href = `/category`)}>Revenir à la liste des catégories</button>
     <CategoryForm {submit} category={$categories[0]}/>
 {/if}
