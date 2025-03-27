@@ -135,7 +135,7 @@ cd .\Back\
 ```
 Puis pour exécuter les tests, lancez la commande suivante :
 ```sh
-deno test
+deno task test
 ```
 
 ---
