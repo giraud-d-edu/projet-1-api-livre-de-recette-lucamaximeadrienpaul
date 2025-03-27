@@ -65,7 +65,6 @@ export class RecipeRepository {
             for (const ingredient of recipe.ingredients) {
                 const ingredientId = typeof ingredient === 'string' ? ingredient : ingredient.id;
                 const _id = new ObjectId(ingredientId);
-                console.log(_id);
                 const _ingredient = await db.getIngredientsCollection().findOne({ _id: _id });
                 if (!_ingredient) {
                     throw new ErrorObject('Bad Request', `L'ingredient avec l'ID ${ingredientId} n'existe pas.`);

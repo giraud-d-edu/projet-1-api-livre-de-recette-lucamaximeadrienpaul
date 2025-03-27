@@ -15,7 +15,6 @@ export class IngredientService {
 
     async getIngredientById(id: string): Promise<IngredientDTO> {
         const ingredient = await this.ingredientRepository.getIngredientById(id)
-        console.log(ingredient)
         return IngredientDTO.fromModel(ingredient)
     }
 
