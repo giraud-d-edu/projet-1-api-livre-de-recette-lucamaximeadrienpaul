@@ -1,79 +1,131 @@
-# Mamithon
+# 🥘 Mamithon
 
-## Installation
-* Installer [Deno](https://docs.deno.com/runtime/getting_started/installation/) 
-* Cloner le repo 
-## Configuration
-**Sur VSCode**  
-```Ctrl + Maj + P``` => "Deno : initialze workspace configuration"  
-Creer le fichier ```.env```
-Renseigner le ```MONGO_URI``` et le ```MONGO_DB_NAME```  
-Exemple dans le ```fichier exemple.env```
-## Demarage du serveur 
-Dans le terminal : 
- ```bash
- deno task dev
- ```
-## Requettes 
-**Recipe :**  
+## 🚀 Lancement du Frontend
 
-| Action         | Methode | URL                                |
-|--------------|---------|--------------------------------------|
-| GetAllRecipe | GET     | http://localhost:8000/recipe/       |
-| GetRecipeById | GET     | http://localhost:8000/recipe/:id   | 
-| CreateRecipe  | POST    | http://localhost:8000/recipe/      |
-| UpdateRecipe  | PUT     | http://localhost:8000/recipe/:id   |
-| DeleteRecipe  | DELETE  | http://localhost:8000/recipe/:id   |
+### 🛠 Installation
+1. Installer [Node.js](https://nodejs.org/fr/download/).
+2. Cloner le dépôt.
 
-**Ingredient :**  
+### ▶️ Exécution
+Assurez-vous d'avoir installé toutes les dépendances avec :
+```sh
+npm install
+```
 
-| Action            | Methode | URL                                    |
-|------------------|---------|----------------------------------------|
-| GetAllIngredient | GET     | http://localhost:8000/ingredient/     |
-| GetIngredientById | GET     | http://localhost:8000/ingredient/:id |
-| CreateIngredient  | POST    | http://localhost:8000/ingredient/     |
-| UpdateIngredient  | PUT     | http://localhost:8000/ingredient/:id |
-| DeleteIngredient  | DELETE  | http://localhost:8000/ingredient/:id |
+Démarrez le serveur de développement avec :
+```sh
+npm run dev
+```
 
-**Category :**  
+### 🌍 Accès à l'application
+Ouvrez votre navigateur et accédez à l'URL affichée dans la console après l'exécution de la commande précédente.
 
-| Action          | Methode | URL                                  |
-|---------------|---------|--------------------------------------|
-| GetAllCategory | GET     | http://localhost:8000/category/     |
-| GetCategoryById | GET     | http://localhost:8000/category/:id |
-| CreateCategory  | POST    | http://localhost:8000/category/     |
-| UpdateCategory  | PUT     | http://localhost:8000/category/:id |
-| DeleteCategory  | DELETE  | http://localhost:8000/category/:id |
+🛑 **Arrêter le serveur** : utilisez `Ctrl + C` dans le terminal.
 
-## Arguments
-**Recipe :**  
-POST/PUT: 
-* name: string,  
-* ingredientsId: string[],  (liste d'id d'ingredients)
-* description: string,  
-* step: string,  
-* categoriesId: string[], (liste d'id de categories) 
-* time: number,  
-* origin: string
+---
 
-filtre pour recipe :
-* name : string, ( si le mot est present dans le titre de la recette)
-* categoriesId : string[], (liste d'id de categories)
-* ingredientId : string[], (liste d'id d'ingredients)
-* time : number, (la recherche se fait sur les temps inférieurs ou égaux à celui renseigné) 
+## 🔧 Lancement du Backend
 
-**Ingredient :**   
-POST/PUT:  
-* name: string,
-* categoriesId: string[],  (liste d'id de categories) 
-  
-**Category :**   
-POST/PUT:   
-* name: string,
-* Type: string,
+### 🛠 Installation
+1. Installer [Deno](https://docs.deno.com/runtime/getting_started/installation/).
+2. Cloner le dépôt.
 
-## Tests
- Pour executer les tests il faut faire cette commande dans le terminal : 
- ```
- deno test
- ```
+### ⚙️ Configuration
+#### Dans **VSCode** :
+1. Ouvrez la palette de commandes (`Ctrl + Maj + P`).
+2. Sélectionnez **"Deno : Initialize workspace configuration"**.
+
+#### 📄 Fichier `.env`
+Créez un fichier `.env` et renseignez les informations suivantes :
+```env
+MONGO_URI=your_mongo_connection_string
+MONGO_DB_NAME=your_database_name
+```
+Un exemple est disponible dans `exemple.env`.
+
+### ▶️ Démarrage du serveur
+Dans le terminal, exécutez :
+```sh
+deno task dev
+```
+
+---
+
+## 📡 API Endpoints
+
+### 🍽 Recipe
+| Action         | Méthode | URL                              |
+|---------------|---------|----------------------------------|
+| GetAllRecipe  | GET     | `http://localhost:8000/recipe/` |
+| GetRecipeById | GET     | `http://localhost:8000/recipe/:id` |
+| CreateRecipe  | POST    | `http://localhost:8000/recipe/` |
+| UpdateRecipe  | PUT     | `http://localhost:8000/recipe/:id` |
+| DeleteRecipe  | DELETE  | `http://localhost:8000/recipe/:id` |
+
+### 🥕 Ingredient
+| Action            | Méthode | URL                                  |
+|------------------|---------|--------------------------------------|
+| GetAllIngredient | GET     | `http://localhost:8000/ingredient/` |
+| GetIngredientById | GET     | `http://localhost:8000/ingredient/:id` |
+| CreateIngredient | POST    | `http://localhost:8000/ingredient/` |
+| UpdateIngredient | PUT     | `http://localhost:8000/ingredient/:id` |
+| DeleteIngredient | DELETE  | `http://localhost:8000/ingredient/:id` |
+
+### 🏷 Category
+| Action          | Méthode | URL                                |
+|---------------|---------|----------------------------------|
+| GetAllCategory | GET     | `http://localhost:8000/category/` |
+| GetCategoryById | GET     | `http://localhost:8000/category/:id` |
+| CreateCategory  | POST    | `http://localhost:8000/category/` |
+| UpdateCategory  | PUT     | `http://localhost:8000/category/:id` |
+| DeleteCategory  | DELETE  | `http://localhost:8000/category/:id` |
+
+---
+
+## 📌 Arguments
+
+### 🍽 Recipe (POST/PUT)
+```json
+{
+  "name": "string",
+  "ingredientsId": ["string"],
+  "description": "string",
+  "step": "string",
+  "categoriesId": ["string"],
+  "time": number,
+  "origin": "string"
+}
+```
+🔍 **Filtres disponibles** :
+- `name` : Filtre par mot-clé dans le titre.
+- `categoriesId` : Liste des IDs de catégories.
+- `ingredientId` : Liste des IDs d'ingrédients.
+- `time` : Recherche les recettes avec un temps inférieur ou égal.
+
+### 🥕 Ingredient (POST/PUT)
+```json
+{
+  "name": "string",
+  "categoriesId": ["string"]
+}
+```
+
+### 🏷 Category (POST/PUT)
+```json
+{
+  "name": "string",
+  "type": "string"
+}
+```
+
+---
+
+## 🧪 Tests
+Pour exécuter les tests, lancez la commande suivante :
+```sh
+deno test
+```
+
+---
+
+🎯 **Mamithon** est un projet de gestion de recettes, offrant une API backend et une interface frontend. 🚀
