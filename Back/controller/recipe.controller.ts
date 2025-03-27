@@ -3,6 +3,7 @@ import { FilterRecipeDTO } from '../dtos/recipe/filter-recipe.dto.ts';
 import { AddRecipeDTO } from "../dtos/recipe/add-recipe.dto.ts";
 import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
 import { checkId } from "./shared.controller.ts";
+import { ErrorObject } from "../models/error.model.ts";
 
 export class RecipeController {
 
@@ -29,23 +30,48 @@ export class RecipeController {
     }
 
     createRecipe = async ({ request, response }: { request: any, response: any }) => {
-        const body = AddRecipeDTO.fromRequest(await request.body.json());
-        body.validate();
-        const recipe = await this.recipeService.createRecipe(body);
-        response.body = recipe;
-        response.status = 201;
-    }
+        try {
+            if (request.body.type() !== "form-data") {
+                response.status = 400;
+                response.body = { error: "Invalid content type. Expected form-data." };
+                return;
+            }
+            const formData = await request.body.formData();
+            const recipeData = await AddRecipeDTO.fromFormData(formData);
 
-    updateRecipe = async ({ params, request, response }: { params: { id: string }, request: any, response: any }) => {
+            recipeData.validate();
+            const recipe = await this.recipeService.createRecipe(recipeData);
+
+            response.body = recipe;
+            response.status = 201;
+        } catch {
+            throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.");
+        }
+    };
+
+updateRecipe = async ({ params, request, response }: { params: { id: string }, request: any, response: any }) => {
+    try {
         const id = params.id;
         checkId(id);
-        const body = UpdateRecipeDTO.fromRequest(await request.body.json());
-        body.id = id;
-        body.validate();
-        const recipe = await this.recipeService.updateRecipe(body);
-        response.body = recipe;
+        if (request.body.type() !== "form-data") {
+            response.status = 400;
+            response.body = { error: "Invalid content type. Expected form-data." };
+            return;
+        }
+
+        const formData = await request.body.formData();
+        const updatedRecipeData = await UpdateRecipeDTO.fromFormData(id, formData);
+
+        updatedRecipeData.validate();
+        const updatedRecipe = await this.recipeService.updateRecipe(updatedRecipeData);
+
+        response.body = updatedRecipe;
         response.status = 200;
+    } catch {
+        throw new  ErrorObject("Internal Server Error", "An error occurred while processing the form data.")
     }
+};
+
 
     deleteRecipe = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;

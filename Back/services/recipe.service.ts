@@ -4,10 +4,13 @@ import { RecipeDTO } from "../dtos/recipe/recipe.dto.ts";
 import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
 import { FilterRecipeDTO } from './../dtos/recipe/filter-recipe.dto.ts';
 import { RecipeRepository } from './../repositories/recipe.repository.ts';
+import { ImageRepository } from './../repositories/image.repository.ts';
+import { ErrorObject } from "../models/error.model.ts";
 
 export class RecipeService {
 
     private readonly recipeRepository: RecipeRepository = new RecipeRepository();
+    private readonly ImageRepository: ImageRepository = new ImageRepository();
 
     async getRecipes(filtersDto: FilterRecipeDTO): Promise<RecipeDTO[]> {
         const filters: { name?: string, categoriesId?: string[], ingredientId?: string[], time?: number } = {}
@@ -34,14 +37,31 @@ export class RecipeService {
             step: recipe.step,
             categoriesId: recipe.categoriesId,
             time: recipe.time,
-            origin: recipe.origin || ''
+            origin: recipe.origin || '',
+            image: '',
+        };
+
+        if (recipe.image) {
+            try {
+                const imagePath = await this.ImageRepository.uploadImage(recipe.image);
+                recipeModel.image = imagePath;
+            } catch (err) {
+                throw new ErrorObject("Internal Server Error", "Erreur lors de l\'upload de l\'image : " + err);
+            }
         }
-        recipeModel = await this.recipeRepository.createRecipe(recipeModel)
-        return RecipeDTO.fromModel(recipeModel)
+        recipeModel = await this.recipeRepository.createRecipe(recipeModel);
+
+        return RecipeDTO.fromModel(recipeModel);
     }
 
     async updateRecipe(recipe: UpdateRecipeDTO): Promise<RecipeDTO> {
-        let recipeModel = await this.recipeRepository.getRecipeById(recipe.id)
+        let recipeModel = await this.recipeRepository.getRecipeById(recipe.id);
+    
+        if (recipe.image) {
+                const imagePath = await this.ImageRepository.uploadImage(recipe.image);
+                recipeModel.image = imagePath;
+        }
+    
         recipeModel = {
             id: recipe.id,
             name: recipe.name || recipeModel.name,
@@ -50,10 +70,11 @@ export class RecipeService {
             step: recipe.step || recipeModel.step,
             categoriesId: recipe.categoriesId || recipeModel.categoriesId,
             time: recipe.time || recipeModel.time,
-            origin: recipe.origin || recipeModel.origin
-        }
-        recipeModel = await this.recipeRepository.updateRecipe(recipe.id, recipeModel)
-        return RecipeDTO.fromModel(recipeModel)
+            origin: recipe.origin || recipeModel.origin,
+            image: recipeModel.image
+        };
+        recipeModel = await this.recipeRepository.updateRecipe(recipe.id, recipeModel);
+        return RecipeDTO.fromModel(recipeModel);
     }
 
     async deleteRecipe(id: string): Promise<void> {

@@ -9,7 +9,8 @@
 		step: '',
 		categoriesId: [],
 		time: 10,
-		origin: ''
+		origin: '',
+		image: null,
 	};
     export let submit = (recipe: Recipe) => {};
 </script>
