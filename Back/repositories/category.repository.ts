@@ -10,21 +10,24 @@ export class CategoryRepository {
         return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
     }
 
-    async getAllCategories(sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-            const categoriesDBO = await db.getCategoryCollection().find().sort(sort).toArray();
-            return this.mapCategoriesFromDB(categoriesDBO);
+    async getAllCategories(type?: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
+        const filter: any = type ? { Type: type } : {}; 
+        const categoriesDBO = await db.getCategoryCollection().find(filter).sort(sort).toArray();
+        return this.mapCategoriesFromDB(categoriesDBO);
     }
 
-    async getCategoryByName(name: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-            const categoriesDBO = await db.getCategoryCollection()
-                .find({ name: { $regex: name, $options: "i" } })
-                .sort(sort)
-                .toArray();
-
-            if (categoriesDBO.length === 0) {
-                throw new ErrorObject('Bad Request',  `Aucune catégorie trouvée pour le nom '${name}'`);
-            }
-            return this.mapCategoriesFromDB(categoriesDBO);
+    async getCategoryByName(name: string, type?: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
+        const filter: any = { name: { $regex: name, $options: "i" } };
+        if (type) filter.Type = type;
+        const categoriesDBO = await db.getCategoryCollection()
+            .find(filter)
+            .sort(sort)
+            .toArray();
+    
+        if (categoriesDBO.length === 0) {
+            throw new ErrorObject('Bad Request', `Aucune catégorie trouvée pour le nom '${name}' et le type '${type || "tous"}'`);
+        }
+        return this.mapCategoriesFromDB(categoriesDBO);
     }
 
     async getCategoryById(id: string): Promise<Category> {

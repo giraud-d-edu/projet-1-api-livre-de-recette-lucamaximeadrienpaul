@@ -2,17 +2,24 @@ import { CategoryDTO } from '../dtos/category/category.dto.ts';
 import { AddCategoryDTO } from '../dtos/category/add-category.dto.ts';
 import { UpdateCategoryDTO } from '../dtos/category/update-category.dto.ts';
 import { CategoryService } from '../services/category.service.ts';
+import { FilterCategoryDTO } from '../dtos/category/filter-category.dto.ts';
 import { checkId } from "./shared.controller.ts";
 
 export class CategoryController {
 
     private readonly categoryService: CategoryService = new CategoryService();
+    getAllCategory = async ({ request, response }: { request: any, response: any }) => {
+        const queryParams = new URL(request.url).searchParams;
+    
+        const filter: FilterCategoryDTO = FilterCategoryDTO.fromRequest(Object.fromEntries(queryParams));
 
-    getAllCategory = async ({ response }: { response: any }) => {
-        const category: CategoryDTO[] = await this.categoryService.getAllCategories();
-        response.body = category;
+        filter.validate();
+        console.log(filter);
+        const categories: CategoryDTO[] = await this.categoryService.getAllCategories(filter);
+        
+        response.body = categories;
         response.status = 200;
-    }
+    };
 
     getCategoryById = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
