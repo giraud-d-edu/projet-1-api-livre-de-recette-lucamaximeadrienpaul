@@ -40,7 +40,7 @@ Ouvrez votre navigateur et accédez à l'URL affichée dans la console après l'
 2. Sélectionnez **"Deno : Initialize workspace configuration"**.
 
 #### 📄 Fichier `.env`
-Depuis la racine du projet, ce placer dans le dossier Front
+Depuis la racine du projet, ce placer dans le dossier Back
 ```sh
 cd .\Back\
 ```
