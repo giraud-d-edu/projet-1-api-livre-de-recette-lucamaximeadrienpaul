@@ -6,6 +6,7 @@
     import {onMount} from "svelte";
     import {page} from "$app/state";
 	import type { UpdateIngredient } from '$lib/ingredient/types/update-ingredient';
+    import {btnStyle} from '$lib/Shared/variable';
 
     async function submit(ingredient: UpdateIngredient) {
         try {
@@ -36,6 +37,6 @@
 {#if $loading || $ingredients.length === 0}
 	<LoadingCircle />
 {:else}
-    <button on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
+    <button class={btnStyle} on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
     <IngredientForm {submit} ingredient={ingredientToUpdateIngredient($ingredients[0])}/>
 {/if}

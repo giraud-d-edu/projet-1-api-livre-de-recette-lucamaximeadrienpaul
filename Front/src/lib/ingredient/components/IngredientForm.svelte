@@ -3,6 +3,7 @@
 	import { categories, categoryStore } from '$lib/category/stores/category';
 	import type { UpdateIngredient } from '../types/update-ingredient';
 	import type { AddIngredient } from '../types/add-ingredient';
+	import {inputStyle, btnStyle, selectStyle} from '$lib/Shared/variable';
 
 	export let ingredient: AddIngredient | UpdateIngredient = {
 		id: '',
@@ -19,14 +20,14 @@
 
 <form on:submit|preventDefault={() => submit(ingredient)}>
 	<label for="name">Name:</label>
-	<input id="name" bind:value={ingredient.name} />
+	<input class={inputStyle} id="name"  maxlength="20"  bind:value={ingredient.name} />
 
 	<label for="categories">Categories:</label>
-	<select id="categories" bind:value={ingredient.categoriesId} multiple>
+	<select class={selectStyle} id="categories" bind:value={ingredient.categoriesId} multiple>
 		{#each $categories as category}
 			<option value={category.id}>{category.name}</option>
 		{/each}
 	</select>
 
-	<button type="submit">Submit</button>
+	<button class="{btnStyle} mt-3" type="submit">Enregistrer</button>
 </form>
