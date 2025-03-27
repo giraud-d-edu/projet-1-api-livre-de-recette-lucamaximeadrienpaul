@@ -2,9 +2,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import { API_URL } from '$lib/Shared/services/const';
-
 	import { recipeStore, loading, recipes } from '$lib/recipe/stores/recipe';
-
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 
 	// Récupérer le paramètre d'URL
@@ -22,7 +20,7 @@
 
 {#if $loading || !($recipes[0])}
 	<LoadingCircle />
-{:else}
+{:else if $recipes.length > 0}
 	<h1>{$recipes[0].name}</h1>
 	{#if $recipes[0].image}
 		<img src={ API_URL + "/" + $recipes[0].image} alt="" />
@@ -39,5 +37,7 @@
 	<hr />
 	<p>{$recipes[0].step}</p>
 	<hr />
-    <button on:click={() => deleteRecipe()}>Delete</button>
+	<button on:click={() => deleteRecipe()}>Supprimer</button>
+{:else}
+	<p>Aucune recette trouvée.</p>
 {/if}

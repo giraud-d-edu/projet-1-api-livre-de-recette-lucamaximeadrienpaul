@@ -21,5 +21,6 @@
 {#if $loading}
 	<LoadingCircle />
 {:else}
+    <button on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
     <IngredientForm {submit}/>
 {/if}
