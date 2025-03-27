@@ -18,6 +18,13 @@ try {
 
         app.use(errorMiddleware);
 
+        router.get("media", "/media/:filename", async (context) => {
+            const filename = context.params.filename;
+            const file = await Deno.open(`./media/${filename}`);
+            context.response.body = file;
+            context.response.type = "image/jpeg";
+        });
+
         router.use("/ingredient", ingredientRouter.routes());
         router.use("/recipe", recipeRouter.routes());
         router.use("/category", categoryRouter.routes());

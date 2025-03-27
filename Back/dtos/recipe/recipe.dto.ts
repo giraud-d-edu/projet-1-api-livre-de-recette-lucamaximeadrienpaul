@@ -11,6 +11,7 @@ export class RecipeDTO {
     categories: CategoryDTO[];
     time: number;
     origin: string;
+    image: string;
 
     constructor(id: string,
                 name: string,
@@ -19,7 +20,9 @@ export class RecipeDTO {
                 step: string,
                 categories: CategoryDTO[],
                 time: number,
-                origin: string) {
+                origin: string,
+                image: string,
+            ) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -28,6 +31,7 @@ export class RecipeDTO {
         this.categories = categories;
         this.time = time;
         this.origin = origin;
+        this.image = image;
     }
 
     static fromModel(model: Recipe): RecipeDTO {
@@ -39,7 +43,8 @@ export class RecipeDTO {
             model.step,
             model.categories.filter((categorie) => typeof categorie !== 'string').map(CategoryDTO.fromModel),
             model.time,
-            model.origin
+            model.origin,
+            model.image ? model.image : '',
         );
     }
 }
