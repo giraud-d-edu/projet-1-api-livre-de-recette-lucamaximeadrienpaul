@@ -1,6 +1,8 @@
 import { writable } from "svelte/store";
-import type { Recipe } from "../types/recipe.ts";
-import { recipeService } from "../services/recipe.ts";
+import type { Recipe } from "../types/recipe";
+import { recipeService } from "../services/recipe";
+import type { AddRecipe } from "../types/add-recipe";
+import type { UpdateRecipe } from "../types/update-recipe";
 
 export const recipes = writable<Recipe[]>([]);
 export const error = writable<string| null>(null);
@@ -33,7 +35,7 @@ function createRecipeStore() {
             loading.set(false);
         },
 
-        create: async (_recipe: Omit<Recipe, "id">) => {
+        create: async (_recipe: AddRecipe) => {
             resetData();
             try {
                 const newRecipe = await recipeService.createRecipe(_recipe);
@@ -44,7 +46,7 @@ function createRecipeStore() {
             loading.set(false);
         },
 
-        update: async (_recipe: Recipe) => {
+        update: async (_recipe: UpdateRecipe) => {
             resetData();
             try {
                 const updatedRecipe = await recipeService.updateRecipe(_recipe);

@@ -22,7 +22,7 @@ export class IngredientService {
         let ingredient: Ingredient = {
             id: '',
             name: ingredientTdo.name,
-            categoriesId: ingredientTdo.categoriesId
+            categories: ingredientTdo.categoriesId
         }
         
         ingredient = await this.ingredientRepository.createIngredient(ingredient)
@@ -34,7 +34,7 @@ export class IngredientService {
         ingredientModel = {
             id: ingredient.id,
             name: ingredient.name || ingredientModel.name,
-            categoriesId: ingredient.categoriesId || ingredientModel.categoriesId
+            categories: ingredient.categoriesId || ingredientModel.categories
         }
         ingredientModel = await this.ingredientRepository.updateIngredient(ingredientModel.id, ingredientModel)
         return IngredientDTO.fromModel(ingredientModel)

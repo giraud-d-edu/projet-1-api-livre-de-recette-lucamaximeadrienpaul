@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { ingredientStore, loading, error } from '$lib/ingredient/stores/ingredient.ts';
-    import type { Ingredient } from '$lib/ingredient/models/ingredient.ts';
-
+	import { ingredientStore, loading, error } from '$lib/ingredient/stores/ingredient';
     import IngredientForm from "$lib/ingredient/components/IngredientForm.svelte";
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
+	import type { AddIngredient } from '$lib/ingredient/types/add-ingredient';
 
-    async function submit(ingredient: Ingredient) {
+    async function submit(ingredient: AddIngredient) {
         try {
             await ingredientStore.create(ingredient);
             if (!$error) {

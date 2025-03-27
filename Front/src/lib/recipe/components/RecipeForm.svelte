@@ -2,10 +2,10 @@
 	import { onMount } from 'svelte';
 	import { ingredients, ingredientStore } from '$lib/ingredient/stores/ingredient';
 		import { categories, categoryStore } from '$lib/category/stores/category';
-	import type { Recipe } from '$lib/recipe/types/recipe.ts';
+	import type { UpdateRecipe } from '$lib/recipe/types/update-recipe';
+	import type { AddRecipe } from '../types/add-recipe';
 
-	export let recipe: Recipe = {
-		id: '',
+	export let recipe: UpdateRecipe | AddRecipe = {
 		name: '',
 		ingredientsId: [],
 		description: '',
@@ -16,7 +16,7 @@
 		image: null,
 	};
 
-	export let submit: (recipe: Recipe) => void;
+	export let submit: (recipe: UpdateRecipe | AddRecipe) => void;
 
 	onMount(() => {
 		ingredientStore.load();

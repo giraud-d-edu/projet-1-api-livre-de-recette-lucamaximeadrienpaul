@@ -1,5 +1,7 @@
-import type { Ingredient } from '../types/ingredient.ts';
-import { API_URL } from '../../Shared/services/const.ts';
+import type { Ingredient } from '../types/ingredient';
+import { API_URL } from '../../Shared/services/const';
+import type { AddIngredient } from '../types/add-ingredient';
+import type { UpdateIngredient } from '../types/update-ingredient';
 
 const URL = `${API_URL}/ingredient/`;
 
@@ -21,11 +23,11 @@ async function request<T>(endpoint: string, options: RequestInit): Promise<T> {
 export const ingredientService = {
     getAllIngredients: (): Promise<Ingredient[]> => request(URL, { method: 'GET' }),
     getIngredient: (id: string): Promise<Ingredient> => request(`${URL}${id}`, { method: 'GET' }),
-    createIngredient: (ingredient: Omit<Ingredient, 'id'>): Promise<Ingredient> => request(URL, {
+    createIngredient: (ingredient: AddIngredient): Promise<Ingredient> => request(URL, {
         method: 'POST',
         body: JSON.stringify(ingredient),
     }),
-    updateIngredient: (ingredient: Ingredient): Promise<Ingredient> => request(`${URL}${ingredient.id}`, {
+    updateIngredient: (ingredient: UpdateIngredient): Promise<Ingredient> => request(`${URL}${ingredient.id}`, {
         method: 'PUT',
         body: JSON.stringify(ingredient),
     }),

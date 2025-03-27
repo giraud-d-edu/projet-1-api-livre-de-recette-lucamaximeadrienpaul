@@ -1,29 +1,31 @@
+import { CategoryDTO } from '../category/category.dto.ts';
+import { IngredientDTO } from '../ingredient/ingredient.dto.ts';
 import { Recipe } from "../../models/recipe.model.ts";
 
 export class RecipeDTO {
     id: string;
     name: string;
-    ingredientsId: string[];
+    ingredients: IngredientDTO[];
     description: string;
     step: string;
-    categoriesId: string[];
+    categories: CategoryDTO[];
     time: number;
     origin: string;
 
     constructor(id: string,
                 name: string,
-                ingredientsId: string[],
+                ingredients: IngredientDTO[],
                 description: string,
                 step: string,
-                categoriesId: string[],
+                categories: CategoryDTO[],
                 time: number,
                 origin: string) {
         this.id = id;
         this.name = name;
-        this.ingredientsId = ingredientsId;
+        this.ingredients = ingredients;
         this.description = description;
         this.step = step;
-        this.categoriesId = categoriesId;
+        this.categories = categories;
         this.time = time;
         this.origin = origin;
     }
@@ -32,10 +34,10 @@ export class RecipeDTO {
         return new RecipeDTO(
             model.id,
             model.name,
-            model.ingredientsId,
+            model.ingredients.filter((ingredient) => typeof ingredient !== 'string').map(IngredientDTO.fromModel),
             model.description,
             model.step,
-            model.categoriesId,
+            model.categories.filter((categorie) => typeof categorie !== 'string').map(CategoryDTO.fromModel),
             model.time,
             model.origin
         );
