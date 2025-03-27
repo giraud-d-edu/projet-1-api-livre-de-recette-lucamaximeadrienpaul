@@ -10,7 +10,7 @@ export class RecipeDBO {
     categoriesId: ObjectId[];
     time: number;
     origin: string;
-    image: string | null = null;
+    image?: string | null;
 
     constructor(id : string| null, name: string, ingredientsId: string[], description: string,step: string, categoriesId: string[], time: number, origin: string, image : string | null = null) {
         this._id = id ? new ObjectId(id) : null;
