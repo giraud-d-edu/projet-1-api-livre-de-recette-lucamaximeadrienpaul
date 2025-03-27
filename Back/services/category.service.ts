@@ -6,7 +6,7 @@ import { CategoryRepository } from "../repositories/category.repository.ts";
 import { FilterCategoryDTO } from "../dtos/category/filter-category.dto.ts";
 
 export class CategoryService {
-    private readonly categoryRepository: CategoryRepository = new CategoryRepository();
+    constructor(public categoryRepository: CategoryRepository = new CategoryRepository()) {}
 
     async getAllCategories(filter?: FilterCategoryDTO): Promise<CategoryDTO[]> {
         const type = filter?.type ?? undefined;

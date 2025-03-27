@@ -6,8 +6,7 @@ import { checkId } from "./shared.controller.ts";
 import { ErrorObject } from "../models/error.model.ts";
 
 export class RecipeController {
-
-    private readonly recipeService: RecipeService = new RecipeService();
+    constructor(public recipeService: RecipeService = new RecipeService()) {}
 
     getAllRecipes = async ({ request, response }: { request: any, response: any }) => {
         const queryParams = new URL(request.url).searchParams;
