@@ -108,7 +108,7 @@ Deno.test("RecipeRepository: updateRecipe should throw error if recipe does not 
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Bad Request");
+            assertEquals(error.status, "Not Found");
             assertEquals(error.message, `Recette avec l'ID ${id} non trouvée`);
         } else {
             throw error;
@@ -129,7 +129,7 @@ Deno.test("RecipeRepository: getRecipeById should throw error if recipe not foun
         throw new Error("Test failed: Validation did not throw error.");
     } catch (error) {
         if (error instanceof ErrorObject) {
-            assertEquals(error.status, "Bad Request");
+            assertEquals(error.status, "Not Found");
             assertEquals(error.message, `Recette avec l'ID ${id} non trouvée`);
         } else {
             throw error;
