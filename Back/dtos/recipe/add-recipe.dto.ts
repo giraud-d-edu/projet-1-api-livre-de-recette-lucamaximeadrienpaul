@@ -37,6 +37,9 @@ export class AddRecipeDTO {
         if (this.ingredientsId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
             throw new ErrorObject('Bad Request', `Les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
         }
+        if (this.image && !/(png|jpeg|jpg|gif|webp|bmp)/.test(this.image.type)) {
+            throw new ErrorObject('Bad Request', `Le fichier image doit être de type png, jpg, gif, webp ou bmp`);
+        }
     }
 
     static async fromFormData(formData: FormData): Promise<AddRecipeDTO> {
