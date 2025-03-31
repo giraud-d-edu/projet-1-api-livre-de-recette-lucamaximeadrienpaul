@@ -14,7 +14,6 @@ export class CategoryController {
     const filter: FilterCategoryDTO = FilterCategoryDTO.fromRequest(Object.fromEntries(queryParams));
     filter.validate();
     const categories: Category[] = await this.categoryService.getAllCategories(filter.toModel());
-    console.log(categories);
     response.body = categories.map((category: Category) => CategoryDTO.fromModel(category));
     response.status = 200;
   };

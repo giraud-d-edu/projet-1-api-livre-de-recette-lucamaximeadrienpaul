@@ -15,9 +15,8 @@ export class RecipeController {
         const filter: FilterRecipeDTO = FilterRecipeDTO.fromRequest(Object.fromEntries(queryParams));
         filter.validate();
         const recipes = await this.recipeService.getRecipes(filter.toModel());
-        recipes.map(recipe => RecipeDTO.fromModel(recipe))
         
-        response.body = recipes;
+        response.body = recipes.map(recipe => RecipeDTO.fromModel(recipe));
         response.status = 200;
     };
     
