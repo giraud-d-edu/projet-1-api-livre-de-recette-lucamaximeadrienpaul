@@ -19,9 +19,6 @@
             <button class={`${btnStyle} w-full md:w-auto `} on:click={() => (window.location.href = `/recipe/${recipe.id}`)}>
                 Voir détails
             </button>
-            <button class={`${btnStyle} text-center bg-indigo-600 hover:bg-indigo-700 w-full md:w-auto`} on:click={() => (window.location.href = `/recipe/update/${recipe.id}`)}>
-                Modifier
-            </button>
             <button class={`${btnStyle} bg-red-600 hover:bg-red-700 w-full md:w-auto`} on:click={() => deleteRecipe()}>
                 Supprimer
             </button>

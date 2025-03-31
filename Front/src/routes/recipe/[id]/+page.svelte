@@ -73,10 +73,14 @@
 				<li class="list-disc ml-4">{category.name}</li>
 			{/each}
 		</ul>
-		<button
-			class="font-large w-30 inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm text-xl text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-			on:click={() => deleteRecipe()}>Supprimer</button
-		>
+		<div class="flex gap-3 mt-4">
+			<button class="w-30 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 font-medium" on:click={() => (window.location.href = `/recipe/${$recipes[0].id}/update`)}
+				>Modifier</button>
+			<button
+				class="font-large w-30 inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm text-xl text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+				on:click={() => deleteRecipe()}>Supprimer</button
+			>
+		</div>
 	{/if}
 	{#if showModal}
 		<Modal isOpen={showModal} onClose={() => (showModal = false)}>

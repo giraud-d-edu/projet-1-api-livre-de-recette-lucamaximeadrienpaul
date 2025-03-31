@@ -31,8 +31,8 @@
 			categoriesId: recipe.categories.map(categorie => categorie.id),
 			time: recipe.time,
 			origin: recipe.origin,
-			image: recipe.image
-		};
+		    image: recipe.image
+        };
 	}
 
     onMount(() => {
