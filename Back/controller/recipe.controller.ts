@@ -3,7 +3,8 @@ import { FilterRecipeDTO } from '../dtos/recipe/filter-recipe.dto.ts';
 import { AddRecipeDTO } from "../dtos/recipe/add-recipe.dto.ts";
 import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
 import { checkId } from "./shared.controller.ts";
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
+import { RecipeDTO } from '../dtos/recipe/recipe.dto.ts';
 
 export class RecipeController {
     constructor(public recipeService: RecipeService = new RecipeService()) {}
@@ -13,9 +14,9 @@ export class RecipeController {
         
         const filter: FilterRecipeDTO = FilterRecipeDTO.fromRequest(Object.fromEntries(queryParams));
         filter.validate();
-        const recipe = await this.recipeService.getRecipes(filter);
+        const recipes = await this.recipeService.getRecipes(filter.toModel());
         
-        response.body = recipe;
+        response.body = recipes.map(recipe => RecipeDTO.fromModel(recipe));
         response.status = 200;
     };
     
@@ -23,7 +24,7 @@ export class RecipeController {
     getRecipeById = async ({ params, response }: { params: { id: string }, response: any }) => {
         const id = params.id;
         checkId(id);
-        const recipe = await this.recipeService.getRecipeById(id);
+        const recipe = RecipeDTO.fromModel(await this.recipeService.getRecipeById(id));
         response.body = recipe;
         response.status = 200;
     }
@@ -39,7 +40,7 @@ export class RecipeController {
             const recipeData = await AddRecipeDTO.fromFormData(formData);
 
             recipeData.validate();
-            const recipe = await this.recipeService.createRecipe(recipeData);
+            const recipe = RecipeDTO.fromModel(await this.recipeService.createRecipe(recipeData.toModel(), recipeData.image));
 
             response.body = recipe;
             response.status = 201;
@@ -65,7 +66,7 @@ updateRecipe = async ({ params, request, response }: { params: { id: string }, r
         const updatedRecipeData = await UpdateRecipeDTO.fromFormData(id, formData);
 
         updatedRecipeData.validate();
-        const updatedRecipe = await this.recipeService.updateRecipe(updatedRecipeData);
+        const updatedRecipe = RecipeDTO.fromModel(await this.recipeService.updateRecipe(updatedRecipeData.toModel(), updatedRecipeData.image));
 
         response.body = updatedRecipe;
         response.status = 200;

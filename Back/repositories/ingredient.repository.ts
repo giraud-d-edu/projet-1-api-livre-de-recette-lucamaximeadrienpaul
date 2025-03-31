@@ -1,8 +1,8 @@
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
 import { IngredientDBO } from "../dbos/ingredient.dbo.ts";
 import { db } from "../db.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Ingredient } from "../models/ingredient.model.ts";
+import { Ingredient } from "../models/ingredient/ingredient.model.ts";
 import { CategoryRepository } from "./category.repository.ts";
 
 export class IngredientRepository {

@@ -1,5 +1,5 @@
-import { Ingredient } from "./ingredient.model.ts";
-import { Category } from "./category.model.ts";
+import { Ingredient } from "../ingredient/ingredient.model.ts";
+import { Category } from "../category/category.model.ts";
 
 export type Recipe = {
     id: string,

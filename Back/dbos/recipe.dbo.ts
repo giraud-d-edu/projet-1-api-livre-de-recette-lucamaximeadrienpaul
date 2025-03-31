@@ -1,5 +1,5 @@
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Recipe } from "../models/recipe.model.ts";
+import { Recipe } from "../models/recipe/recipe.model.ts";
 
 export class RecipeDBO {
     _id: ObjectId | null;

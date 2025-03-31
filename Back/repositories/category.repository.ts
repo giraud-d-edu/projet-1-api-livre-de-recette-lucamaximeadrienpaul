@@ -1,8 +1,9 @@
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
 import { CategoryDBO } from "../dbos/category.dbo.ts";
 import { db } from "../db.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Category } from "../models/category.model.ts";
+import { Category } from "../models/category/category.model.ts";
+import { FilterCategory } from "../models/category/filter-category.model.ts";
 
 export class CategoryRepository {
 
@@ -10,23 +11,20 @@ export class CategoryRepository {
         return categoriesDBO.map(categoryDBO => CategoryDBO.toCategory(categoryDBO));
     }
 
-    async getAllCategories(type?: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-        const filter: any = type ? { Type: type } : {}; 
-        const categoriesDBO = await db.getCategoryCollection().find(filter).sort(sort).toArray();
-        return this.mapCategoriesFromDB(categoriesDBO);
+    private buildQuery(filters: FilterCategory): { [key: string]: any } {
+        const query: { [key: string]: any } = {};
+        if (filters.type) {
+            query.Type = filters.type;
+        }
+        if (filters.name) {
+            query.name = { $regex: filters.name, $options: "i" };
+        }
+        return query;
     }
 
-    async getCategoryByName(name: string, type?: string, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
-        const filter: any = { name: { $regex: name, $options: "i" } };
-        if (type) filter.Type = type;
-        const categoriesDBO = await db.getCategoryCollection()
-            .find(filter)
-            .sort(sort)
-            .toArray();
-    
-        if (categoriesDBO.length === 0) {
-            throw new ErrorObject('Bad Request', `Aucune catégorie trouvée pour le nom '${name}' et le type '${type || "tous"}'`);
-        }
+    async getAllCategories(filter?: FilterCategory, sort: { [key: string]: 1 | -1 } = {}): Promise<Category[]> {
+        const filterQuerry = this.buildQuery(filter || {});
+        const categoriesDBO = await db.getCategoryCollection().find(filterQuerry).sort(sort).toArray();
         return this.mapCategoriesFromDB(categoriesDBO);
     }
 

@@ -1,10 +1,11 @@
-import { Recipe } from "../models/recipe.model.ts";
+import { Recipe } from "../models/recipe/recipe.model.ts";
 import { RecipeDBO } from "../dbos/recipe.dbo.ts";
 import { IngredientRepository } from "./ingredient.repository.ts";
 import { CategoryRepository } from "./category.repository.ts";
 import { db } from "../db.ts";
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
+import { FilterRecipe } from "../models/recipe/recipe-filter.model.ts";
 
 export class RecipeRepository {
 
@@ -23,7 +24,7 @@ export class RecipeRepository {
         return recipes;
     }
 
-    private buildQuery(filters: { [key: string]: any }): { [key: string]: any } {
+    private buildQuery(filters: FilterRecipe): { [key: string]: any } {
         const query: { [key: string]: any } = {};
 
         for (const [key, value] of Object.entries(filters)) {
@@ -73,7 +74,7 @@ export class RecipeRepository {
         }
     }
 
-    async getRecipes(filters: { [key: string]: any } = {}, sortOption: { [key: string]: 1 | -1 } = { name: 1 }): Promise<Recipe[]> {
+    async getRecipes(filters: FilterRecipe = {}, sortOption: { [key: string]: 1 | -1 } = { name: 1 }): Promise<Recipe[]> {
         const query = this.buildQuery(filters);
         const recipesDBO = await db.getRecipesCollection().find(query).sort(sortOption).toArray();
         if (recipesDBO.length === 0) {
