@@ -10,10 +10,14 @@
 	});
 </script>
 
-<span class="flex justify-between items-center">
-	<h1>Nos catégories</h1>
-	<button class={btnStyle} on:click={() => window.location.href = '/category/new'}>Ajouter une catégorie</button>
-	</span>
+<span class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+    <span class="flex items-center">
+        <h1 class="shrink-0 px-4 text-2xl font-bold text-gray-900">Nos catégories</h1>
+    </span>
+    <button class={`${btnStyle} w-full md:w-auto`} on:click={() => window.location.href = '/category/new'}>
+        Ajouter une catégorie
+    </button>
+</span>
 	{#if $loading || !($separatedCategories)}
 		<LoadingCircle />
 	{:else}

@@ -10,10 +10,13 @@
 	});
 </script>
 
-<span class="flex justify-between items-center">
-	<h1 style="margin-bottom: 10px;">Nos produits</h1>
-	<button class={btnStyle} style="margin-bottom: 10px;" on:click={() => window.location.href = '/recipe/new'}>Ajouter une recette</button>
+<span class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+    <span class="flex items-center">
+        <h1 class="shrink-0 px-4 text-2xl font-bold text-gray-900">Nos produits</h1>
+    </span>
+    <button class={`${btnStyle} w-full md:w-auto mb-3`} on:click={() => window.location.href = '/recipe/new'}>Ajouter une recette</button>
 </span>
+
 {#if $loading}
 	<LoadingCircle />
 {:else}

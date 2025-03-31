@@ -12,29 +12,26 @@
 	}
 </script>
 
-<div class={cardStyle}>
-	<div class="content">
-		<h2>{ingredient.name}</h2>
+
+<div class="{cardStyle} flex flex-col">
+	<div  class="text-center md:text-left">
+		<h2 class="text-lg md:text-xl font-bold truncate">{ingredient.name}</h2>
 		<p>
 			Categories: {ingredient.categories.map(categorie => categorie.name).join(', ')}
 		</p>
-		<div class="flex justify-between mt-4">
-            <button class={btnStyle} on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}>
+		<div class="flex flex-col md:flex-row md:justify-between gap-3 mt-4">
+            <button class="{btnStyle} md:flex-grow-0 truncate" on:click={() => (window.location.href = `/ingredient/update/${ingredient.id}`)}>
                 Modifier
             </button>
-            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium" on:click={() => deleteIngredient()}>
+            <button class="{btnStyle} bg-red-500 hover:bg-red-600 md:flex-grow-0 truncate" on:click={() => deleteIngredient()}>
                 Supprimer
             </button>
         </div>
 	</div>
 </div>
 
-
 <style>
 
-.content {
-		padding: 1em;
-	}
 
 	h2 {
 		font-weight: bold;
