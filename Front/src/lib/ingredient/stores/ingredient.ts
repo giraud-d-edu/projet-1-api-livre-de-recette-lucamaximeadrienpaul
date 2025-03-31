@@ -10,7 +10,7 @@ export const loading = writable<boolean>(false);
 
 function createIngredientStore() {
     function resetData() {
-        loading.set(false);
+        loading.set(true);
         error.set(null);
     }
 
