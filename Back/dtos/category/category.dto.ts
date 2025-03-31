@@ -1,4 +1,4 @@
-import { Category } from "../../models/category.model.ts";
+import { Category } from "../../models/category/category.model.ts";
 
 export class CategoryDTO {
     id: string;

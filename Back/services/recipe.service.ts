@@ -1,80 +1,53 @@
-import { Recipe } from '../models/recipe.model.ts';
-import { AddRecipeDTO } from "../dtos/recipe/add-recipe.dto.ts";
-import { RecipeDTO } from "../dtos/recipe/recipe.dto.ts";
-import { UpdateRecipeDTO } from "../dtos/recipe/update-recipe.dto.ts";
-import { FilterRecipeDTO } from './../dtos/recipe/filter-recipe.dto.ts';
+import { Recipe } from '../models/recipe/recipe.model.ts';
 import { RecipeRepository } from './../repositories/recipe.repository.ts';
 import { ImageRepository } from './../repositories/image.repository.ts';
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
+import { FilterRecipe } from '../models/recipe/recipe-filter.model.ts';
 
 export class RecipeService {
 
     private readonly recipeRepository: RecipeRepository = new RecipeRepository();
     private readonly ImageRepository: ImageRepository = new ImageRepository();
 
-    async getRecipes(filtersDto: FilterRecipeDTO): Promise<RecipeDTO[]> {
-        const filters: { name?: string, categoriesId?: string[], ingredientId?: string[], time?: number } = {}
-        if (filtersDto.name) filters.name = filtersDto.name
-        if (filtersDto.categoriesId) filters.categoriesId = filtersDto.categoriesId
-        if (filtersDto.ingredientId) filters.ingredientId = filtersDto.ingredientId
-        if (filtersDto.time) filters.time = filtersDto.time
-
-        const recipes = await this.recipeRepository.getRecipes(filters)
-        return recipes.map(recipe => RecipeDTO.fromModel(recipe))
+    async getRecipes(filters: FilterRecipe): Promise<Recipe[]> {
+        return await this.recipeRepository.getRecipes(filters)
     }
 
-    async getRecipeById(id: string): Promise<RecipeDTO> {
-        const recipe = await this.recipeRepository.getRecipeById(id)
-        return RecipeDTO.fromModel(recipe)
+    async getRecipeById(id: string): Promise<Recipe> {
+        return await this.recipeRepository.getRecipeById(id)
     }
 
-    async createRecipe(recipe: AddRecipeDTO): Promise<RecipeDTO> {
-        let recipeModel: Recipe = {
-            id: '',
-            name: recipe.name,
-            ingredients: recipe.ingredientsId,
-            description: recipe.description,
-            step: recipe.step,
-            categories: recipe.categoriesId,
-            time: recipe.time,
-            origin: recipe.origin || '',
-            image: '',
-        };
-
-        if (recipe.image) {
+    async createRecipe(recipe: Recipe, image?: File|null): Promise<Recipe> {
+        if (image) {
             try {
-                const imagePath = await this.ImageRepository.uploadImage(recipe.image);
-                recipeModel.image = imagePath;
+                const imagePath = await this.ImageRepository.uploadImage(image);
+                recipe.image = imagePath;
             } catch (err) {
                 throw new ErrorObject("Internal Server Error", "Erreur lors de l\'upload de l\'image : " + err);
             }
         }
-        recipeModel = await this.recipeRepository.createRecipe(recipeModel);
-
-        return RecipeDTO.fromModel(recipeModel);
+        return await this.recipeRepository.createRecipe(recipe);
     }
 
-    async updateRecipe(recipe: UpdateRecipeDTO): Promise<RecipeDTO> {
+    async updateRecipe(recipe: Recipe, image?: File|null): Promise<Recipe> {
         let recipeModel = await this.recipeRepository.getRecipeById(recipe.id);
     
-        if (recipe.image) {
-                const imagePath = await this.ImageRepository.uploadImage(recipe.image);
-                recipeModel.image = imagePath;
+        if (image) {
+                recipeModel.image = await this.ImageRepository.uploadImage(image);
         }
     
         recipeModel = {
-            id: recipe.id,
+            id: recipeModel.id,
             name: recipe.name || recipeModel.name,
-            ingredients: recipe.ingredientsId || recipeModel.ingredients,
+            ingredients: recipe.ingredients || recipeModel.ingredients,
             description: recipe.description || recipeModel.description,
             step: recipe.step || recipeModel.step,
-            categories: recipe.categoriesId || recipeModel.categories,
-            time: recipe.time || recipeModel.time,
+            categories: recipe.categories || recipeModel.categories,
+            time: recipe.time == -1 ? recipe.time : recipeModel.time,
             origin: recipe.origin || recipeModel.origin,
             image: recipeModel.image
         };
-        recipeModel = await this.recipeRepository.updateRecipe(recipe.id, recipeModel);
-        return RecipeDTO.fromModel(recipeModel);
+        return await this.recipeRepository.updateRecipe(recipe.id, recipeModel);
     }
 
     async deleteRecipe(id: string): Promise<void> {

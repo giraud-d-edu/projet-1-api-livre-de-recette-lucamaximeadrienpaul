@@ -1,6 +1,6 @@
 import { CategoryDTO } from '../category/category.dto.ts';
 import { IngredientDTO } from '../ingredient/ingredient.dto.ts';
-import { Recipe } from "../../models/recipe.model.ts";
+import { Recipe } from "../../models/recipe/recipe.model.ts";
 
 export class RecipeDTO {
     id: string;

@@ -1,4 +1,5 @@
-import { ErrorObject } from "../../models/error.model.ts";
+import { ErrorObject } from "../../models/shared/error.model.ts";
+import { Recipe } from "../../models/recipe/recipe.model.ts";
 
 export class UpdateRecipeDTO {
     id: string;
@@ -75,5 +76,19 @@ export class UpdateRecipeDTO {
             formData.get("origin") as string | undefined,
             formData.get("image") instanceof File ? (formData.get("image") as File) : null
         );
+    }
+
+    toModel(): Recipe {
+        return {
+            id: this.id,
+            name: this.name || '',
+            ingredients: this.ingredientsId || [],
+            description: this.description || '',
+            step: this.step || '',
+            categories: this.categoriesId || [],
+            time: this.time || -1,
+            origin: this.origin || '',
+            image: null
+        };
     }
 }

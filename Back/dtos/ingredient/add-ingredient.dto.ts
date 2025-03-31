@@ -1,4 +1,5 @@
-import { ErrorObject } from "../../models/error.model.ts";
+import { ErrorObject } from "../../models/shared/error.model.ts";
+import { Ingredient } from "../../models/ingredient/ingredient.model.ts";
 
 export class AddIngredientDTO {
     name: string;
@@ -23,5 +24,13 @@ export class AddIngredientDTO {
             data.name,
             data.categoriesId
         );
+    }
+
+    toModel(): Ingredient {
+        return {
+            id: '',
+            name: this.name,
+            categories: this.categoriesId
+        };
     }
 }
