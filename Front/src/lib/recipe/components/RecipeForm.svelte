@@ -4,8 +4,9 @@
 	import { categories, categoryStore } from '$lib/category/stores/category';
 	import type { UpdateRecipe } from '$lib/recipe/types/update-recipe';
 	import type { AddRecipe } from '../types/add-recipe';
-	import {inputStyle, btnStyle, selectStyle} from '$lib/Shared/variable';
-	
+	import { inputStyle, btnStyle, selectStyle } from '$lib/Shared/variable';
+	import { API_URL } from '$lib/Shared/services/const';
+
 	export let recipe: UpdateRecipe | AddRecipe = {
 		name: '',
 		ingredientsId: [],
@@ -14,7 +15,7 @@
 		categoriesId: [],
 		time: 10,
 		origin: '',
-		image: null,
+		image: null
 	};
 
 	export let submit: (recipe: UpdateRecipe | AddRecipe) => void;
@@ -31,6 +32,7 @@
 		}
 	}
 </script>
+
 <form on:submit|preventDefault={() => submit(recipe)}>
 	<label>
 		Nom de la recette
@@ -64,11 +66,16 @@
 	<input class={inputStyle} id="origin" bind:value={recipe.origin} />
 
 	<label for="image">Image:</label>
-	<input class="{btnStyle} mt-3 mb-3" type="file" accept="image/*" on:change={handleFile} />
+	<input class="{btnStyle} mb-3 mt-3" type="file" accept="image/*" on:change={handleFile} />
 
 	{#if recipe.image}
-		<img class="mb-3" src={URL.createObjectURL(recipe.image)} alt="" width="200" />
+		<img
+			class="mb-3"
+			src={typeof recipe.image == 'string' ? API_URL + "/" + recipe.image : URL.createObjectURL(recipe.image)}
+			alt=""
+			width="200"
+		/>
 	{/if}
 
-	<button class="{btnStyle}" type="submit">Enregistrer</button>
+	<button class={btnStyle} type="submit">Enregistrer</button>
 </form>

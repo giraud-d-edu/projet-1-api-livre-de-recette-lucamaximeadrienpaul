@@ -3,7 +3,7 @@
 	import Card from '$lib/recipe/components/Card.svelte';
 	import LoadingCircle from '$lib/Shared/components/LoadingCircle.svelte';
 	import { recipeStore, recipes, loading } from '$lib/recipe/stores/recipe';
-	import {inputStyle, btnStyle} from '$lib/Shared/variable';
+	import { btnStyle } from '$lib/Shared/variable';
 
 	onMount(() => {
 		recipeStore.load();
