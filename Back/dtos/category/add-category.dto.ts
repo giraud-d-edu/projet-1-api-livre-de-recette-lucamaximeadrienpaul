@@ -1,4 +1,5 @@
-import { ErrorObject } from "../../models/error.model.ts";
+import { Category } from "../../models/category/category.model.ts";
+import { ErrorObject } from "../../models/shared/error.model.ts";
 
 export class AddCategoryDTO {
     name: string;
@@ -24,4 +25,13 @@ export class AddCategoryDTO {
             data.Type
         );
     }
+
+    toModel(): Category {
+        return {
+            id: "",
+            name: this.name,
+            Type: this.Type
+        };
+    }
+
 }

@@ -1,4 +1,4 @@
-import { Category } from "./category.model.ts";
+import { Category } from "../category/category.model.ts";
 
 export type Ingredient = {
     id: string,

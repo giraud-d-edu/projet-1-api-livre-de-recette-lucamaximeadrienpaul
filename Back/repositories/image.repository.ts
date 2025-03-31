@@ -1,6 +1,6 @@
 import { ensureDir } from "https://deno.land/std/fs/mod.ts";
 import { join } from "https://deno.land/std/path/mod.ts";
-import { ErrorObject } from "../models/error.model.ts";
+import { ErrorObject } from "../models/shared/error.model.ts";
 
 const uploadDir = "./media";
 

@@ -1,4 +1,4 @@
-import { ErrorObject } from '../models/error.model.ts';
+import { ErrorObject } from '../models/shared/error.model.ts';
 
 export function checkId(id: string): boolean {
     if (!/^[0-9a-fA-F]{24}$/.test(id))

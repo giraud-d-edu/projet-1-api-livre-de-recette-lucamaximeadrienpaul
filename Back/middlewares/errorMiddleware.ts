@@ -1,4 +1,4 @@
-import { ErrorObject } from './../models/error.model.ts';
+import { ErrorObject } from './../models/shared/error.model.ts';
 import { Context } from "https://deno.land/x/oak/mod.ts";
 
 const baseLogFilePath = "./log";
