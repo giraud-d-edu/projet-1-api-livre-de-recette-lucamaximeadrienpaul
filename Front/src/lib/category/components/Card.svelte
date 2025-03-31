@@ -10,25 +10,22 @@
 		window.location.href = '/category';
 	}
 </script>
-
-<div class={cardStyle}>
-	<div class="content">
-		<h2>{category.name}</h2>
-		<div class="flex justify-between">
-            <button class={btnStyle} on:click={() => (window.location.href = `/category/update/${category.id}`)}>
+<div class={`${cardStyle} flex flex-col`}>
+    <div class="text-center md:text-left">
+        <h2 class="text-lg md:text-xl font-bold truncate">{category.name}</h2>
+        <div class="flex flex-col md:flex-row md:justify-between gap-3 mt-4">
+            <button class={`${btnStyle} md:flex-grow-0 truncate`} on:click={() => (window.location.href = `/category/update/${category.id}`)}>
                 Modifier
             </button>
-            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium" on:click={() => deleteCategory()}>
+            <button class={`${btnStyle} bg-red-500 hover:bg-red-600 md:flex-grow-0 truncate`} on:click={() => deleteCategory()}>
                 Supprimer
             </button>
         </div>
-	</div>
+    </div>
 </div>
 
 <style>
-.content {
-		padding: 1em;
-	}
+
 
 	h2 {
 		font-weight: bold;
