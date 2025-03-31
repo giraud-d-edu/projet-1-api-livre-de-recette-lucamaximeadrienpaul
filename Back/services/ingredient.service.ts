@@ -1,43 +1,29 @@
-import { AddIngredientDTO } from "../dtos/ingredient/add-ingredient.dto.ts";
-import { IngredientDTO } from "../dtos/ingredient/ingredient.dto.ts";
-import { UpdateIngredientDTO } from "../dtos/ingredient/update-ingredient.dto.ts";
-import { Ingredient } from "../models/ingredient.model.ts";
+import { Ingredient } from "../models/ingredient/ingredient.model.ts";
 import { IngredientRepository } from "../repositories/ingredient.repository.ts";
 
 export class IngredientService {
 
     private readonly ingredientRepository: IngredientRepository = new IngredientRepository();
 
-    async getAllIngredients(): Promise<IngredientDTO[]> {
-        const ingredients = await this.ingredientRepository.getAllIngredients()
-        return ingredients.map(ingredient => IngredientDTO.fromModel(ingredient))
+    async getAllIngredients(): Promise<Ingredient[]> {
+        return await this.ingredientRepository.getAllIngredients()
     }
 
-    async getIngredientById(id: string): Promise<IngredientDTO> {
-        const ingredient = await this.ingredientRepository.getIngredientById(id)
-        return IngredientDTO.fromModel(ingredient)
+    async getIngredientById(id: string): Promise<Ingredient> {
+        return await this.ingredientRepository.getIngredientById(id)
     }
 
-    async createIngredient(ingredientTdo: AddIngredientDTO): Promise<IngredientDTO> {
-        let ingredient: Ingredient = {
-            id: '',
-            name: ingredientTdo.name,
-            categories: ingredientTdo.categoriesId
-        }
-        
-        ingredient = await this.ingredientRepository.createIngredient(ingredient)
-        return IngredientDTO.fromModel(ingredient)
+    async createIngredient(ingredient: Ingredient): Promise<Ingredient> {
+        return await this.ingredientRepository.createIngredient(ingredient)
     }
 
-    async updateIngredient(ingredient: UpdateIngredientDTO): Promise<IngredientDTO> {
+    async updateIngredient(ingredient: Ingredient): Promise<Ingredient> {
         let ingredientModel = await this.ingredientRepository.getIngredientById(ingredient.id)
         ingredientModel = {
-            id: ingredient.id,
-            name: ingredient.name || ingredientModel.name,
-            categories: ingredient.categoriesId || ingredientModel.categories
+            ...ingredientModel,
+            ...ingredient
         }
-        ingredientModel = await this.ingredientRepository.updateIngredient(ingredientModel.id, ingredientModel)
-        return IngredientDTO.fromModel(ingredientModel)
+        return await this.ingredientRepository.updateIngredient(ingredientModel.id, ingredientModel)
     }
 
     async deleteIngredient(id: string): Promise<void> {

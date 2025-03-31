@@ -1,5 +1,5 @@
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { Category } from "../models/category.model.ts";
+import { Category } from "../models/category/category.model.ts";
 
 export class CategoryDBO {
     _id: ObjectId | null;

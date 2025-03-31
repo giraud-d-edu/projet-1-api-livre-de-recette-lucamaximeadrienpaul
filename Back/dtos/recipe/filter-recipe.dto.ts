@@ -1,4 +1,5 @@
-import { ErrorObject } from "../../models/error.model.ts";
+import { ErrorObject } from "../../models/shared/error.model.ts";
+import { FilterRecipe } from "../../models/recipe/recipe-filter.model.ts";
 
 export class FilterRecipeDTO {
     constructor(
@@ -27,5 +28,14 @@ export class FilterRecipeDTO {
         if (this.ingredientId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
             throw new ErrorObject('Not Found', `les id des ingrédients doivent être une chaîne de 24 caractères hexadécimaux`);
         }
+    }
+
+    public toModel(): FilterRecipe {
+        return {
+            name: this.name || undefined,
+            categoriesId: this.categoriesId || undefined,
+            ingredientId: this.ingredientId || undefined,
+            time: this.time || undefined
+        };
     }
 }
