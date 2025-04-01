@@ -1,5 +1,6 @@
 import type { Category } from '../types/category.ts';
 import { API_URL } from '../../Shared/services/const.ts';
+import { ServiceError } from '$lib/Shared/models/service-error.js';
 
 const URL = `${API_URL}/category/`;
 
@@ -12,7 +13,7 @@ async function request<T>(endpoint: string, options: RequestInit): Promise<T> {
     });
 
     if (!response.ok) {
-        throw new Error((await response.json()).message);
+        throw new ServiceError((await response.json()).message, response.status);
     }
 
     return response.json() as Promise<T>;

@@ -17,7 +17,7 @@
             if (!$error) {
                 window.history.back();
             } else {
-				messageErreur = $error;
+				messageErreur = $error.message;
 				showModal = true;
 			}
 		} catch (err) {

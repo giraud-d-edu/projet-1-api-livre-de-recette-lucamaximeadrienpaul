@@ -7,6 +7,11 @@
     import {page} from "$app/state";
 	import type { UpdateIngredient } from '$lib/ingredient/types/update-ingredient';
     import {btnStyle} from '$lib/Shared/variable';
+    import ErrorComponent from '$lib/Shared/components/error.svelte';
+    import Modal from '$lib/Shared/components/UserModal.svelte';
+
+    let showModal = false;
+    let messageErreur = '';
 
     async function submit(ingredient: UpdateIngredient) {
         try {
@@ -14,7 +19,8 @@
             if (!$error) {
                 window.history.back();
             } else {
-                alert($error);
+				messageErreur = $error.message;
+				showModal = true;
             }
         } catch (err) {
             console.error('Erreur survenue lors de la modification de l\'ingrédient :', err);
@@ -34,9 +40,17 @@
     });
 </script>
 
-{#if $loading || $ingredients.length === 0}
+{#if $loading}
 	<LoadingCircle />
-{:else}
+    {:else if $error && [404, 500].includes($error.status)}
+    <ErrorComponent message={$error.message} status={$error.status} />
+{:else if $ingredients.length > 0}
     <button class={btnStyle} on:click={() => (window.location.href = `/ingredient`)}>Revenir à la liste des ingrédients</button>
     <IngredientForm {submit} ingredient={ingredientToUpdateIngredient($ingredients[0])}/>
+{/if}
+
+{#if showModal}
+<Modal isOpen={showModal} onClose={() => showModal = false}>
+	<p>{messageErreur}</p>
+</Modal>
 {/if}

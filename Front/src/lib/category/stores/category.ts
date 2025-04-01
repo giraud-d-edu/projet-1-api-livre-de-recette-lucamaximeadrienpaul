@@ -1,10 +1,11 @@
 import { writable } from "svelte/store";
 import type { Category } from "../types/category";
 import { categoryService } from "../services/category";
+import { ServiceError } from "$lib/Shared/models/service-error";
 
 export const categories = writable<Category[]>([]);
 export const separatedCategories = writable<{[key: string]: Category[]} | null>(null);
-export const error = writable<string| null>(null);
+export const error = writable<ServiceError| null>(null);
 export const loading = writable<boolean>(false);
 
 function createCategoryStore() {
@@ -28,7 +29,11 @@ function createCategoryStore() {
                 });
                 separatedCategories.set(_separatedCategories);
             } catch (err) {
-                error.set("Erreur lors du chargement des recettes: " + err);
+                            if (err instanceof ServiceError) {
+                                error.set(err);
+                            } else {
+                                error.set(new ServiceError(err as string, 500));
+                            }
             }
             loading.set(false);
         },
@@ -38,7 +43,11 @@ function createCategoryStore() {
             try {
                 categories.set([await categoryService.getCategory(id)]);
             } catch (err) {
-                error.set(`Erreur lors du chargement de la recette ${id} : ${err}`);
+                            if (err instanceof ServiceError) {
+                                error.set(err);
+                            } else {
+                                error.set(new ServiceError(err as string, 500));
+                            }
             }
             loading.set(false);
         },
@@ -49,7 +58,11 @@ function createCategoryStore() {
                 const newCategory = await categoryService.createCategory(_category);
                 categories.update(categories => [...categories, newCategory]);
             } catch (err) {
-                error.set(`Erreur lors de la création de la recette : ${err}`);
+                            if (err instanceof ServiceError) {
+                                error.set(err);
+                            } else {
+                                error.set(new ServiceError(err as string, 500));
+                            }
             }
             loading.set(false);
         },
@@ -60,7 +73,11 @@ function createCategoryStore() {
                 const updatedCategory = await categoryService.updateCategory(_category);
                 categories.update(categories => categories.map(r => r.id === updatedCategory.id ? updatedCategory : r));
             } catch (err) {
-                error.set(`Erreur lors de la mise à jour de la recette ${_category.id} : ${err}`);
+                            if (err instanceof ServiceError) {
+                                error.set(err);
+                            } else {
+                                error.set(new ServiceError(err as string, 500));
+                            }
             }
             loading.set(false);
         },
@@ -71,7 +88,11 @@ function createCategoryStore() {
                 await categoryService.deleteCategory(id);
                 categories.update(categories => categories.filter(r => r.id !== id));
             } catch (err) {
-                error.set(`Erreur lors de la suppression de la recette ${id} : ${err}`);
+                            if (err instanceof ServiceError) {
+                                error.set(err);
+                            } else {
+                                error.set(new ServiceError(err as string, 500));
+                            }
             }
             loading.set(false);
         },

@@ -12,10 +12,10 @@ export class AddCategoryDTO {
 
     validate(): void {
         if (!this.name || this.name.length > 255) {
-            throw new ErrorObject('Not Found', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+            throw new ErrorObject('Bad Request', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
         if (!this.Type || this.Type.length > 255) {
-            throw new ErrorObject('Not Found', "Le Type ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+            throw new ErrorObject('Bad Request', "Le Type ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
     }
 
