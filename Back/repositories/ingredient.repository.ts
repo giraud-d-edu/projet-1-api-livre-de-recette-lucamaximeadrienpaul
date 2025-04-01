@@ -24,7 +24,7 @@ export class IngredientRepository {
                 const categorieId = typeof categorie === 'string' ? categorie : categorie.id;
                 const category = await db.getCategoryCollection().findOne({ _id: new ObjectId(categorieId) });
                 if (!category) {
-                    throw new ErrorObject('Bad Request', `La catégorie avec l'ID ${categorieId} n'existe pas.`);
+                    throw new ErrorObject('Not Found', `La catégorie avec l'ID ${categorieId} n'existe pas.`);
                 }
             }
         }
@@ -39,7 +39,7 @@ export class IngredientRepository {
             const ingredientDBO = await db.getIngredientsCollection().findOne({ _id: objectId });
 
             if (!ingredientDBO) {
-                throw new ErrorObject('Bad Request',  `Ingrédient avec l'ID ${id} non trouvé`);
+                throw new ErrorObject('Not Found',  `Ingrédient avec l'ID ${id} non trouvé`);
             }
 
             return (await this.mapIngredientsFromDB([ingredientDBO]))[0];

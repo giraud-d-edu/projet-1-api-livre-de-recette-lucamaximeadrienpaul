@@ -12,10 +12,10 @@ export class AddIngredientDTO {
 
     validate(): void {
         if (!this.name || this.name.length > 255) {
-            throw new ErrorObject('Not Found', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
+            throw new ErrorObject('Bad Request', "Le nom ne doit pas être vide ou ne doit pas excéder 255 caractères.");
         }
         if (this.categoriesId?.some(id => !/^[0-9a-fA-F]{24}$/.test(id))) {
-            throw new ErrorObject('Not Found', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
+            throw new ErrorObject('Bad Request', `les id des categories doivent être une chaîne de 24 caractères hexadécimaux`);
         }
     }
 
