@@ -2,6 +2,7 @@ import type { Recipe } from '../types/recipe';
 import { API_URL } from '../../Shared/services/const';
 import type { AddRecipe } from '../types/add-recipe';
 import type { UpdateRecipe } from '../types/update-recipe';
+import { ServiceError } from '$lib/Shared/models/service-error';
 
 const URL = `${API_URL}/recipe/`;
 
@@ -23,7 +24,7 @@ async function request<T>(endpoint: string, options: RequestInit): Promise<T> {
     });
 
     if (!response.ok) {
-        throw new Error((await response.json()).message);
+        throw new ServiceError((await response.json()).message, response.status);
     }
 
     return response.json() as Promise<T>;
