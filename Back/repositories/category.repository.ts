@@ -14,7 +14,7 @@ export class CategoryRepository {
     private buildQuery(filters: FilterCategory): { [key: string]: any } {
         const query: { [key: string]: any } = {};
         if (filters.type) {
-            query.Type = filters.type;
+            query.Type = { $regex: filters.type, $options: "i" };
         }
         if (filters.name) {
             query.name = { $regex: filters.name, $options: "i" };

@@ -15,10 +15,10 @@ function createCategoryStore() {
     }
 
     return {
-        load: async () => {
+        load: async (filter = {}) => {
             resetData();
             try {
-                const data = await categoryService.getAllCategorys();
+                const data = await categoryService.getAllCategorys(filter);
                 categories.set(data);
                 const _separatedCategories: {[key: string]: Category[]} = {};
                 data.forEach(category => {

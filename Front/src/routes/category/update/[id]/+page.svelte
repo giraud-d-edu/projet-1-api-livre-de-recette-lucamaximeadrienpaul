@@ -39,7 +39,7 @@
 	<button class={btnStyle} on:click={() => (window.location.href = `/category`)}
 		>Revenir à la liste des catégories</button
 	>
-	<CategoryForm {submit} category={$categories[0]} />
+	<CategoryForm {submit} category={$categories[0]} modal={showModal} modalMessage={messageErreur} />
 {/if}
 
 {#if showModal}
