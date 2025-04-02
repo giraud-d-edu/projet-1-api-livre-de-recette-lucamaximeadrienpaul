@@ -22,7 +22,7 @@
 
 	onMount(() => {
 		ingredientStore.load();
-		categoryStore.load();
+		categoryStore.load({ type: 'recette' });
 	});
 
 	function handleFile(event: Event) {
@@ -36,11 +36,11 @@
 <form on:submit|preventDefault={() => submit(recipe)}>
 	<label>
 		Nom de la recette
-		<input class={inputStyle} maxlength="255" type="text" bind:value={recipe.name} required/>
+		<input class={inputStyle} maxlength="255" type="text" bind:value={recipe.name} required />
 	</label>
 	<label>
 		Temps de préparation
-		<input class={inputStyle} type="number" min="0" bind:value={recipe.time} required/>
+		<input class={inputStyle} type="number" min="0" bind:value={recipe.time} required />
 	</label>
 	<label for="ingredients">Ingredients:</label>
 	<select class={selectStyle} id="ingredients" bind:value={recipe.ingredientsId} multiple required>
@@ -71,7 +71,9 @@
 	{#if recipe.image}
 		<img
 			class="mb-3"
-			src={typeof recipe.image == 'string' ? API_URL + "/" + recipe.image : URL.createObjectURL(recipe.image)}
+			src={typeof recipe.image == 'string'
+				? API_URL + '/' + recipe.image
+				: URL.createObjectURL(recipe.image)}
 			alt=""
 			width="200"
 		/>

@@ -3,24 +3,24 @@
 	import { categories, categoryStore } from '$lib/category/stores/category';
 	import type { UpdateIngredient } from '../types/update-ingredient';
 	import type { AddIngredient } from '../types/add-ingredient';
-	import {inputStyle, btnStyle, selectStyle} from '$lib/Shared/variable';
+	import { inputStyle, btnStyle, selectStyle } from '$lib/Shared/variable';
 
 	export let ingredient: AddIngredient | UpdateIngredient = {
 		id: '',
 		name: '',
-		categoriesId: [],
+		categoriesId: []
 	};
 
 	export let submit: (ingredient: AddIngredient | UpdateIngredient) => void;
 
 	onMount(() => {
-		categoryStore.load();
+		categoryStore.load({ type: 'ingredient' });
 	});
 </script>
 
 <form on:submit|preventDefault={() => submit(ingredient)}>
 	<label for="name">Name:</label>
-	<input class={inputStyle} id="name"  maxlength="255"  bind:value={ingredient.name} />
+	<input class={inputStyle} id="name" maxlength="255" bind:value={ingredient.name} />
 
 	<label for="categories">Categories:</label>
 	<select class={selectStyle} id="categories" bind:value={ingredient.categoriesId} multiple>
