@@ -5,7 +5,7 @@
 	export let category: Category = {
 		id: '',
 		name: '',
-		Type: ''
+		Type: 'ingredient'
 	};
 
 	export let submit: (category: Category) => void;
@@ -13,13 +13,13 @@
 
 <form on:submit|preventDefault={() => submit(category)}>
 	<label for="name">Name:</label>
-	<input class={inputStyle} id="name" bind:value={category.name} />
+	<input class={inputStyle} id="name" bind:value={category.name} maxlength="255" required/>
 
 	<span>
 		<label for="type">Type:</label>
-		<input type="radio"  id="type" value="Ingredient" bind:group={category.Type}/>
+		<input type="radio"  id="type" value="ingredient" bind:group={category.Type}/>
 		<label for="Ingredient">Ingredient</label>
-		<input type="radio"  id="type" value="Recette" bind:group={category.Type}/>
+		<input type="radio"  id="type" value="recette" bind:group={category.Type}/>
 		<label for="Recette">Recette</label>
 	</span>
 

@@ -22,7 +22,7 @@
 
 	onMount(() => {
 		ingredientStore.load();
-		categoryStore.load();
+		categoryStore.load({ type: 'recette' });
 	});
 
 	function handleFile(event: Event) {
@@ -36,31 +36,31 @@
 <form on:submit|preventDefault={() => submit(recipe)}>
 	<label>
 		Nom de la recette
-		<input class={inputStyle} maxlength="20" type="text" bind:value={recipe.name} />
+		<input class={inputStyle} maxlength="255" type="text" bind:value={recipe.name} required />
 	</label>
 	<label>
 		Temps de préparation
-		<input class={inputStyle} type="number" bind:value={recipe.time} />
+		<input class={inputStyle} type="number" min="0" bind:value={recipe.time} required />
 	</label>
 	<label for="ingredients">Ingredients:</label>
-	<select class={selectStyle} id="ingredients" bind:value={recipe.ingredientsId} multiple>
+	<select class={selectStyle} id="ingredients" bind:value={recipe.ingredientsId} multiple required>
 		{#each $ingredients as ingredient}
 			<option value={ingredient.id}>{ingredient.name}</option>
 		{/each}
 	</select>
 
 	<label for="categories">Categories:</label>
-	<select class={selectStyle} id="categories" bind:value={recipe.categoriesId} multiple>
+	<select class={selectStyle} id="categories" bind:value={recipe.categoriesId} multiple required>
 		{#each $categories as category}
 			<option value={category.id}>{category.name}</option>
 		{/each}
 	</select>
 
 	<label for="description">Description:</label>
-	<textarea class={inputStyle} id="description" bind:value={recipe.description}></textarea>
+	<textarea class={inputStyle} id="description" bind:value={recipe.description} required></textarea>
 
 	<label for="step">Step:</label>
-	<textarea class={inputStyle} id="step" bind:value={recipe.step}></textarea>
+	<textarea class={inputStyle} id="step" bind:value={recipe.step} required></textarea>
 
 	<label for="origin">Origin:</label>
 	<input class={inputStyle} id="origin" bind:value={recipe.origin} />
@@ -71,7 +71,9 @@
 	{#if recipe.image}
 		<img
 			class="mb-3"
-			src={typeof recipe.image == 'string' ? API_URL + "/" + recipe.image : URL.createObjectURL(recipe.image)}
+			src={typeof recipe.image == 'string'
+				? API_URL + '/' + recipe.image
+				: URL.createObjectURL(recipe.image)}
 			alt=""
 			width="200"
 		/>
