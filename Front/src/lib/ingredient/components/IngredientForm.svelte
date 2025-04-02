@@ -20,7 +20,7 @@
 
 <form on:submit|preventDefault={() => submit(ingredient)}>
 	<label for="name">Name:</label>
-	<input class={inputStyle} id="name"  maxlength="20"  bind:value={ingredient.name} />
+	<input class={inputStyle} id="name"  maxlength="255"  bind:value={ingredient.name} />
 
 	<label for="categories">Categories:</label>
 	<select class={selectStyle} id="categories" bind:value={ingredient.categoriesId} multiple>
